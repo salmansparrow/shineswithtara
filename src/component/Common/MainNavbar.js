@@ -15,8 +15,10 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"; // Cart Icon
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { NavLink } from "react-router-dom"; // Import NavLink from react-router-dom
 import navlogo from "../../images/nav/nav-logo.png";
+import Menu from "@mui/material/Menu"; // Import Menu for dropdown
+import MenuItem from "@mui/material/MenuItem"; // Import MenuItem for dropdown items
 
 const drawerWidth = 240;
 const navItems = [
@@ -25,15 +27,31 @@ const navItems = [
   { label: "Watch", path: "/watch" },
   { label: "Event Show", path: "/eventshow" },
   { label: "Main Character", path: "/maincharacter" },
-  { label: "More", path: "/colorfulclub" },
+  { label: "More", path: "/colorfulclub", hasDropdown: true }, // Mark "More" for dropdown
+];
+
+const moreDropdownItems = [
+  { label: "Contact Us", path: "/contact" },
+  { label: "About", path: "/about" },
+  { label: "Colorful Club", path: "/colorfulclub" },
+  { label: "FAQ", path: "/faq" },
 ];
 
 function MainNavbar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null); // State for dropdown menu
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
+  };
+
+  const handleMoreClick = (event) => {
+    setAnchorEl(event.currentTarget); // Set anchor element for dropdown
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null); // Close dropdown menu
   };
 
   const drawer = (
@@ -48,12 +66,21 @@ function MainNavbar(props) {
             <ListItemButton sx={{ textAlign: "center" }}>
               <ListItemText
                 primary={
-                  <Link
-                    to={item.path}
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
-                    {item.label}
-                  </Link>
+                  item.hasDropdown ? (
+                    <Button
+                      onClick={handleMoreClick}
+                      sx={{ textDecoration: "none", color: "inherit" }}
+                    >
+                      {item.label}
+                    </Button>
+                  ) : (
+                    <NavLink
+                      to={item.path}
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
+                      {item.label}
+                    </NavLink>
+                  )
                 }
               />
             </ListItemButton>
@@ -71,10 +98,11 @@ function MainNavbar(props) {
       <CssBaseline />
       <AppBar
         component="nav"
+        style={{ minHeight: "64px" }}
         sx={{
-          px: 4,
           background:
             "linear-gradient(135deg, rgb(154, 182, 231) 0%, rgb(189, 168, 225) 46%, rgb(106, 57, 162) 100%)",
+          px: { xs: 0, lg: 4 }, // Remove padding on small screens, add on large
         }}
       >
         <Toolbar sx={{ position: "relative", justifyContent: "space-between" }}>
@@ -87,6 +115,7 @@ function MainNavbar(props) {
               position: "absolute",
               left: "0",
               width: "180px",
+              height: "35px",
             }}
           >
             <img src={navlogo} height={35} width={180} alt="Navigation Logo" />
@@ -99,17 +128,56 @@ function MainNavbar(props) {
               left: "50%",
               transform: "translateX(-50%)",
               display: { xs: "none", sm: "flex" },
-              gap: 2, // Spacing between buttons
+              whiteSpace: "nowrap", // Prevent wrapping
             }}
           >
             {navItems.map((item) => (
-              <Button key={item.label} sx={{ color: "#fff" }}>
-                <Link
-                  to={item.path}
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  {item.label}
-                </Link>
+              <Button
+                key={item.label}
+                sx={{
+                  color: "#fff",
+                  fontSize: "0.875rem",
+                  minHeight: "64px",
+                  whiteSpace: "nowrap", // Prevent button text from wrapping
+                  ":hover": {
+                    textDecoration: "none",
+                    backgroundColor: "rgba(143, 82, 161, 0.04)",
+                  },
+                  ":active": {
+                    backgroundColor: "rgb(143, 82, 161) !important",
+                  },
+                }}
+              >
+                {item.hasDropdown ? (
+                  <Button
+                    onClick={handleMoreClick}
+                    sx={{
+                      color: "#fff",
+                      textDecoration: "none",
+                      padding: "6px 32px", // Add padding for spacing
+                      display: "block", // Make link fill the button
+                      borderRadius: "4px",
+                    }}
+                  >
+                    {item.label}
+                  </Button>
+                ) : (
+                  <NavLink
+                    to={item.path}
+                    style={({ isActive }) => ({
+                      textDecoration: "none",
+                      color: isActive ? "#fff" : "inherit",
+                      backgroundColor: isActive
+                        ? "rgb(143, 82, 161)"
+                        : "transparent",
+                      padding: "6px 32px", // Add padding for spacing
+                      display: "block", // Make link fill the button
+                      borderRadius: "4px",
+                    })}
+                  >
+                    {item.label}
+                  </NavLink>
+                )}
               </Button>
             ))}
           </Box>
@@ -138,6 +206,31 @@ function MainNavbar(props) {
           </Box>
         </Toolbar>
       </AppBar>
+
+      {/* Dropdown Menu for More */}
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        {moreDropdownItems.map((item) => (
+          <MenuItem key={item.label} onClick={handleMenuClose}>
+            <NavLink
+              to={item.path}
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+                width: "100%",
+              }}
+            >
+              {item.label}
+            </NavLink>
+          </MenuItem>
+        ))}
+      </Menu>
 
       <nav>
         <Drawer
