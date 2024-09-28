@@ -487,6 +487,7 @@ const Shop = () => {
           </Grid>
         </Box>
       </Box>
+      
     </Layout>
   );
 };
