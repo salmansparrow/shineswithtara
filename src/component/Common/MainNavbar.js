@@ -76,7 +76,16 @@ function MainNavbar(props) {
                   ) : (
                     <NavLink
                       to={item.path}
-                      style={{ textDecoration: "none", color: "inherit" }}
+                      style={({ isActive }) => ({
+                        textDecoration: "none",
+                        color: isActive ? "#fff" : "inherit",
+                        backgroundColor: isActive
+                          ? "rgb(143, 82, 161)"
+                          : "transparent",
+                        padding: "6px 32px", // Add padding for spacing
+                        display: "block", // Make link fill the button
+                        borderRadius: "4px",
+                      })}
                     >
                       {item.label}
                     </NavLink>
@@ -128,6 +137,7 @@ function MainNavbar(props) {
               left: "50%",
               transform: "translateX(-50%)",
               display: { xs: "none", sm: "flex" },
+              "@media (max-width:1200px)": { display: "none" }, // Hide on screens wider than 1200px
               whiteSpace: "nowrap", // Prevent wrapping
             }}
           >

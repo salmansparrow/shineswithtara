@@ -1,0 +1,15 @@
+.footer {
+  background-color: #1a237e;
+  color: #fff;
+  padding: 40px 20px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Media query for larger screens */
+@media (min-width: 900px) {
+  .footer {
+    background-image: url("../../images//footer/footer-image.png");
+  }
+}
