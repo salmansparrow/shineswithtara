@@ -10,6 +10,6 @@
 /* Media query for larger screens */
 @media (min-width: 900px) {
   .footer {
-    background-image: url("../../images//footer/footer-image.png");
+    background-image: url("../../images/footer/footer-image.png");
   }
 }

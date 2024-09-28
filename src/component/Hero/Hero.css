@@ -1,0 +1,59 @@
+/* HeroPage.css */
+.hero-background {
+  background-size: cover; /* Ensures the image covers the entire Box */
+  background-position: center; /* Centers the image */
+  width: 95%;
+  border-radius: 20px;
+  margin: 0 auto;
+  position: relative; /* To allow for absolute positioning of text */
+  display: flex;
+  align-items: center; /* Vertically center content */
+  justify-content: center; /* Horizontally center content */
+  color: white; /* Default text color */
+  padding: 20px; /* Add padding for better spacing */
+}
+
+/* Styles for screens wider than 900px */
+
+/* Styles for screens 0px and wider */
+@media (min-width: 0) {
+  .hero-background {
+    background-image: url("../../images/home/hero2.png");
+    height: 490px;
+  }
+}
+
+@media (min-width: 600px) {
+  .hero-background {
+    background-image: url("../../images/home/hero2.png");
+    height: 490px;
+  }
+}
+
+@media (min-width: 900px) {
+  .hero-background {
+    background-image: url("../../images/home/hero.png");
+    height: 624px;
+  }
+}
+
+@media (min-width: 0px) {
+  .social-icons {
+    -moz-box-pack: center;
+    justify-content: center;
+    justify-content: space-evenly;
+  }
+
+  @media (min-width: 600px) {
+    .social-icons {
+      -moz-box-pack: start;
+      justify-content: flex-start;
+    }
+  }
+}
+@media (min-width: 900px) {
+  .social-icons {
+    -moz-box-pack: start;
+    justify-content: flex-start;
+  }
+}
