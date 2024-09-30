@@ -1,8 +1,10 @@
 import React from "react";
-const EventShow=()=>{
-    return(
-        <div>EventShow</div>
-    )
-
-}
+import EventShowPage from "../component/EventShow/EventShow";
+const EventShow = () => {
+  return (
+    <>
+      <EventShowPage />
+    </>
+  );
+};
 export default EventShow;

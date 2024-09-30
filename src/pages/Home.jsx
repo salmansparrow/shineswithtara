@@ -14,6 +14,9 @@ const Home = () => {
           explore="Explore"
           subtitle="Click To See Latest Adventures!"
         />
+
+        <Intro />
+        <NewsLetter />
       </Layout>
     </>
   );

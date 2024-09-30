@@ -33,92 +33,90 @@ function Footer() {
   ];
 
   return (
-<<<<<<< HEAD
-    <Box className="footer">
-=======
-    <Box className="footer" >
->>>>>>> ec8d43a749eee5680e4b0d565af2b55fd47470af
-      <div className="container">
-        <Grid container spacing={3}>
-          {/* First Column - Social Media and Payment Icons */}
-          <Grid item xs={12} sm={4}>
-            <Typography variant="h6" gutterBottom>
-              Shine With Tara
-            </Typography>
-            {/* Social Media Icons */}
-            <Box mb={2}>
-              <IconButton href="#" aria-label="Facebook" color="inherit">
-                <FacebookIcon />
-              </IconButton>
-              <IconButton href="#" aria-label="Instagram" color="inherit">
-                <InstagramIcon />
-              </IconButton>
-              <IconButton href="#" aria-label="YouTube" color="inherit">
-                <YouTubeIcon />
-              </IconButton>
-              <IconButton href="#" aria-label="Twitter" color="inherit">
-                <TwitterIcon />
-              </IconButton>
-            </Box>
-            {/* Payment Icons */}
-            <Box>
-              <IconButton href="#" aria-label="Credit Card" color="inherit">
-                <CreditCard />
-              </IconButton>
-              <IconButton href="#" aria-label="PayPal" color="inherit">
-                <Paypal />
-              </IconButton>
-            </Box>
+    <>
+      <Box className="footer">
+        <div className="container">
+          <Grid container spacing={3}>
+            {/* First Column - Social Media and Payment Icons */}
+            <Grid item xs={12} sm={4}>
+              <Typography variant="h6" gutterBottom>
+                Shine With Tara
+              </Typography>
+              {/* Social Media Icons */}
+              <Box mb={2}>
+                <IconButton href="#" aria-label="Facebook" color="inherit">
+                  <FacebookIcon />
+                </IconButton>
+                <IconButton href="#" aria-label="Instagram" color="inherit">
+                  <InstagramIcon />
+                </IconButton>
+                <IconButton href="#" aria-label="YouTube" color="inherit">
+                  <YouTubeIcon />
+                </IconButton>
+                <IconButton href="#" aria-label="Twitter" color="inherit">
+                  <TwitterIcon />
+                </IconButton>
+              </Box>
+              {/* Payment Icons */}
+              <Box>
+                <IconButton href="#" aria-label="Credit Card" color="inherit">
+                  <CreditCard />
+                </IconButton>
+                <IconButton href="#" aria-label="PayPal" color="inherit">
+                  <Paypal />
+                </IconButton>
+              </Box>
+            </Grid>
+
+            {/* Center Columns - Dynamically Rendered Navigation Items */}
+            {navGroups.map((group, index) => (
+              <Grid item xs={12} sm={2} key={index}>
+                {group.map((item) => (
+                  <Box mb={2} key={item.label}>
+                    <Typography variant="subtitle1">
+                      <NavLink
+                        to={item.path}
+                        style={({ isActive }) => ({
+                          textDecoration: "none",
+                          color: isActive ? "rgb(143, 82, 161)" : "white",
+                          display: "block", // Make link fill the button
+                        })}
+                      >
+                        {item.label}
+                      </NavLink>
+                    </Typography>
+                  </Box>
+                ))}
+              </Grid>
+            ))}
           </Grid>
 
-          {/* Center Columns - Dynamically Rendered Navigation Items */}
-          {navGroups.map((group, index) => (
-            <Grid item xs={12} sm={2} key={index}>
-              {group.map((item) => (
-                <Box mb={2} key={item.label}>
-                  <Typography variant="subtitle1">
-                    <NavLink
-                      to={item.path}
-                      style={({ isActive }) => ({
-                        textDecoration: "none",
-                        color: isActive ? "rgb(143, 82, 161)" : "white",
-                        display: "block", // Make link fill the button
-                      })}
-                    >
-                      {item.label}
-                    </NavLink>
-                  </Typography>
-                </Box>
-              ))}
-            </Grid>
-          ))}
-        </Grid>
+          {/* Bottom Line Divider */}
+          <Divider style={{ backgroundColor: "#fff", margin: "20px 0" }} />
 
-        {/* Bottom Line Divider */}
-        <Divider style={{ backgroundColor: "#fff", margin: "20px 0" }} />
-
-        {/* Copyright Info */}
-        <Typography
-          variant="body2"
-          align="center"
-          style={{ marginTop: "20px" }}
-          sx={{
-            px: "35px !important",
-            margin: "0px",
-            fontSize: "16px",
-            fontFamily: "Poppins",
-            fontWeight: "400",
-            lineHeight: "1.5",
-            textAlign: "center",
-          }}
-        >
-          Content, including images, displayed on this website is protected by
-          copyright laws. Downloading, republication, retransmission or
-          reproduction of content on this website is strictly prohibited. Terms
-          of Use | Privacy Policy
-        </Typography>
-      </div>
-    </Box>
+          {/* Copyright Info */}
+          <Typography
+            variant="body2"
+            align="center"
+            style={{ marginTop: "20px" }}
+            sx={{
+              px: "35px !important",
+              margin: "0px",
+              fontSize: "16px",
+              fontFamily: "Poppins",
+              fontWeight: "400",
+              lineHeight: "1.5",
+              textAlign: "center",
+            }}
+          >
+            Content, including images, displayed on this website is protected by
+            copyright laws. Downloading, republication, retransmission or
+            reproduction of content on this website is strictly prohibited.
+            Terms of Use | Privacy Policy
+          </Typography>
+        </div>
+      </Box>
+    </>
   );
 }
 
