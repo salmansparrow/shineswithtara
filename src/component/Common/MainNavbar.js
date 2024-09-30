@@ -31,7 +31,7 @@ const navItems = [
 ];
 
 const moreDropdownItems = [
-  { label: "Contact Us", path: "/contact" },
+  { label: "Contact Us", path: "/ContactUs" },
   { label: "About", path: "/about" },
   { label: "Colorful Club", path: "/colorfulclub" },
   { label: "FAQ", path: "/faq" },

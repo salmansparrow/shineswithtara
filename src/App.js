@@ -9,6 +9,10 @@ import MainCharacter from "./MainCharacter";
 import ContactUs from "./pages/ContactUs";
 import EventShow from "./pages/EventShow";
 import ColorFulClub from "./pages/ColorFulClub";
+import AdminLayout from "./component/Layout/AdminLayout";
+import ManageUsers from "./pages/admin/manageusers";
+import ManageBook from "./pages/admin/managebook";
+
 function App() {
   return (
     <Router>
@@ -21,6 +25,14 @@ function App() {
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/eventshow" element={<EventShow />} />
         <Route path="/colorfulclub" element={<ColorFulClub />} />
+
+        {/* Admin Layout will wrap around admin routes */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<ManageUsers />} /> {/* Default to User List */}
+          <Route path="users" element={<ManageUsers />} />
+          <Route path="managebook" element={<ManageBook />} />
+          {/* Add more admin-specific routes here */}
+        </Route>
       </Routes>
     </Router>
   );
