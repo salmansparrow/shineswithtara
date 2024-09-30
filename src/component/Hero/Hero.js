@@ -2,140 +2,135 @@ import React from "react";
 import { Box, Grid, Typography, Button } from "@mui/material";
 import "../Hero/Hero.css"; // Import the CSS file
 
-function HeroPage() {
+function HeroPage({ follow, explore, learn, subtitle }) {
   return (
-    <>
-      <section className="hero-section">
-        <Box
-          sx={{
-            background:
-              "linear-gradient(135deg, rgb(154, 182, 231) 0%, rgb(189, 168, 225) 46%, rgb(106, 57, 162) 100%)",
-            width: "100%",
-            paddingTop: "80px",
-            paddingBottom: "80px",
-          }}
-        >
-          <Box className="hero-background">
-            <Grid container spacing={2} sx={{ zIndex: 1 }}>
-              <Box className="content-section">
-                <Grid
-                  item
-                  xs={12}
-                  md={7}
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignitems: "flex-start",
-                    gap: "40px",
-                    paddingtop: "60px",
-                  }}
-                >
-                  <Typography
-                    variant="h1"
-                    sx={{ fontSize: { xs: "40px", sm: "50px", md: "70px" } }}
+    <section className="hero-section">
+      <Box
+        sx={{
+          background:
+            "linear-gradient(135deg, rgb(154, 182, 231) 0%, rgb(189, 168, 225) 46%, rgb(106, 57, 162) 100%)",
+          width: "100%",
+          paddingTop: "80px",
+          paddingBottom: "80px",
+        }}
+      >
+        <Box className="hero-background">
+          <Grid container spacing={2} sx={{ zIndex: 1 }}>
+            <Grid
+              item
+              xs={12}
+              md={7}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start", // Fixed to alignItems
+                gap: "40px",
+                paddingTop: "60px", // Fixed to paddingTop
+              }}
+            >
+              <Typography
+                variant="h1"
+                sx={{ fontSize: { xs: "40px", sm: "50px", md: "70px" } }}
+              >
+                <span style={{ color: "white" }}>{follow}</span>,{" "}
+                <span style={{ color: "white" }}>{learn}</span> and{" "}
+                <span style={{ color: "rgb(235, 87, 119)" }}>{explore}</span>{" "}
+                with Tara!
+              </Typography>
+              <Typography
+                variant="h3"
+                sx={{ fontSize: { xs: "24px", sm: "30px", md: "36px" } }}
+              >
+                {subtitle}
+              </Typography>
+              <Grid container spacing={2} alignItems="center">
+                <Grid item xs={12} md={6}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    href="https://www.youtube.com/@Shinewithtara"
+                    fullWidth
+                    sx={{
+                      position: "relative",
+                      boxSizing: "border-box",
+                      outline: 0,
+                      border: 0,
+                      margin: 0,
+                      cursor: "pointer",
+                      userSelect: "none",
+                      verticalAlign: "middle",
+                      textDecoration: "none",
+                      fontFamily: "Poppins, sans-serif", // Add fallback font
+                      fontWeight: 500,
+                      lineHeight: 1.75,
+                      borderRadius: "4px",
+                      transition:
+                        "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1), " +
+                        "box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1), " +
+                        "border-color 250ms cubic-bezier(0.4, 0, 0.2, 1), " +
+                        "color 250ms cubic-bezier(0.4, 0, 0.2, 1)",
+                      color: "rgb(255, 255, 255)",
+                      backgroundColor: "rgb(143, 82, 161)",
+                      boxShadow:
+                        "rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, " +
+                        "rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, " +
+                        "rgba(0, 0, 0, 0.12) 0px 1px 5px 0px",
+                      width: "100%",
+                      padding: "8px 32px",
+                      textTransform: "capitalize",
+                      fontSize: "18px",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
                   >
-                    <span style={{ color: "white" }}>Follow</span>,{" "}
-                    <span style={{ color: "white" }}>Learn</span> and{" "}
-                    <span style={{ color: "rgb(235, 87, 119)" }}>Explore</span>{" "}
-                    with Tara!
-                  </Typography>
-                  <Typography
-                    variant="h3"
-                    sx={{ fontSize: { xs: "24px", sm: "30px", md: "36px" } }}
-                  >
-                    Click To See Latest Adventures!
-                  </Typography>
-                  <Grid container spacing={2} alignItems="center">
-                    <Grid item xs={12} md={6}>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        href="https://www.youtube.com/@Shinewithtara"
-                        fullWidth
-                        sx={{
-                          position: "relative",
-                          boxSizing: "border-box",
-                          outline: 0,
-                          border: 0,
-                          margin: 0,
-                          cursor: "pointer",
-                          userSelect: "none",
-                          verticalAlign: "middle",
-                          textDecoration: "none",
-                          fontFamily: "Poppins, sans-serif", // Add fallback font
-                          fontWeight: 500,
-                          lineHeight: 1.75,
-                          borderRadius: "4px",
-                          transition:
-                            "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1), " +
-                            "box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1), " +
-                            "border-color 250ms cubic-bezier(0.4, 0, 0.2, 1), " +
-                            "color 250ms cubic-bezier(0.4, 0, 0.2, 1)",
-                          color: "rgb(255, 255, 255)",
-                          backgroundColor: "rgb(143, 82, 161)",
-                          boxShadow:
-                            "rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, " +
-                            "rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, " +
-                            "rgba(0, 0, 0, 0.12) 0px 1px 5px 0px",
-                          width: "100%",
-                          padding: "8px 32px",
-                          textTransform: "capitalize",
-                          fontSize: "18px",
-                          display: "inline-flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
+                    Start Adventure
+                  </Button>
+                </Grid>
+                <Grid item xs={12} md={6} className="social">
+                  <Grid container spacing={2} className="social-icons">
+                    <Grid item>
+                      <a
+                        aria-label="Follow on Facebook"
+                        href="https://www.facebook.com/profile.php?id=61554711500749"
                       >
-                        Start Adventure
-                      </Button>
+                        <FacebookIcon />
+                      </a>
                     </Grid>
-                    <Grid item xs={12} md={6} className="social">
-                      <Grid container spacing={2} className="social-icons">
-                        <Grid item>
-                          <a
-                            aria-label="Follow on Facebook"
-                            href="https://www.facebook.com/profile.php?id=61554711500749"
-                          >
-                            <FacebookIcon />
-                          </a>
-                        </Grid>
-                        <Grid item>
-                          <a
-                            aria-label="Follow on Instagram"
-                            href="https://www.instagram.com/shineswithtara/"
-                          >
-                            <InstagramIcon />
-                          </a>
-                        </Grid>
-                        <Grid item>
-                          <a
-                            aria-label="Follow on YouTube"
-                            href="https://www.youtube.com/@Shinewithtara"
-                          >
-                            <YouTubeIcon />
-                          </a>
-                        </Grid>
-                        <Grid item>
-                          <a
-                            aria-label="Follow on TikTok"
-                            href="https://www.tiktok.com/@shinewithtara"
-                          >
-                            <TikTokIcon />
-                          </a>
-                        </Grid>
-                      </Grid>
+                    <Grid item>
+                      <a
+                        aria-label="Follow on Instagram"
+                        href="https://www.instagram.com/shineswithtara/"
+                      >
+                        <InstagramIcon />
+                      </a>
+                    </Grid>
+                    <Grid item>
+                      <a
+                        aria-label="Follow on YouTube"
+                        href="https://www.youtube.com/@Shinewithtara"
+                      >
+                        <YouTubeIcon />
+                      </a>
+                    </Grid>
+                    <Grid item>
+                      <a
+                        aria-label="Follow on TikTok"
+                        href="https://www.tiktok.com/@shinewithtara"
+                      >
+                        <TikTokIcon />
+                      </a>
                     </Grid>
                   </Grid>
                 </Grid>
-              </Box>
+              </Grid>
             </Grid>
-          </Box>
+          </Grid>
         </Box>
-      </section>
-    </>
+      </Box>
+    </section>
   );
 }
-
 // SVG Icons can be components, defined below
 const FacebookIcon = () => (
   <svg
