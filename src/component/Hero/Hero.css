@@ -57,3 +57,24 @@
     justify-content: flex-start;
   }
 }
+
+@media (min-width: 0px) {
+  .content-section {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+@media (min-width: 600px) {
+  .content-section {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+@media (min-width: 900px) {
+  .content-section {
+    padding-left: 48px !important;
+    padding-right: 0px;
+  }
+}

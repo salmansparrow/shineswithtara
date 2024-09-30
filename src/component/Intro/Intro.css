@@ -1,0 +1,113 @@
+.Intro-section {
+  background: rgb(171, 202, 255);
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+.intro {
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: wrap;
+  width: 100%;
+  background: url("../../images/intro/intro.png") 0% center / cover;
+}
+
+@media (min-width: 900px) {
+  .intro-box {
+    flex-basis: 66.6667%;
+    -moz-box-flex: 0;
+    flex-grow: 0;
+    max-width: 66.6667%;
+  }
+}
+@media (min-width: 1200px) {
+  .intro-box {
+    flex-basis: 66.6667%;
+    -moz-box-flex: 0;
+    flex-grow: 0;
+    max-width: 66.6667%;
+  }
+}
+
+.intro h3 {
+  margin: 0px;
+  font-size: 48px;
+  font-family: Poppins;
+  line-height: 1.167;
+  font-weight: 900;
+}
+
+.Introducing {
+  color: white;
+}
+
+@media (min-width: 0px) {
+  .intro h3 {
+    font-size: 40px;
+  }
+}
+
+@media (min-width: 900px) {
+  .intro h3 {
+    font-size: 48px;
+  }
+}
+
+.intro-para p {
+  color: white;
+  margin: 0px;
+  font-size: 16px;
+  font-family: Poppins;
+  font-weight: 400;
+  line-height: 1.5;
+  &::selection {
+    background: #762aab;
+    color: #fff;
+  }
+}
+
+.Shine-tara-for-you h3 {
+  font-size: 48px;
+  font-family: Poppins;
+  line-height: 1.167;
+  font-weight: 900;
+  text-align: center;
+  margin: 120px 0px 0px;
+  color: white;
+}
+
+@media (min-width: 0px) {
+  .Shine-tara-for-you {
+    font-size: 40px;
+  }
+}
+
+@media (min-width: 900px) {
+  .Shine-tara-for-you {
+    font-size: 48px;
+  }
+}
+
+.shines-card {
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: wrap;
+  /* width: calc(100% + 16px); */
+  margin-left: -16px;
+  margin-top: 40px;
+  margin-bottom: 80px;
+}
+
+.card {
+  perspective: 2500px; /* Add perspective to the parent for a 3D effect */
+}
+
+.flip-card {
+  transform: rotateY(180deg); /* Rotate the card */
+  transition: transform 0.8s; /* Smooth transition for the flip */
+  backface-visibility: hidden; /* Hide back face during flip */
+}
+
+.flip-card.show {
+  transform: rotateY(0); /* Show the front face */
+}
