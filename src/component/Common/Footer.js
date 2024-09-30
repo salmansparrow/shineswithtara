@@ -67,6 +67,28 @@ function Footer() {
                 </IconButton>
               </Box>
             </Grid>
+
+            {/* Center Columns - Dynamically Rendered Navigation Items */}
+            {navGroups.map((group, index) => (
+              <Grid item xs={12} sm={2} key={index}>
+                {group.map((item) => (
+                  <Box mb={2} key={item.label}>
+                    <Typography variant="subtitle1">
+                      <NavLink
+                        to={item.path}
+                        style={({ isActive }) => ({
+                          textDecoration: "none",
+                          color: isActive ? "rgb(143, 82, 161)" : "white",
+                          display: "block", // Make link fill the button
+                        })}
+                      >
+                        {item.label}
+                      </NavLink>
+                    </Typography>
+                  </Box>
+                ))}
+              </Grid>
+            ))}
           </Grid>
 
           {/* Bottom Line Divider */}
