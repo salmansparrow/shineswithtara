@@ -32,63 +32,39 @@ function Footer() {
     navItems.slice(6), // Last 2 items
   ];
 
-  return (
-    <>
-      <Box className="footer">
-        <div className="container">
-          <Grid container spacing={3}>
-            {/* First Column - Social Media and Payment Icons */}
-            <Grid item xs={12} sm={4}>
-              <Typography variant="h6" gutterBottom>
-                Shine With Tara
-              </Typography>
-              {/* Social Media Icons */}
-              <Box mb={2}>
-                <IconButton href="#" aria-label="Facebook" color="inherit">
-                  <FacebookIcon />
-                </IconButton>
-                <IconButton href="#" aria-label="Instagram" color="inherit">
-                  <InstagramIcon />
-                </IconButton>
-                <IconButton href="#" aria-label="YouTube" color="inherit">
-                  <YouTubeIcon />
-                </IconButton>
-                <IconButton href="#" aria-label="Twitter" color="inherit">
-                  <TwitterIcon />
-                </IconButton>
-              </Box>
-              {/* Payment Icons */}
-              <Box>
-                <IconButton href="#" aria-label="Credit Card" color="inherit">
-                  <CreditCard />
-                </IconButton>
-                <IconButton href="#" aria-label="PayPal" color="inherit">
-                  <Paypal />
-                </IconButton>
-              </Box>
-            </Grid>
-
-            {/* Center Columns - Dynamically Rendered Navigation Items */}
-            {navGroups.map((group, index) => (
-              <Grid item xs={12} sm={2} key={index}>
-                {group.map((item) => (
-                  <Box mb={2} key={item.label}>
-                    <Typography variant="subtitle1">
-                      <NavLink
-                        to={item.path}
-                        style={({ isActive }) => ({
-                          textDecoration: "none",
-                          color: isActive ? "rgb(143, 82, 161)" : "white",
-                          display: "block", // Make link fill the button
-                        })}
-                      >
-                        {item.label}
-                      </NavLink>
-                    </Typography>
-                  </Box>
-                ))}
-              </Grid>
-            ))}
+  return (<>
+    <Box className="footer">
+      <div className="container">
+        <Grid container spacing={3}>
+          {/* First Column - Social Media and Payment Icons */}
+          <Grid item xs={12} sm={4}>
+            <Typography variant="h6" gutterBottom>
+              Shine With Tara
+            </Typography>
+            {/* Social Media Icons */}
+            <Box mb={2}>
+              <IconButton href="#" aria-label="Facebook" color="inherit">
+                <FacebookIcon />
+              </IconButton>
+              <IconButton href="#" aria-label="Instagram" color="inherit">
+                <InstagramIcon />
+              </IconButton>
+              <IconButton href="#" aria-label="YouTube" color="inherit">
+                <YouTubeIcon />
+              </IconButton>
+              <IconButton href="#" aria-label="Twitter" color="inherit">
+                <TwitterIcon />
+              </IconButton>
+            </Box>
+            {/* Payment Icons */}
+            <Box>
+              <IconButton href="#" aria-label="Credit Card" color="inherit">
+                <CreditCard />
+              </IconButton>
+              <IconButton href="#" aria-label="PayPal" color="inherit">
+                <Paypal />
+              </IconButton>
+            </Box>
           </Grid>
 
           {/* Bottom Line Divider */}
