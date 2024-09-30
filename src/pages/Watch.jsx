@@ -6,7 +6,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import img1 from "../images/watch/img1.png";
 import img2 from "../images/watch/img2.png";
 import Layout from "../component/Layout/Layout";
-import star from "../images/watch/star.png"; // Importing the star image
+import star from "../images/watch/star.png"; 
 
 const images = [
     { src: img1, title: "Story Of Miraj" },

@@ -33,7 +33,11 @@ function Footer() {
   ];
 
   return (
+<<<<<<< HEAD
     <Box className="footer">
+=======
+    <Box className="footer" >
+>>>>>>> ec8d43a749eee5680e4b0d565af2b55fd47470af
       <div className="container">
         <Grid container spacing={3}>
           {/* First Column - Social Media and Payment Icons */}

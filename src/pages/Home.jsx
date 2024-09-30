@@ -8,9 +8,12 @@ const Home = () => {
   return (
     <>
       <Layout>
-        <HeroPage />
-        <Intro />
-        <NewsLetter />
+        <HeroPage
+          follow="Follow"
+          learn="Learn"
+          explore="Explore"
+          subtitle="Click To See Latest Adventures!"
+        />
       </Layout>
     </>
   );
