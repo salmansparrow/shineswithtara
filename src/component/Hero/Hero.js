@@ -1,8 +1,8 @@
 import React from "react";
 import { Box, Grid, Typography, Button } from "@mui/material";
-import "../Hero/Hero.css"; // Import the CSS file
+import "../Hero/Hero.css"; // Import your custom CSS file
 
-function HeroPage() {
+function HeroPage({ follow,learn,explore, subtitle }) {
   return (
     <section className="hero-section">
       <Box
@@ -23,25 +23,28 @@ function HeroPage() {
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                alignitems: "flex-start",
+                alignItems: "flex-start",
                 gap: "40px",
-                paddingtop: "60px",
+                paddingTop: "60px",
               }}
             >
               <Typography
                 variant="h1"
                 sx={{ fontSize: { xs: "40px", sm: "50px", md: "70px" } }}
               >
-                <span style={{ color: "white" }}>Follow</span>,{" "}
-                <span style={{ color: "white" }}>Learn</span> and{" "}
-                <span style={{ color: "rgb(235, 87, 119)" }}>Explore</span> with
-                Tara!
+                <span style={{ color: "white" }}>{follow}</span>,{" "}
+                <span style={{ color: "white" }}>{learn}</span> and{" "}
+                <span style={{ color: "rgb(235, 87, 119)" }}>
+                  {explore}
+                </span>{" "}
+                with Tara!
               </Typography>
+
               <Typography
                 variant="h3"
                 sx={{ fontSize: { xs: "24px", sm: "30px", md: "36px" } }}
               >
-                Click To See Latest Adventures!
+                {subtitle}
               </Typography>
               <Grid container spacing={2} alignItems="center">
                 <Grid item xs={12} md={6}>
@@ -51,37 +54,22 @@ function HeroPage() {
                     href="https://www.youtube.com/@Shinewithtara"
                     fullWidth
                     sx={{
-                      position: "relative",
-                      boxSizing: "border-box",
-                      outline: 0,
-                      border: 0,
                       margin: 0,
-                      cursor: "pointer",
-                      userSelect: "none",
-                      verticalAlign: "middle",
                       textDecoration: "none",
-                      fontFamily: "Poppins, sans-serif", // Add fallback font
+                      fontFamily: "Poppins, sans-serif",
                       fontWeight: 500,
                       lineHeight: 1.75,
                       borderRadius: "4px",
+                      padding: "8px 32px",
+                      textTransform: "capitalize",
+                      fontSize: "18px",
+                      color: "white",
+                      backgroundColor: "rgb(143, 82, 161)",
                       transition:
                         "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1), " +
                         "box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1), " +
                         "border-color 250ms cubic-bezier(0.4, 0, 0.2, 1), " +
                         "color 250ms cubic-bezier(0.4, 0, 0.2, 1)",
-                      color: "rgb(255, 255, 255)",
-                      backgroundColor: "rgb(143, 82, 161)",
-                      boxShadow:
-                        "rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, " +
-                        "rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, " +
-                        "rgba(0, 0, 0, 0.12) 0px 1px 5px 0px",
-                      width: "100%",
-                      padding: "8px 32px",
-                      textTransform: "capitalize",
-                      fontSize: "18px",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      justifyContent: "center",
                     }}
                   >
                     Start Adventure

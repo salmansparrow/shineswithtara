@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <>
       <Layout>
-        <HeroPage />
+        <HeroPage follow="Follow" learn="Learn" explore="Explore" subtitle="Click To See Latest Adventures!" />
       </Layout>
     </>
   );

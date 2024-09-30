@@ -33,7 +33,7 @@ function Footer() {
   ];
 
   return (
-    <Box className="footer" sx={{ mt: 10 }}>
+    <Box className="footer" >
       <div className="container">
         <Grid container spacing={3}>
           {/* First Column - Social Media and Payment Icons */}
