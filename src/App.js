@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import Watch from "./pages/Watch";
 import About from "./pages/About";
-import MainCharacter from "./MainCharacter";
+import MainCharacter from "./pages/MainCharacter";
 import ContactUs from "./pages/ContactUs";
 import EventShow from "./pages/EventShow";
 import ColorFulClub from "./pages/ColorFulClub";
