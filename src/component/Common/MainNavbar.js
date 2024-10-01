@@ -36,7 +36,7 @@ const moreDropdownItems = [
   { label: "Contact Us", path: "/ContactUs" },
   { label: "About", path: "/about" },
   { label: "Colorful Club", path: "/colorfulclub" },
-  { label: "FAQ", path: "/faq" },
+  { label: "FAQ", path: "/faqreviews" },
 ];
 
 function MainNavbar(props) {
