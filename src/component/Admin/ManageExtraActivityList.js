@@ -20,6 +20,7 @@ import PaginationComponent from "../Pagination/Pagination";
 
 const ManageExtraSheets = () => {
   const [name, setName] = useState(""); // Extra sheet name
+  const [price, setPrice] = useState(""); // Extra sheet price
   const [image, setImage] = useState(null); // Extra sheet image
   const [extraSheets, setExtraSheets] = useState([]); // List of extra sheets
   const [editIndex, setEditIndex] = useState(null); // Track editing index
@@ -28,7 +29,7 @@ const ManageExtraSheets = () => {
 
   // Handle adding or updating an extra sheet
   const handleAddSheet = () => {
-    const newSheet = { name, image };
+    const newSheet = { name, price, image };
 
     if (editIndex !== null) {
       // Update existing sheet
@@ -44,6 +45,7 @@ const ManageExtraSheets = () => {
 
     // Clear form inputs
     setName("");
+    setPrice("");
     setImage(null);
   };
 
@@ -51,6 +53,7 @@ const ManageExtraSheets = () => {
   const handleEditSheet = (index) => {
     const sheet = extraSheets[index];
     setName(sheet.name);
+    setPrice(sheet.price);
     setImage(sheet.image);
     setEditIndex(index);
   };
@@ -90,7 +93,7 @@ const ManageExtraSheets = () => {
 
       {/* Input Form */}
       <Grid container spacing={2} sx={{ mb: 3 }}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={4}>
           <TextField
             label="Extra Sheet Name"
             value={name}
@@ -98,7 +101,16 @@ const ManageExtraSheets = () => {
             fullWidth
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            label="Book Price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            type="number"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
           <Button variant="contained" component="label" fullWidth>
             Browse Image
             <input type="file" hidden onChange={handleImageUpload} />
@@ -108,7 +120,7 @@ const ManageExtraSheets = () => {
           <Button
             variant="contained"
             onClick={handleAddSheet}
-            disabled={!name || !image}
+            disabled={!name || !price || !image}
             fullWidth
           >
             {editIndex !== null ? "Edit Sheet" : "Add Sheet"}
@@ -123,6 +135,7 @@ const ManageExtraSheets = () => {
             <TableRow>
               <TableCell>Sr. No.</TableCell>
               <TableCell>Name</TableCell>
+              <TableCell>Price</TableCell>
               <TableCell>Picture</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
@@ -132,6 +145,7 @@ const ManageExtraSheets = () => {
               <TableRow key={indexOfFirstItem + index}>
                 <TableCell>{indexOfFirstItem + index + 1}</TableCell>
                 <TableCell>{sheet.name}</TableCell>
+                <TableCell>{sheet.price}</TableCell>
                 <TableCell>
                   {sheet.image && (
                     <img

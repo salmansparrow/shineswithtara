@@ -14,12 +14,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"; // Cart Icon
-import { NavLink } from "react-router-dom"; // Import NavLink from react-router-dom
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Badge from "@mui/material/Badge"; // Import Badge
+import { NavLink } from "react-router-dom";
 import navlogo from "../../images/nav/nav-logo.png";
-import Menu from "@mui/material/Menu"; // Import Menu for dropdown
-import MenuItem from "@mui/material/MenuItem"; // Import MenuItem for dropdown items
-import CartDrawer from "./CartDrawer"; // Import the CartDrawer component
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import CartDrawer from "./CartDrawer";
 
 const drawerWidth = 240;
 const navItems = [
@@ -28,7 +29,7 @@ const navItems = [
   { label: "Watch", path: "/watch" },
   { label: "Event Show", path: "/eventshow" },
   { label: "Main Character", path: "/maincharacter" },
-  { label: "More", path: "/colorfulclub", hasDropdown: true }, // Mark "More" for dropdown
+  { label: "More", path: "/colorfulclub", hasDropdown: true },
 ];
 
 const moreDropdownItems = [
@@ -41,8 +42,8 @@ const moreDropdownItems = [
 function MainNavbar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null); // State for dropdown menu
-  const [cartOpen, setCartOpen] = React.useState(false); // State for cart drawer
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [cartOpen, setCartOpen] = React.useState(false);
   const [cartItems, setCartItems] = React.useState([]); // State for cart items
 
   const handleDrawerToggle = () => {
@@ -50,19 +51,19 @@ function MainNavbar(props) {
   };
 
   const handleMoreClick = (event) => {
-    setAnchorEl(event.currentTarget); // Set anchor element for dropdown
+    setAnchorEl(event.currentTarget);
   };
 
   const handleMenuClose = () => {
-    setAnchorEl(null); // Close dropdown menu
+    setAnchorEl(null);
   };
 
   const handleCartOpen = () => {
-    setCartOpen(true); // Open cart drawer
+    setCartOpen(true);
   };
 
   const handleCartClose = () => {
-    setCartOpen(false); // Close cart drawer
+    setCartOpen(false);
   };
 
   // Function to add items to the cart (example item)
@@ -98,8 +99,8 @@ function MainNavbar(props) {
                         backgroundColor: isActive
                           ? "rgb(143, 82, 161)"
                           : "transparent",
-                        padding: "6px 32px", // Add padding for spacing
-                        display: "block", // Make link fill the button
+                        padding: "6px 32px",
+                        display: "block",
                         borderRadius: "4px",
                       })}
                     >
@@ -127,11 +128,10 @@ function MainNavbar(props) {
         sx={{
           background:
             "linear-gradient(135deg, rgb(154, 182, 231) 0%, rgb(189, 168, 225) 46%, rgb(106, 57, 162) 100%)",
-          px: { xs: 0, lg: 4 }, // Remove padding on small screens, add on large
+          px: { xs: 0, lg: 4 },
         }}
       >
         <Toolbar sx={{ position: "relative", justifyContent: "space-between" }}>
-          {/* Logo Section on the Left */}
           <Typography
             variant="h6"
             component="div"
@@ -146,15 +146,14 @@ function MainNavbar(props) {
             <img src={navlogo} height={35} width={180} alt="Navigation Logo" />
           </Typography>
 
-          {/* Centered Navigation Items */}
           <Box
             sx={{
               position: "absolute",
               left: "50%",
               transform: "translateX(-50%)",
               display: { xs: "none", sm: "flex" },
-              "@media (max-width:1200px)": { display: "none" }, // Hide on screens wider than 1200px
-              whiteSpace: "nowrap", // Prevent wrapping
+              "@media (max-width:1200px)": { display: "none" },
+              whiteSpace: "nowrap",
             }}
           >
             {navItems.map((item) => (
@@ -164,7 +163,7 @@ function MainNavbar(props) {
                   color: "#fff",
                   fontSize: "0.875rem",
                   minHeight: "64px",
-                  whiteSpace: "nowrap", // Prevent button text from wrapping
+                  whiteSpace: "nowrap",
                   ":hover": {
                     textDecoration: "none",
                     backgroundColor: "rgba(143, 82, 161, 0.04)",
@@ -180,8 +179,8 @@ function MainNavbar(props) {
                     sx={{
                       color: "#fff",
                       textDecoration: "none",
-                      padding: "6px 32px", // Add padding for spacing
-                      display: "block", // Make link fill the button
+                      padding: "6px 32px",
+                      display: "block",
                       borderRadius: "4px",
                     }}
                   >
@@ -196,8 +195,8 @@ function MainNavbar(props) {
                       backgroundColor: isActive
                         ? "rgb(143, 82, 161)"
                         : "transparent",
-                      padding: "6px 32px", // Add padding for spacing
-                      display: "block", // Make link fill the button
+                      padding: "6px 32px",
+                      display: "block",
                       borderRadius: "4px",
                     })}
                   >
@@ -208,23 +207,22 @@ function MainNavbar(props) {
             ))}
           </Box>
 
-          {/* Right Section with Drawer, Cart, and Login Buttons */}
           <Box sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
-            {/* Cart Button */}
+            {/* Cart Button with Badge */}
             <IconButton
               color="inherit"
               aria-label="cart"
               onClick={handleCartOpen}
             >
-              <ShoppingCartIcon />
+              <Badge badgeContent={cartItems.length} color="error">
+                <ShoppingCartIcon />
+              </Badge>
             </IconButton>
 
-            {/* Login Button */}
             <Button variant="outlined" color="inherit" sx={{ px: 1 }}>
               Login
             </Button>
 
-            {/* Drawer Icon (Visible on all screen sizes) */}
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -237,7 +235,6 @@ function MainNavbar(props) {
         </Toolbar>
       </AppBar>
 
-      {/* Dropdown Menu for More */}
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
@@ -269,10 +266,10 @@ function MainNavbar(props) {
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
-            display: { xs: "block", sm: "block" }, // Drawer is available on all screen sizes
+            display: { xs: "block", sm: "block" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
@@ -283,7 +280,6 @@ function MainNavbar(props) {
         </Drawer>
       </nav>
 
-      {/* Cart Drawer */}
       <CartDrawer
         open={cartOpen}
         onClose={handleCartClose}

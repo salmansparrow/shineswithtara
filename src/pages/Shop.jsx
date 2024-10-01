@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Grid,
@@ -18,7 +18,8 @@ import imgColor from "../images/shop/coloring sheets/imgcolor.png";
 import extraActivity from "../images/shop/extra activity/extra activity.png";
 import extraImg from "../images/shop/extra activity/extraimg.png";
 import Layout from "../component/Layout/Layout";
-
+import CartDrawer from "../component/Common/CartDrawer";
+import cartimage from "../images/colorful/img1.png";
 const bookActivityData = [
   { id: 1, title: "Tara's Dua Book", price: "$15", imgSrc: BookImg1 },
   { id: 2, title: "Ramadan Coloring Book", price: "$13", imgSrc: BookImg1 },
@@ -50,6 +51,50 @@ const extraActivityData = [
 ];
 
 const Shop = () => {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const [cartItems, setCartItems] = useState([
+    {
+      id: 1,
+      name: "Tara's Dua Book",
+      price: 10.0,
+      quantity: 2,
+      image: cartimage,
+    },
+    {
+      id: 2,
+      name: "Ramadan Coloring Book",
+      price: 13.5,
+      quantity: 1,
+      image: cartimage,
+    },
+    {
+      id: 3,
+      name: "Worksheet",
+      price: 25.0,
+      quantity: 3,
+      image: cartimage,
+    },
+  ]);
+
+  const handleIncreaseQty = (id) => {
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+      )
+    );
+  };
+
+  const handleDecreaseQty = (id) => {
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === id && item.quantity > 1
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      )
+    );
+  };
+
   return (
     <Layout>
       <Box
@@ -157,10 +202,18 @@ const Shop = () => {
                         "linear-gradient(135deg, rgb(106, 57, 162) 0%, rgb(106, 57, 162) 100%)",
                     },
                   }}
+                  onClick={() => setDrawerOpen(true)} // Open drawer
                 >
                   Add to Cart
                   <AddShoppingCartIcon sx={{ ml: 1 }} />
                 </Button>
+                <CartDrawer
+                  open={drawerOpen}
+                  onClose={() => setDrawerOpen(false)}
+                  cartItems={cartItems}
+                  onIncreaseQty={handleIncreaseQty}
+                  onDecreaseQty={handleDecreaseQty}
+                />
               </Card>
             </Grid>
           ))}
@@ -265,6 +318,7 @@ const Shop = () => {
                           "linear-gradient(135deg, rgb(106, 57, 162) 0%, rgb(106, 57, 162) 100%)",
                       },
                     }}
+                    onClick={() => setDrawerOpen(true)} // Open drawer
                   >
                     Add to Cart
                     <AddShoppingCartIcon sx={{ ml: 1 }} />
@@ -374,6 +428,7 @@ const Shop = () => {
                           "linear-gradient(135deg, rgb(106, 57, 162) 0%, rgb(106, 57, 162) 100%)",
                       },
                     }}
+                    onClick={() => setDrawerOpen(true)} // Open drawer
                   >
                     Add to Cart
                     <AddShoppingCartIcon sx={{ ml: 1 }} />
@@ -483,6 +538,7 @@ const Shop = () => {
                           "linear-gradient(135deg, rgb(106, 57, 162) 0%, rgb(106, 57, 162) 100%)",
                       },
                     }}
+                    onClick={() => setDrawerOpen(true)} // Open drawer
                   >
                     Add to Cart
                     <AddShoppingCartIcon sx={{ ml: 1 }} />

@@ -18,47 +18,50 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PaginationComponent from "../Pagination/Pagination";
 
-const ManageActivityList = () => {
-  const [name, setName] = useState(""); // Activity name
-  const [image, setImage] = useState(null); // Activity image
-  const [activitySheets, setActivitySheets] = useState([]); // List of activity sheets
+const ManageBooksList = () => {
+  const [name, setName] = useState(""); // Book name
+  const [price, setPrice] = useState(""); // Book price
+  const [image, setImage] = useState(null); // Book image
+  const [books, setBooks] = useState([]); // List of books
   const [editIndex, setEditIndex] = useState(null); // Track editing index
   const [currentPage, setCurrentPage] = useState(1); // Pagination state
   const [itemsPerPage, setItemsPerPage] = useState(5); // Items per page
 
-  // Handle adding or updating an activity sheet
-  const handleAddSheet = () => {
-    const newSheet = { name, image };
+  // Handle adding or updating a book
+  const handleAddBook = () => {
+    const newBook = { name, price, image };
 
     if (editIndex !== null) {
-      // Update existing sheet
-      const updatedSheets = activitySheets.map((sheet, index) =>
-        index === editIndex ? newSheet : sheet
+      // Update existing book
+      const updatedBooks = books.map((book, index) =>
+        index === editIndex ? newBook : book
       );
-      setActivitySheets(updatedSheets);
+      setBooks(updatedBooks);
       setEditIndex(null); // Reset after editing
     } else {
-      // Add new sheet
-      setActivitySheets([...activitySheets, newSheet]);
+      // Add new book
+      setBooks([...books, newBook]);
     }
 
     // Clear form inputs
     setName("");
+    setPrice("");
     setImage(null);
   };
 
-  // Handle editing an activity sheet
-  const handleEditSheet = (index) => {
-    const sheet = activitySheets[index];
-    setName(sheet.name);
-    setImage(sheet.image);
+  // Handle editing a book
+  const handleEditBook = (index) => {
+    const book = books[index];
+    setName(book.name);
+    setPrice(book.price);
+    setImage(book.image);
     setEditIndex(index);
   };
 
-  // Handle deleting an activity sheet
-  const handleDeleteSheet = (index) => {
-    const updatedSheets = activitySheets.filter((_, i) => i !== index);
-    setActivitySheets(updatedSheets);
+  // Handle deleting a book
+  const handleDeleteBook = (index) => {
+    const updatedBooks = books.filter((_, i) => i !== index);
+    setBooks(updatedBooks);
   };
 
   // Handle image upload
@@ -80,21 +83,29 @@ const ManageActivityList = () => {
   // Calculate the items for the current page
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentSheets = activitySheets.slice(indexOfFirstItem, indexOfLastItem);
+  const currentBooks = books.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h6" gutterBottom>
-        Manage Activity Sheets
+        Manage Books List
       </Typography>
 
       {/* Input Form */}
       <Grid container spacing={2} sx={{ mb: 3 }}>
         <Grid item xs={12} sm={6}>
           <TextField
-            label="Activity Name"
+            label="Book Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label="Book Price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
             fullWidth
           />
         </Grid>
@@ -107,36 +118,38 @@ const ManageActivityList = () => {
         <Grid item xs={12}>
           <Button
             variant="contained"
-            onClick={handleAddSheet}
-            disabled={!name || !image}
+            onClick={handleAddBook}
+            disabled={!name || !price || !image}
             fullWidth
           >
-            {editIndex !== null ? "Edit Sheet" : "Add Sheet"}
+            {editIndex !== null ? "Edit Book" : "Add Book"}
           </Button>
         </Grid>
       </Grid>
 
-      {/* Activity Sheets Table */}
+      {/* Books Table */}
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
               <TableCell>Sr. No.</TableCell>
               <TableCell>Name</TableCell>
+              <TableCell>Price</TableCell>
               <TableCell>Picture</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {currentSheets.map((sheet, index) => (
+            {currentBooks.map((book, index) => (
               <TableRow key={indexOfFirstItem + index}>
                 <TableCell>{indexOfFirstItem + index + 1}</TableCell>
-                <TableCell>{sheet.name}</TableCell>
+                <TableCell>{book.name}</TableCell>
+                <TableCell>{book.price}</TableCell>
                 <TableCell>
-                  {sheet.image && (
+                  {book.image && (
                     <img
-                      src={sheet.image}
-                      alt="Sheet"
+                      src={book.image}
+                      alt="Book"
                       width={50}
                       height={50}
                       style={{ objectFit: "cover" }}
@@ -144,11 +157,11 @@ const ManageActivityList = () => {
                   )}
                 </TableCell>
                 <TableCell>
-                  <IconButton onClick={() => handleEditSheet(index)}>
+                  <IconButton onClick={() => handleEditBook(index)}>
                     <EditIcon />
                   </IconButton>
                   <IconButton
-                    onClick={() => handleDeleteSheet(index)}
+                    onClick={() => handleDeleteBook(index)}
                     color="error"
                   >
                     <DeleteIcon />
@@ -163,7 +176,7 @@ const ManageActivityList = () => {
       {/* Pagination */}
       <PaginationComponent
         currentPage={currentPage}
-        totalItems={activitySheets.length}
+        totalItems={books.length}
         itemsPerPage={itemsPerPage}
         handlePageChange={handlePageChange}
         handleItemsPerPageChange={handleItemsPerPageChange}
@@ -172,4 +185,4 @@ const ManageActivityList = () => {
   );
 };
 
-export default ManageActivityList;
+export default ManageBooksList;
