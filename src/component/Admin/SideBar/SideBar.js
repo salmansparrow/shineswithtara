@@ -90,7 +90,7 @@ export default function Sidebar() {
 
           {/* Manage Coloring Sheets */}
           <ListItem disablePadding>
-            <ListItemButton component={NavLink} to="/admin/managecolor">
+            <ListItemButton component={NavLink} to="/admin/manage-coloring">
               <ListItemIcon>
                 <ColorLensIcon />
               </ListItemIcon>
@@ -100,7 +100,7 @@ export default function Sidebar() {
 
           {/* Manage Activity Sheets */}
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton component={NavLink} to="/admin/manage-activity">
               <ListItemIcon>
                 <DescriptionIcon />
               </ListItemIcon>
@@ -110,7 +110,7 @@ export default function Sidebar() {
 
           {/* Manage Extra Sheets */}
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton component={NavLink} to="/admin/manage-extra">
               <ListItemIcon>
                 <InsertDriveFileIcon />
               </ListItemIcon>
@@ -120,7 +120,7 @@ export default function Sidebar() {
 
           {/* Orders */}
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton component={NavLink} to="/admin/manage-order">
               <ListItemIcon>
                 <ShoppingCartIcon />
               </ListItemIcon>
@@ -130,7 +130,7 @@ export default function Sidebar() {
 
           {/* FAQs */}
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton component={NavLink} to="/admin/manage-faq">
               <ListItemIcon>
                 <HelpIcon />
               </ListItemIcon>
@@ -140,7 +140,7 @@ export default function Sidebar() {
 
           {/* Reviews */}
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton component={NavLink} to="/admin/manage-reviews">
               <ListItemIcon>
                 <RateReviewIcon />
               </ListItemIcon>

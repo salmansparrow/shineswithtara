@@ -12,6 +12,12 @@ import ColorFulClub from "./pages/ColorFulClub";
 import AdminLayout from "./component/Layout/AdminLayout";
 import ManageUsers from "./pages/admin/manageusers";
 import ManageBook from "./pages/admin/managebook";
+import ManageColoring from "./pages/admin/managecoloring";
+import ManageActivity from "./pages/admin/manageactivity";
+import ManageExtra from "./pages/admin/manageextra";
+import ManageOrder from "./pages/admin/manageorder";
+import ManageFaqs from "./pages/admin/managefaqs";
+import ManageReviews from "./pages/admin/managereviews";
 
 function App() {
   return (
@@ -31,6 +37,12 @@ function App() {
           <Route index element={<ManageUsers />} /> {/* Default to User List */}
           <Route path="users" element={<ManageUsers />} />
           <Route path="managebook" element={<ManageBook />} />
+          <Route path="manage-coloring" element={<ManageColoring />} />
+          <Route path="manage-activity" element={<ManageActivity />} />
+          <Route path="manage-extra" element={<ManageExtra />} />
+          <Route path="manage-order" element={<ManageOrder />} />
+          <Route path="manage-faq" element={<ManageFaqs />} />
+          <Route path="manage-reviews" element={<ManageReviews />} />
           {/* Add more admin-specific routes here */}
         </Route>
       </Routes>

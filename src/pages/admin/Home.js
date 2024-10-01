@@ -1,8 +1,8 @@
 import React from "react";
 import AdminLayout from "../../component/Layout/AdminLayout";
 
-function Home() {
+function AdminHome() {
   return <AdminLayout>user</AdminLayout>;
 }
 
-export default Home;
+export default AdminHome;
