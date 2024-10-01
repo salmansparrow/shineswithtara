@@ -19,13 +19,17 @@ import ManageOrder from "./pages/admin/manageorder";
 import ManageFaqs from "./pages/admin/managefaqs";
 import ManageReviews from "./pages/admin/managereviews";
 import FaqReviews from "./pages/FaqReviews";
-import ReviewsProfile from "./component/Faq'sReveiws/ReviewProfile";
+import OrderPage from "./pages/OrderPage";
+import Login from "../src/component/login/Login"
+import SignUp from "../src/component/login/SignUp"
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/watch" element={<Watch />} />
         <Route path="/about" element={<About />} />
@@ -33,8 +37,9 @@ function App() {
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/eventshow" element={<EventShow />} />
         <Route path="/colorfulclub" element={<ColorFulClub />} />
-        <Route path="/faqreviews" element={<FaqReviews />} />
-        <Route path="/reviewsprofile" element={<ReviewsProfile />} />
+        <Route path="/faq" element={<FaqReviews />} />     
+        <Route path="/order" element={<OrderPage />} />
+
         
 
         {/* Admin Layout will wrap around admin routes */}

@@ -17,12 +17,12 @@ const ColorFulClub = () => {
   const navigate = useNavigate(); // Initialize useNavigate for navigation
 
   const handleSeeMoreClick = () => {
-    navigate("/"); // Navigate to the root page
+    navigate("/");
   };
 
   return (
     <Layout>
-      {/* Outer Box with purple background */}
+    
       <Box
         sx={{
           backgroundColor: "rgb(189, 168, 225)",
