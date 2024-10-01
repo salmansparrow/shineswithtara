@@ -18,6 +18,8 @@ import ManageExtra from "./pages/admin/manageextra";
 import ManageOrder from "./pages/admin/manageorder";
 import ManageFaqs from "./pages/admin/managefaqs";
 import ManageReviews from "./pages/admin/managereviews";
+import FaqReviews from "./pages/FaqReviews";
+import ReviewsProfile from "./component/Faq'sReveiws/ReviewProfile";
 
 function App() {
   return (
@@ -31,6 +33,9 @@ function App() {
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/eventshow" element={<EventShow />} />
         <Route path="/colorfulclub" element={<ColorFulClub />} />
+        <Route path="/faqreviews" element={<FaqReviews />} />
+        <Route path="/reviewsprofile" element={<ReviewsProfile />} />
+        
 
         {/* Admin Layout will wrap around admin routes */}
         <Route path="/admin" element={<AdminLayout />}>
