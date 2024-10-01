@@ -19,6 +19,7 @@ import { NavLink } from "react-router-dom"; // Import NavLink from react-router-
 import navlogo from "../../images/nav/nav-logo.png";
 import Menu from "@mui/material/Menu"; // Import Menu for dropdown
 import MenuItem from "@mui/material/MenuItem"; // Import MenuItem for dropdown items
+import CartDrawer from "./CartDrawer"; // Import the CartDrawer component
 
 const drawerWidth = 240;
 const navItems = [
@@ -31,7 +32,7 @@ const navItems = [
 ];
 
 const moreDropdownItems = [
-  { label: "Contact Us", path: "/contact" },
+  { label: "Contact Us", path: "/ContactUs" },
   { label: "About", path: "/about" },
   { label: "Colorful Club", path: "/colorfulclub" },
   { label: "FAQ", path: "/faq" },
@@ -41,6 +42,8 @@ function MainNavbar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null); // State for dropdown menu
+  const [cartOpen, setCartOpen] = React.useState(false); // State for cart drawer
+  const [cartItems, setCartItems] = React.useState([]); // State for cart items
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -52,6 +55,19 @@ function MainNavbar(props) {
 
   const handleMenuClose = () => {
     setAnchorEl(null); // Close dropdown menu
+  };
+
+  const handleCartOpen = () => {
+    setCartOpen(true); // Open cart drawer
+  };
+
+  const handleCartClose = () => {
+    setCartOpen(false); // Close cart drawer
+  };
+
+  // Function to add items to the cart (example item)
+  const addItemToCart = (item) => {
+    setCartItems((prevItems) => [...prevItems, item]);
   };
 
   const drawer = (
@@ -195,7 +211,11 @@ function MainNavbar(props) {
           {/* Right Section with Drawer, Cart, and Login Buttons */}
           <Box sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
             {/* Cart Button */}
-            <IconButton color="inherit" aria-label="cart">
+            <IconButton
+              color="inherit"
+              aria-label="cart"
+              onClick={handleCartOpen}
+            >
               <ShoppingCartIcon />
             </IconButton>
 
@@ -262,6 +282,13 @@ function MainNavbar(props) {
           {drawer}
         </Drawer>
       </nav>
+
+      {/* Cart Drawer */}
+      <CartDrawer
+        open={cartOpen}
+        onClose={handleCartClose}
+        cartItems={cartItems}
+      />
     </Box>
   );
 }

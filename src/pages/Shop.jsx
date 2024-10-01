@@ -52,7 +52,13 @@ const extraActivityData = [
 const Shop = () => {
   return (
     <Layout>
-      <Box sx={{ backgroundColor: "rgb(171, 202, 255)", minHeight: "100vh" ,paddingBottom:"50px" }}>
+      <Box
+        sx={{
+          backgroundColor: "rgb(171, 202, 255)",
+          minHeight: "100vh",
+          paddingBottom: "50px",
+        }}
+      >
         <Box sx={{ mt: 8, mb: 4 }}>{/* <MainNavbar /> */}</Box>
         {/* Books Section */}
         <Box
