@@ -20,8 +20,8 @@ import ManageFaqs from "./pages/admin/managefaqs";
 import ManageReviews from "./pages/admin/managereviews";
 import FaqReviews from "./pages/FaqReviews";
 import OrderPage from "./pages/OrderPage";
-import Login from "../src/component/login/Login"
-import SignUp from "../src/component/login/SignUp"
+import Login from "../src/component/login/Login";
+import SignUp from "../src/component/login/SignUp";
 
 function App() {
   return (
