@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 import Layout from "../component/Layout/Layout";
 import star from "../images/watch/star.png";
 import ShowFaqsAnswer from "../component/Faq'sReveiws/ShowFaqsAnswer";
-import ReviewsProfile from "../component/Faq'sReveiws/ReviewProfile"
+import ReviewsProfile from "../component/Faq'sReveiws/ReviewProfile";
 
 const FaqReviews = () => {
   return (
@@ -63,9 +63,8 @@ const FaqReviews = () => {
           style={{ width: "60px", marginLeft: "80px" }}
         />
       </Box>
-{/* DropDown Compoenent */}
+      {/* DropDown Compoenent */}
       <ShowFaqsAnswer />
-
 
       <Box
         sx={{
@@ -89,10 +88,9 @@ const FaqReviews = () => {
             fontWeight: "bold",
             fontSize: "3rem",
             textAlign: "center",
-
           }}
         >
-        What People Are Saying
+          What People Are Saying
         </Typography>
         <img
           src={star}
