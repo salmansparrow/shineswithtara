@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../component/Layout/Layout";
 import img1 from "../images/colorful/img1.png";
 import { Box, Typography, Card, CardMedia, CardContent } from "@mui/material";
@@ -20,9 +20,18 @@ const ColorFulClub = () => {
     navigate("/");
   };
 
+  const [colorIndex, setColorIndex] = useState(0);
+  const colors = ["orange", "white", "blue", "red"];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setColorIndex((prevIndex) => (prevIndex + 1) % colors.length);
+    }, 1000); // Change color every second
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Layout>
-    
       <Box
         sx={{
           backgroundColor: "rgb(189, 168, 225)",
@@ -62,13 +71,8 @@ const ColorFulClub = () => {
               <Box
                 component="span"
                 sx={{
-                  animation: "colorChange1 3s infinite", // Animation for "Color"
-                  "@keyframes colorChange1": {
-                    "0%": { color: "orange" }, // Orange at start
-                    "33%": { color: "white" }, // Change to white
-                    "66%": { color: "white" }, // Continue white
-                    "100%": { color: "orange" }, // Orange again
-                  },
+                  color: colors[colorIndex === 0 ? 0 : 1], // Orange if index is 0, else white
+                  transition: "color 0.5s ease",
                 }}
               >
                 Color{" "}
@@ -76,13 +80,8 @@ const ColorFulClub = () => {
               <Box
                 component="span"
                 sx={{
-                  animation: "colorChange2 3s infinite",
-                  "@keyframes colorChange2": {
-                    "0%": { color: "white" },
-                    "33%": { color: "blue" },
-                    "66%": { color: "white" },
-                    "100%": { color: "white" },
-                  },
+                  color: colors[colorIndex === 1 ? 2 : 1], // Blue if index is 1, else white
+                  transition: "color 0.5s ease",
                 }}
               >
                 with{" "}
@@ -90,13 +89,8 @@ const ColorFulClub = () => {
               <Box
                 component="span"
                 sx={{
-                  animation: "colorChange3 3s infinite",
-                  "@keyframes colorChange3": {
-                    "0%": { color: "white" },
-                    "33%": { color: "white" },
-                    "66%": { color: "red" },
-                    "100%": { color: "white" },
-                  },
+                  color: colors[colorIndex === 2 ? 3 : 1], // Red if index is 2, else white
+                  transition: "color 0.5s ease",
                 }}
               >
                 Tara
@@ -167,114 +161,113 @@ const ColorFulClub = () => {
 
       {/* Cards Section */}
       <Box
-  sx={{
-    backgroundColor: "rgb(171, 202, 255)",
-    display: "flex",
-    flexDirection: "column", // Stack items vertically
-    alignItems: "center", // Center items horizontally
-    padding: "40px",
-    gap: "20px", // Space between card and sheets section
-  }}
->
-  <Box
-    sx={{
-      display: "flex",
-      flexWrap: "wrap",
-      gap: "20px",
-      justifyContent: "center",
-    }}
-  >
-    {cardData.map((card) => (
-      <Card
-        key={card.id}
         sx={{
-          maxWidth: 450,
-          backgroundColor: "#fff",
-          boxShadow: 3,
-          borderRadius: "12px",
+          backgroundColor: "rgb(171, 202, 255)",
+          display: "flex",
+          flexDirection: "column", // Stack items vertically
+          alignItems: "center", // Center items horizontally
+          padding: "40px",
+          gap: "20px", // Space between card and sheets section
         }}
       >
-        <CardMedia
-          component="img"
-          height="250" // Increased image height for better scaling
-          image={card.imgSrc}
-          alt={card.title}
-        />
-        <CardContent
+        <Box
           sx={{
-            backgroundColor: "rgb(199, 120, 5)", // Add orange background color
-            borderRadius: "0 0 12px 12px", // Keep rounded corners on the bottom
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "20px",
+            justifyContent: "center",
           }}
         >
-          {/* Flex container with justify-content: space-between */}
-          <Box
+          {cardData.map((card) => (
+            <Card
+              key={card.id}
+              sx={{
+                maxWidth: 450,
+                backgroundColor: "#fff",
+                boxShadow: 3,
+                borderRadius: 12,
+              }}
+            >
+              <CardMedia
+                component="img"
+                height="250" // Increased image height for better scaling
+                image={card.imgSrc}
+                alt={card.title}
+              />
+              <CardContent
+                sx={{
+                  backgroundColor: "rgb(199, 120, 5)", // Add orange background color
+                  borderRadius: "0 0 12px 12px", // Keep rounded corners on the bottom
+                }}
+              >
+                {/* Flex container with justify-content: space-between */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    variant="p"
+                    color="textPrimary"
+                    sx={{
+                      fontWeight: "bold",
+                      color: "#fff",
+                    }}
+                  >
+                    {card.title}
+                  </Typography>
+
+                  {/* See More Text as clickable link */}
+                  <Typography
+                    sx={{
+                      color: "#fff",
+                      cursor: "pointer",
+                    }}
+                    onClick={handleSeeMoreClick} // Handle navigation on click
+                  >
+                    See More
+                  </Typography>
+                </Box>
+              </CardContent>
+            </Card>
+          ))}
+        </Box>
+
+        {/* Sheets Section */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center", // Center content
+            justifyContent: "center",
+            mt: 8,
+            mb: "25px",
+          }}
+        >
+          <img
+            src={flower}
+            alt="flower"
+            style={{ width: "60px", marginRight: "8px" }}
+          />
+          <Typography
+            variant="h4"
             sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
+              color: "rgb(106, 57, 162)",
+              fontWeight: "bold",
+              fontSize: { xs: "2rem", md: "3rem" }, // Responsive font size
+              textAlign: "center", // Center align the text
             }}
           >
-            <Typography
-              variant="p"
-              color="textPrimary"
-              sx={{
-                fontWeight: "bold",
-                color: "#fff",
-              }}
-            >
-              {card.title}
-            </Typography>
-
-            {/* See More Text as clickable link */}
-            <Typography
-              sx={{
-                color: "#fff",
-                cursor: "pointer",
-              }}
-              onClick={handleSeeMoreClick} // Handle navigation on click
-            >
-              See More
-            </Typography>
-          </Box>
-        </CardContent>
-      </Card>
-    ))}
-  </Box>
-
-  {/* Sheets Section */}
-  <Box
-    sx={{
-      display: "flex",
-
-      alignItems: "center", // Center content
-      justifyContent: "center",
-      mt: 8,
-      mb: "25px",
-    }}
-  >
-    <img
-      src={flower}
-      alt="flower"
-      style={{ width: "60px", marginRight: "8px" }}
-    />
-    <Typography
-      variant="h4"
-      sx={{
-        color: "rgb(106, 57, 162)",
-        fontWeight: "bold",
-        fontSize: { xs: "2rem", md: "3rem" }, // Responsive font size
-        textAlign: "center", // Center align the text
-      }}
-    >
-      Sheets
-    </Typography>
-    <img
-      src={flower}
-      alt="flower"
-      style={{ width: "60px", marginLeft: "8px" }}
-    />
-  </Box>
-</Box>
+            Sheets
+          </Typography>
+          <img
+            src={flower}
+            alt="flower"
+            style={{ width: "60px", marginLeft: "8px" }}
+          />
+        </Box>
+      </Box>
 
       <Box
         sx={{
@@ -301,34 +294,6 @@ const ColorFulClub = () => {
           <Box
             sx={{
               display: "flex",
-
-            }}
-          >
-            <img
-              src={flower}
-              alt="flower"
-              style={{ width: "20px", marginRight: "8px" }}
-            />
-            <Typography
-              variant="h6"
-              sx={{
-                display: "inline-block",
-                color: "#fff",
-                fontWeight: "bold",
-              }}
-            >
-              Coloring Sheets
-            </Typography>
-            <img
-              src={flower}
-              alt="flower"
-              style={{ width: "20px", marginLeft: "8px" }}
-            />
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-                          
             }}
           >
             <img
@@ -352,46 +317,18 @@ const ColorFulClub = () => {
               style={{ width: "20px", marginLeft: "8px" }}
             />
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-                          mb: "25px",
-            }}
-          >
-            <img
-              src={flower}
-              alt="flower"
-              style={{ width: "20px", marginRight: "8px" }}
-            />
-            <Typography
-              variant="h6"
-              sx={{
-                display: "inline-block",
-                color: "#fff",
-                fontWeight: "bold",
-              }}
-            >
-              Learning Sheets
-            </Typography>
-            <img
-              src={flower}
-              alt="flower"
-              style={{ width: "20px", marginLeft: "8px" }}
-            />
-          </Box>
         </Box>
 
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-          }}
-        >
+        {/* Right Side Image */}
+        <Box sx={{ flex: 1 }}>
           <img
             src={img2}
-            alt="Worksheet"
-            style={{ width: "250px", height: "300px" }}
+            alt="fun"
+            style={{
+              maxWidth: "100%",
+              height: "auto",
+              borderRadius: "8px", // Rounded corners for the image
+            }}
           />
         </Box>
       </Box>

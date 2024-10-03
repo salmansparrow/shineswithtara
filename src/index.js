@@ -4,8 +4,9 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import { persistor, store } from "./pages/store/Store";
-import { PersistGate } from "redux-persist/integration/react";
+import { store } from "./pages/store/Store";
+import "@fontsource/poppins"; // Import Poppins font
+import "@fontsource/righteous"; // Import Righteous font
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
