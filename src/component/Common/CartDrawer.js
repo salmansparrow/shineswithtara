@@ -40,7 +40,7 @@ const CartDrawer = ({
 
         {/* Empty Cart Case */}
         {cartItems.length === 0 ? (
-          <Typography variant="body1">Your cart is empty.</Typography>
+          <Typography variant="body1">Your cart is empty!</Typography>
         ) : (
           <Box>
             {/* Cart Items */}

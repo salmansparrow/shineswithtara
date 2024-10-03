@@ -1,3 +1,5 @@
+// src/pages/Shop.js
+
 import React, { useState } from "react";
 import {
   Box,
@@ -11,15 +13,23 @@ import {
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import imgBook from "../images/shop/books/books.198283298be9eac719d6.png";
 import BookImg1 from "../images/shop/books/img1.png";
-import learningActivityImg from "../images/shop/learning sheets/activity1.png.png";
+// import learningActivityImg from "../images/shop/learning sheets/activity1.png";
 import activityImg from "../images/shop/learning sheets/learnImg.png";
-import coloringImg from "../images/shop/coloring sheets/coloring.png";
+// import coloringImg from "../images/shop/coloring sheets/coloring.png";
 import imgColor from "../images/shop/coloring sheets/imgcolor.png";
-import extraActivity from "../images/shop/extra activity/extra activity.png";
+// import extraActivity from "../images/shop/extra activity/extra activity.png";
 import extraImg from "../images/shop/extra activity/extraimg.png";
 import Layout from "../component/Layout/Layout";
 import CartDrawer from "../component/Common/CartDrawer";
-import cartimage from "../images/colorful/img1.png";
+// import cartimage from "../images/colorful/img1.png";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addItem,
+  increaseQty,
+  decreaseQty,
+  selectCartItems,
+} from "./features/Slice.js";
+
 const bookActivityData = [
   { id: 1, title: "Tara's Dua Book", price: "$15", imgSrc: BookImg1 },
   { id: 2, title: "Ramadan Coloring Book", price: "$13", imgSrc: BookImg1 },
@@ -52,47 +62,20 @@ const extraActivityData = [
 
 const Shop = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const dispatch = useDispatch();
+  const cartItems = useSelector(selectCartItems);
 
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Tara's Dua Book",
-      price: 10.0,
-      quantity: 2,
-      image: cartimage,
-    },
-    {
-      id: 2,
-      name: "Ramadan Coloring Book",
-      price: 13.5,
-      quantity: 1,
-      image: cartimage,
-    },
-    {
-      id: 3,
-      name: "Worksheet",
-      price: 25.0,
-      quantity: 3,
-      image: cartimage,
-    },
-  ]);
+  const handleAddToCart = (item) => {
+    dispatch(addItem({ ...item, quantity: 1 }));
+    setDrawerOpen(true); // Open drawer after adding item
+  };
 
   const handleIncreaseQty = (id) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
+    dispatch(increaseQty(id));
   };
 
   const handleDecreaseQty = (id) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
-    );
+    dispatch(decreaseQty(id));
   };
 
   return (
@@ -174,381 +157,258 @@ const Shop = () => {
                   </Typography>
                   <Typography
                     variant="body1"
-                    sx={{ color: "white", fontSize: "1rem" }}
+                    sx={{ color: "white", fontSize: "1.2rem" }}
                   >
                     {card.price}
                   </Typography>
                 </CardContent>
                 <Button
-                  variant="contained"
                   className="addButton"
                   sx={{
                     position: "absolute",
-                    top: "50%",
+                    bottom: "10px",
                     left: "50%",
-                    transform: "translate(-50%, -50%)",
+                    transform: "translateX(-50%)",
                     opacity: 0,
-                    transition: "opacity 0.3s ease-in-out",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: "10px 20px",
-                    background:
-                      "linear-gradient(135deg, rgb(106, 57, 162) 0%, rgb(106, 57, 162) 100%)",
-                    borderRadius: "20px",
-                    fontWeight: "bold",
-                    "&:hover": {
-                      background:
-                        "linear-gradient(135deg, rgb(106, 57, 162) 0%, rgb(106, 57, 162) 100%)",
-                    },
+                    backgroundColor: "green",
+                    color: "white",
+                    "&:hover": { backgroundColor: "darkgreen" },
                   }}
-                  onClick={() => setDrawerOpen(true)} // Open drawer
+                  onClick={() => handleAddToCart(card)}
+                  startIcon={<AddShoppingCartIcon />}
                 >
                   Add to Cart
-                  <AddShoppingCartIcon sx={{ ml: 1 }} />
                 </Button>
-                <CartDrawer
-                  open={drawerOpen}
-                  onClose={() => setDrawerOpen(false)}
-                  cartItems={cartItems}
-                  onIncreaseQty={handleIncreaseQty}
-                  onDecreaseQty={handleDecreaseQty}
-                />
               </Card>
             </Grid>
           ))}
         </Grid>
 
-        {/* Learning Activities Section */}
-        <Box component="section" sx={{ mt: 6 }}>
-          <Box
-            component="img"
-            src={learningActivityImg}
-            alt="Book"
-            sx={{
-              width: "100%",
-              height: "auto",
-              maxWidth: "100%",
-              mt: 6,
-              mb: 6,
-            }}
-          />
-
-          <Grid container spacing={1} sx={{ justifyContent: "center" }}>
-            {learningActivityData.map((activity) => (
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                key={activity.id}
-                sx={{ display: "flex", justifyContent: "center" }}
+        {/* Learning Activity Section */}
+        <Grid container spacing={1} sx={{ justifyContent: "center", mt: 4 }}>
+          {learningActivityData.map((card) => (
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              key={card.id}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
+              <Card
+                sx={{
+                  width: "90%",
+                  maxWidth: 400,
+                  borderRadius: 4,
+                  backgroundColor: "rgb(199, 120, 5)",
+                  margin: "5px",
+                  overflow: "hidden",
+                }}
               >
-                <Card
+                <CardMedia
+                  component="img"
+                  height="300"
+                  image={card.imgSrc}
+                  alt={card.title}
                   sx={{
-                    width: "90%",
-                    maxWidth: 400,
-                    borderRadius: 4,
-                    backgroundColor: "rgb(199, 120, 5)",
-                    margin: "5px",
-                    overflow: "hidden",
-                    position: "relative",
-                    "&:hover .cardImage": {
-                      filter: "blur(5px)",
-                      transition: "filter 0.3s ease-in-out",
-                    },
-                    "&:hover .addButton": {
-                      opacity: 1,
-                      transition: "opacity 0.3s ease-in-out",
-                    },
+                    objectFit: "cover",
+                    borderTopLeftRadius: 4,
+                    borderTopRightRadius: 4,
+                  }}
+                />
+                <CardContent
+                  sx={{
+                    padding: "16px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                   }}
                 >
-                  <CardMedia
-                    className="cardImage"
-                    component="img"
-                    height="300"
-                    image={activity.imgSrc}
-                    alt={activity.title}
-                    sx={{
-                      objectFit: "cover",
-                      borderTopLeftRadius: 4,
-                      borderTopRightRadius: 4,
-                    }}
-                  />
-                  <CardContent
-                    sx={{
-                      padding: "16px",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
+                  <Typography
+                    variant="h6"
+                    sx={{ color: "white", fontSize: "1.2rem" }}
                   >
-                    <Typography
-                      variant="h6"
-                      sx={{ color: "white", fontSize: "1.2rem" }}
-                    >
-                      {activity.title}
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      sx={{ color: "white", fontSize: "1rem" }}
-                    >
-                      {activity.price}
-                    </Typography>
-                  </CardContent>
-                  <Button
-                    variant="contained"
-                    className="addButton"
-                    sx={{
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      transform: "translate(-50%, -50%)",
-                      opacity: 0,
-                      transition: "opacity 0.3s ease-in-out",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      padding: "10px 20px",
-                      background:
-                        "linear-gradient(135deg, rgb(106, 57, 162) 0%, rgb(106, 57, 162) 100%)",
-                      borderRadius: "20px",
-                      fontWeight: "bold",
-                      "&:hover": {
-                        background:
-                          "linear-gradient(135deg, rgb(106, 57, 162) 0%, rgb(106, 57, 162) 100%)",
-                      },
-                    }}
-                    onClick={() => setDrawerOpen(true)} // Open drawer
+                    {card.title}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{ color: "white", fontSize: "1.2rem" }}
                   >
-                    Add to Cart
-                    <AddShoppingCartIcon sx={{ ml: 1 }} />
-                  </Button>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-
-        {/* Coloring Section */}
-        <Box component="section" sx={{ mt: 6 }}>
-          <Box
-            component="img"
-            src={coloringImg}
-            alt="Book"
-            sx={{
-              width: "100%",
-              height: "auto",
-              maxWidth: "100%",
-              mt: 6,
-              mb: 6,
-            }}
-          />
-
-          <Grid container spacing={1} sx={{ justifyContent: "center" }}>
-            {coloringActivityData.map((activity) => (
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                key={activity.id}
-                sx={{ display: "flex", justifyContent: "center" }}
-              >
-                <Card
+                    {card.price}
+                  </Typography>
+                </CardContent>
+                <Button
                   sx={{
-                    width: "90%",
-                    maxWidth: 400,
-                    borderRadius: 4,
-                    backgroundColor: "rgb(199, 120, 5)",
-                    margin: "5px",
-                    overflow: "hidden",
-                    position: "relative",
-                    "&:hover .cardImage": {
-                      filter: "blur(5px)",
-                      transition: "filter 0.3s ease-in-out",
-                    },
-                    "&:hover .addButton": {
-                      opacity: 1,
-                      transition: "opacity 0.3s ease-in-out",
-                    },
+                    position: "absolute",
+                    bottom: "10px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    backgroundColor: "green",
+                    color: "white",
+                    "&:hover": { backgroundColor: "darkgreen" },
+                  }}
+                  onClick={() => handleAddToCart(card)}
+                  startIcon={<AddShoppingCartIcon />}
+                >
+                  Add to Cart
+                </Button>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+
+        {/* Color Activity Section */}
+        <Grid container spacing={1} sx={{ justifyContent: "center", mt: 4 }}>
+          {coloringActivityData.map((card) => (
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              key={card.id}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
+              <Card
+                sx={{
+                  width: "90%",
+                  maxWidth: 400,
+                  borderRadius: 4,
+                  backgroundColor: "rgb(199, 120, 5)",
+                  margin: "5px",
+                  overflow: "hidden",
+                }}
+              >
+                <CardMedia
+                  component="img"
+                  height="300"
+                  image={card.imgSrc}
+                  alt={card.title}
+                  sx={{
+                    objectFit: "cover",
+                    borderTopLeftRadius: 4,
+                    borderTopRightRadius: 4,
+                  }}
+                />
+                <CardContent
+                  sx={{
+                    padding: "16px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                   }}
                 >
-                  <CardMedia
-                    className="cardImage"
-                    component="img"
-                    height="300"
-                    image={activity.imgSrc}
-                    alt={activity.title}
-                    sx={{
-                      objectFit: "cover",
-                      borderTopLeftRadius: 4,
-                      borderTopRightRadius: 4,
-                    }}
-                  />
-                  <CardContent
-                    sx={{
-                      padding: "16px",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
+                  <Typography
+                    variant="h6"
+                    sx={{ color: "white", fontSize: "1.2rem" }}
                   >
-                    <Typography
-                      variant="h6"
-                      sx={{ color: "white", fontSize: "1.2rem" }}
-                    >
-                      {activity.title}
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      sx={{ color: "white", fontSize: "1rem" }}
-                    >
-                      {activity.price}
-                    </Typography>
-                  </CardContent>
-                  <Button
-                    variant="contained"
-                    className="addButton"
-                    sx={{
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      transform: "translate(-50%, -50%)",
-                      opacity: 0,
-                      transition: "opacity 0.3s ease-in-out",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      padding: "10px 20px",
-                      background:
-                        "linear-gradient(135deg, rgb(106, 57, 162) 0%, rgb(106, 57, 162) 100%)",
-                      borderRadius: "20px",
-                      fontWeight: "bold",
-                      "&:hover": {
-                        background:
-                          "linear-gradient(135deg, rgb(106, 57, 162) 0%, rgb(106, 57, 162) 100%)",
-                      },
-                    }}
-                    onClick={() => setDrawerOpen(true)} // Open drawer
+                    {card.title}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{ color: "white", fontSize: "1.2rem" }}
                   >
-                    Add to Cart
-                    <AddShoppingCartIcon sx={{ ml: 1 }} />
-                  </Button>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-
-        {/* Extras Section */}
-        <Box component="section" sx={{ mt: 6 }}>
-          <Box
-            component="img"
-            src={extraActivity}
-            alt="Book"
-            sx={{
-              width: "100%",
-              height: "auto",
-              maxWidth: "100%",
-              mt: 6,
-              mb: 6,
-            }}
-          />
-
-          <Grid container spacing={1} sx={{ justifyContent: "center" }}>
-            {extraActivityData.map((activity) => (
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                key={activity.id}
-                sx={{ display: "flex", justifyContent: "center" }}
-              >
-                <Card
+                    {card.price}
+                  </Typography>
+                </CardContent>
+                <Button
                   sx={{
-                    width: "90%",
-                    maxWidth: 400,
-                    borderRadius: 4,
-                    backgroundColor: "rgb(199, 120, 5)",
-                    margin: "5px",
-                    overflow: "hidden",
-                    position: "relative",
-                    "&:hover .cardImage": {
-                      filter: "blur(5px)",
-                      transition: "filter 0.3s ease-in-out",
-                    },
-                    "&:hover .addButton": {
-                      opacity: 1,
-                      transition: "opacity 0.3s ease-in-out",
-                    },
+                    position: "absolute",
+                    bottom: "10px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    backgroundColor: "green",
+                    color: "white",
+                    "&:hover": { backgroundColor: "darkgreen" },
+                  }}
+                  onClick={() => handleAddToCart(card)}
+                  startIcon={<AddShoppingCartIcon />}
+                >
+                  Add to Cart
+                </Button>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+
+        {/* Extra Activity Section */}
+        <Grid container spacing={1} sx={{ justifyContent: "center", mt: 4 }}>
+          {extraActivityData.map((card) => (
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              key={card.id}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
+              <Card
+                sx={{
+                  width: "90%",
+                  maxWidth: 400,
+                  borderRadius: 4,
+                  backgroundColor: "rgb(199, 120, 5)",
+                  margin: "5px",
+                  overflow: "hidden",
+                }}
+              >
+                <CardMedia
+                  component="img"
+                  height="300"
+                  image={card.imgSrc}
+                  alt={card.title}
+                  sx={{
+                    objectFit: "cover",
+                    borderTopLeftRadius: 4,
+                    borderTopRightRadius: 4,
+                  }}
+                />
+                <CardContent
+                  sx={{
+                    padding: "16px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                   }}
                 >
-                  <CardMedia
-                    className="cardImage"
-                    component="img"
-                    height="300"
-                    image={activity.imgSrc}
-                    alt={activity.title}
-                    sx={{
-                      objectFit: "cover",
-                      borderTopLeftRadius: 4,
-                      borderTopRightRadius: 4,
-                    }}
-                  />
-                  <CardContent
-                    sx={{
-                      padding: "16px",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
+                  <Typography
+                    variant="h6"
+                    sx={{ color: "white", fontSize: "1.2rem" }}
                   >
-                    <Typography
-                      variant="h6"
-                      sx={{ color: "white", fontSize: "1.2rem" }}
-                    >
-                      {activity.title}
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      sx={{ color: "white", fontSize: "1rem" }}
-                    >
-                      {activity.price}
-                    </Typography>
-                  </CardContent>
-                  <Button
-                    variant="contained"
-                    className="addButton"
-                    sx={{
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      transform: "translate(-50%, -50%)",
-                      opacity: 0,
-                      transition: "opacity 0.3s ease-in-out",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      padding: "10px 20px",
-                      background:
-                        "linear-gradient(135deg, rgb(106, 57, 162) 0%, rgb(106, 57, 162) 100%)",
-                      borderRadius: "20px",
-                      fontWeight: "bold",
-                      "&:hover": {
-                        background:
-                          "linear-gradient(135deg, rgb(106, 57, 162) 0%, rgb(106, 57, 162) 100%)",
-                      },
-                    }}
-                    onClick={() => setDrawerOpen(true)} // Open drawer
+                    {card.title}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{ color: "white", fontSize: "1.2rem" }}
                   >
-                    Add to Cart
-                    <AddShoppingCartIcon sx={{ ml: 1 }} />
-                  </Button>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
+                    {card.price}
+                  </Typography>
+                </CardContent>
+                <Button
+                  sx={{
+                    position: "absolute",
+                    bottom: "10px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    backgroundColor: "green",
+                    color: "white",
+                    "&:hover": { backgroundColor: "darkgreen" },
+                  }}
+                  onClick={() => handleAddToCart(card)}
+                  startIcon={<AddShoppingCartIcon />}
+                >
+                  Add to Cart
+                </Button>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
       </Box>
+
+      {/* Cart Drawer */}
+      <CartDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        cartItems={cartItems} // Pass cartItems
+        onIncreaseQty={handleIncreaseQty} // Pass increase function
+        onDecreaseQty={handleDecreaseQty} // Pass decrease function
+      />
     </Layout>
   );
 };

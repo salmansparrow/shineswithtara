@@ -38,7 +38,7 @@ const MainCharacter = () => {
     },
     {
       id: 3,
-      imgSrc: team2,
+      imgSrc: team3,
       name: "Person 3",
       title: "Position",
       email: "email@example.com",
@@ -49,7 +49,7 @@ const MainCharacter = () => {
       name: "Person 4",
       title: "Position",
       email: "email@example.com",
-    }, 
+    },
   ];
 
   return (
@@ -247,7 +247,7 @@ const MainCharacter = () => {
                   </Typography>
                   <Typography
                     variant="body2"
-                    sx={{ padding: 1,color: "white" }}
+                    sx={{ padding: 1, color: "white" }}
                   >
                     {member.title}
                   </Typography>
