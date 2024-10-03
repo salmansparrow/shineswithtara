@@ -1,27 +1,20 @@
-<<<<<<< HEAD
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import "@fontsource/poppins"; 
-=======
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-// import "@fontsource/poppins"; // Import Poppins font (install @fontsource/poppins via npm or use CDN in index.html)
->>>>>>> e637aa18c5870777e39bbb6792a270573fd0b163
 
+
+// Create a Material-UI theme
 export const theme = createTheme({
   typography: {
-    fontFamily: "Poppins, sans-serif",
+    fontFamily: 'Poppins, sans-serif', // Default font for the app
     h1: {
-      fontFamily: "Poppins",
-      fontWeight: 700, // Bold for h1
+      fontFamily: 'Righteous, sans-serif', // Specific font for h1
     },
     h2: {
-      fontFamily: "Poppins",
-      fontWeight: 600, // Semi-bold for h2
-    },
-    body1: {
-      fontFamily: "Poppins",
-      fontWeight: 400, // Regular weight for body text
+      fontFamily: 'Righteous, sans-serif', // Specific font for h2 (if needed)
     },
   },
 });
+
+

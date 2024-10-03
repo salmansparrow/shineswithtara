@@ -55,14 +55,14 @@ const MainCharacter = () => {
     },
   ];
 
-  // useEffect to toggle colors every 2 seconds
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setIsMainBlue((prev) => !prev); // Toggle the color state
-    }, 1000); // Change every 2 seconds
+      setIsMainBlue((prev) => !prev); 
+    }, 1000); 
 
-    return () => clearInterval(interval); // Clean up the interval on component unmount
-  }, 1000); // Run once on mount
+    return () => clearInterval(interval); 
+  }, 1000);
 
   return (
     <Layout>
