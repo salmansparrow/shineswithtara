@@ -231,3 +231,4 @@ const TikTokIcon = () => (
 );
 
 export default HeroPage;
+
