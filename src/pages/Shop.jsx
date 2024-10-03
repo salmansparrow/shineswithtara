@@ -10,72 +10,64 @@ import {
 } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import imgBook from "../images/shop/books/books.198283298be9eac719d6.png";
-import BookImg1 from "../images/shop/books/img1.png";
 import learningActivityImg from "../images/shop/learning sheets/activity1.png.png";
-import activityImg from "../images/shop/learning sheets/learnImg.png";
 import coloringImg from "../images/shop/coloring sheets/coloring.png";
-import imgColor from "../images/shop/coloring sheets/imgcolor.png";
 import extraActivity from "../images/shop/extra activity/extra activity.png";
-import extraImg from "../images/shop/extra activity/extraimg.png";
 import Layout from "../component/Layout/Layout";
 import CartDrawer from "../component/Common/CartDrawer";
-import cartimage from "../images/colorful/img1.png";
-const bookActivityData = [
-  { id: 1, title: "Tara's Dua Book", price: "$15", imgSrc: BookImg1 },
-  { id: 2, title: "Ramadan Coloring Book", price: "$13", imgSrc: BookImg1 },
-  { id: 3, title: "Book 3", price: "$25", imgSrc: BookImg1 },
-  { id: 4, title: "Book 4", price: "$30", imgSrc: BookImg1 },
-  { id: 5, title: "Book 5", price: "$35", imgSrc: BookImg1 },
-  { id: 6, title: "Book 6", price: "$40", imgSrc: BookImg1 },
-];
-
-const learningActivityData = [
-  { id: 1, title: "Worksheet", price: "$15", imgSrc: activityImg },
-  { id: 2, title: "Ramadan Coloring Book", price: "$13", imgSrc: activityImg },
-  { id: 3, title: "Book 3", price: "$25", imgSrc: activityImg },
-  { id: 4, title: "Book 4", price: "$30", imgSrc: activityImg },
-  { id: 5, title: "Book 5", price: "$35", imgSrc: activityImg },
-  { id: 6, title: "Book 6", price: "$40", imgSrc: activityImg },
-];
-
-const coloringActivityData = [
-  { id: 1, title: "Coloring Sheet", price: "$15", imgSrc: imgColor },
-  { id: 2, title: "Coloring Sheet", price: "$13", imgSrc: imgColor },
-];
-
-const extraActivityData = [
-  { id: 1, title: "Extra", price: "$15", imgSrc: extraImg },
-  { id: 2, title: "Extra", price: "$13", imgSrc: extraImg },
-  { id: 3, title: "Book 3", price: "$25", imgSrc: extraImg },
-  { id: 4, title: "Book 4", price: "$30", imgSrc: extraImg },
-];
+// import cartimage from "../images/colorful/img1.png";
+import {
+  bookActivityData,
+  learningActivityData,
+  coloringActivityData,
+  extraActivityData,
+} from "../dummyData";
+import { useDispatch } from "react-redux";
+import { addItem } from "./features/Slice";
 
 const Shop = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [cartItems, setCartItems] = useState([]); // Initialize with an empty array
+  const dispatch = useDispatch(); // Initialize useDispatch hook
+  // const [cartItems, setCartItems] = useState([
+  //   {
+  //     id: 1,
+  //     name: "Tara's Dua Book",
+  //     price: 10.0,
+  //     quantity: 2,
+  //     image: cartimage,
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Ramadan Coloring Book",
+  //     price: 13.5,
+  //     quantity: 1,
+  //     image: cartimage,
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Worksheet",
+  //     price: 25.0,
+  //     quantity: 3,
+  //     image: cartimage,
+  //   },
+  // ]);
 
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Tara's Dua Book",
-      price: 10.0,
-      quantity: 2,
-      image: cartimage,
-    },
-    {
-      id: 2,
-      name: "Ramadan Coloring Book",
-      price: 13.5,
+  const handleAddToCart = (item) => {
+    const cartItem = {
+      id: item.id,
+      name: item.name,
+      // price: parseFloat(item.price.replace("$", "")),
+      price:
+        typeof item.price === "string"
+          ? parseFloat(item.price.replace("$", ""))
+          : item.price,
       quantity: 1,
-      image: cartimage,
-    },
-    {
-      id: 3,
-      name: "Worksheet",
-      price: 25.0,
-      quantity: 3,
-      image: cartimage,
-    },
-  ]);
+      image: item.imgSrc,
+    };
+    dispatch(addItem(cartItem));
+    setDrawerOpen(true);
+  };
 
   const handleIncreaseQty = (id) => {
     setCartItems((prevItems) =>
@@ -202,7 +194,8 @@ const Shop = () => {
                         "linear-gradient(135deg, rgb(106, 57, 162) 0%, rgb(106, 57, 162) 100%)",
                     },
                   }}
-                  onClick={() => setDrawerOpen(true)} // Open drawer
+                  // onClick={() => setDrawerOpen(true)} // Open drawer
+                  onClick={() => handleAddToCart(card)}
                 >
                   Add to Cart
                   <AddShoppingCartIcon sx={{ ml: 1 }} />
@@ -318,7 +311,8 @@ const Shop = () => {
                           "linear-gradient(135deg, rgb(106, 57, 162) 0%, rgb(106, 57, 162) 100%)",
                       },
                     }}
-                    onClick={() => setDrawerOpen(true)} // Open drawer
+                    // onClick={() => setDrawerOpen(true)} // Open drawer
+                    onClick={() => handleAddToCart(activity)}
                   >
                     Add to Cart
                     <AddShoppingCartIcon sx={{ ml: 1 }} />
@@ -428,7 +422,8 @@ const Shop = () => {
                           "linear-gradient(135deg, rgb(106, 57, 162) 0%, rgb(106, 57, 162) 100%)",
                       },
                     }}
-                    onClick={() => setDrawerOpen(true)} // Open drawer
+                    // onClick={() => setDrawerOpen(true)} // Open drawer
+                    onClick={() => handleAddToCart(activity)}
                   >
                     Add to Cart
                     <AddShoppingCartIcon sx={{ ml: 1 }} />
@@ -538,7 +533,8 @@ const Shop = () => {
                           "linear-gradient(135deg, rgb(106, 57, 162) 0%, rgb(106, 57, 162) 100%)",
                       },
                     }}
-                    onClick={() => setDrawerOpen(true)} // Open drawer
+                    // onClick={() => setDrawerOpen(true)} // Open drawer
+                    onClick={() => handleAddToCart(activity)}
                   >
                     Add to Cart
                     <AddShoppingCartIcon sx={{ ml: 1 }} />

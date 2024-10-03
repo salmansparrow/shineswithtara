@@ -46,7 +46,6 @@ function MainNavbar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [cartOpen, setCartOpen] = React.useState(false);
   const [cartItems, setCartItems] = React.useState([]); // State for cart items
-
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
