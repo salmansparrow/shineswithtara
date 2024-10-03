@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Layout from "../Layout/Layout";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
 import { Link } from "react-router-dom";
-import LockIcon from '@mui/icons-material/Lock';
-import AuthService from '../../service/Auth/auth'; // Adjust the import path as needed
+import LockIcon from "@mui/icons-material/Lock";
+import AuthService from "../../service/Auth/auth"; // Adjust the import path as needed
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -39,22 +39,22 @@ const SignUp = () => {
         <Box sx={{ mt: 8, mb: 4 }}>
           <Box
             sx={{
-              position: 'relative',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              position: "relative",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
               flexShrink: 0,
-              width: '40px',
-              height: '40px',
-              fontFamily: 'Poppins',
-              fontSize: '1.25rem',
+              width: "40px",
+              height: "40px",
+              fontFamily: "Poppins",
+              fontSize: "1.25rem",
               lineHeight: 1,
-              borderRadius: '50%',
-              overflow: 'hidden',
-              userSelect: 'none',
-              color: 'rgb(255, 255, 255)',
-              margin: '8px auto', // Center the icon
-              backgroundColor: 'rgb(143, 82, 161)',
+              borderRadius: "50%",
+              overflow: "hidden",
+              userSelect: "none",
+              color: "rgb(255, 255, 255)",
+              margin: "8px auto", // Center the icon
+              backgroundColor: "rgb(143, 82, 161)",
             }}
           >
             <LockIcon fontSize="inherit" /> {/* Lock icon */}
@@ -73,15 +73,15 @@ const SignUp = () => {
             required
             InputProps={{
               sx: {
-                '& .MuiOutlinedInput-root': {
-                  '& fieldset': {
-                    borderColor: 'rgba(0, 0, 0, 0.23)', // Default border color
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "rgba(0, 0, 0, 0.23)", // Default border color
                   },
-                  '&:hover fieldset': {
-                    borderColor: 'rgb(106, 57, 162)', // Border color on hover
+                  "&:hover fieldset": {
+                    borderColor: "rgb(106, 57, 162)", // Border color on hover
                   },
-                  '&.Mui-focused fieldset': {
-                    borderColor: 'rgb(106, 57, 162)', // Border color on focus
+                  "&.Mui-focused fieldset": {
+                    borderColor: "rgb(106, 57, 162)", // Border color on focus
                   },
                 },
               },
@@ -98,15 +98,15 @@ const SignUp = () => {
             required
             InputProps={{
               sx: {
-                '& .MuiOutlinedInput-root': {
-                  '& fieldset': {
-                    borderColor: 'rgba(0, 0, 0, 0.23)', // Default border color
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "rgba(0, 0, 0, 0.23)", // Default border color
                   },
-                  '&:hover fieldset': {
-                    borderColor: 'rgb(106, 57, 162)', // Border color on hover
+                  "&:hover fieldset": {
+                    borderColor: "rgb(106, 57, 162)", // Border color on hover
                   },
-                  '&.Mui-focused fieldset': {
-                    borderColor: 'rgb(106, 57, 162)', // Border color on focus
+                  "&.Mui-focused fieldset": {
+                    borderColor: "rgb(106, 57, 162)", // Border color on focus
                   },
                 },
               },
@@ -123,15 +123,15 @@ const SignUp = () => {
             required
             InputProps={{
               sx: {
-                '& .MuiOutlinedInput-root': {
-                  '& fieldset': {
-                    borderColor: 'rgba(0, 0, 0, 0.23)', // Default border color
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "rgba(0, 0, 0, 0.23)", // Default border color
                   },
-                  '&:hover fieldset': {
-                    borderColor: 'rgb(106, 57, 162)', // Border color on hover
+                  "&:hover fieldset": {
+                    borderColor: "rgb(106, 57, 162)", // Border color on hover
                   },
-                  '&.Mui-focused fieldset': {
-                    borderColor: 'rgb(106, 57, 162)', // Border color on focus
+                  "&.Mui-focused fieldset": {
+                    borderColor: "rgb(106, 57, 162)", // Border color on focus
                   },
                 },
               },
@@ -143,9 +143,9 @@ const SignUp = () => {
             fullWidth
             sx={{
               mt: 2,
-              backgroundColor: 'rgb(106, 57, 162)', // Button background color
-              '&:hover': {
-                backgroundColor: 'rgba(106, 57, 162, 0.8)', // Darken on hover
+              backgroundColor: "rgb(106, 57, 162)", // Button background color
+              "&:hover": {
+                backgroundColor: "rgba(106, 57, 162, 0.8)", // Darken on hover
               },
             }}
           >

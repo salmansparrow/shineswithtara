@@ -11,8 +11,11 @@ function Contact({ to, Explore, More, Contact, Us, sign }) {
           background:
             "linear-gradient(135deg, rgb(154, 182, 231) 0%, rgb(189, 168, 225) 46%, rgb(106, 57, 162) 100%)",
           width: "100%",
+          minHeight: "900px", // Set minimum height to 900px
           paddingTop: "80px",
           paddingBottom: "80px",
+          display: "flex", // Align items in the center
+          alignItems: "center",
         }}
       >
         <Box className="hero-background">
@@ -32,8 +35,14 @@ function Contact({ to, Explore, More, Contact, Us, sign }) {
               <Typography
                 variant="h1"
                 sx={{
-                  fontSize: { xs: "40px", sm: "50px", md: "80px" },
-                  lineHeight: { xs: "1.2", sm: "1.3", md: "1.4" },
+                  fontSize: {
+                    xs: "40px",
+                    sm: "50px",
+                    md: "70px",
+                  },
+                  textAlign: { xs: "center", sm: "center", md: "left" },
+                  paddingRight: { xs: "0px", sm: "0px", md: "150px" },
+                  fontFamily: "righteous",
                 }}
               >
                 <span style={{ color: "white" }}>{to}</span>

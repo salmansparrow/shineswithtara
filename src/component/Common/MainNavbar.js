@@ -15,14 +15,15 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import Badge from "@mui/material/Badge"; // Import Badge
+import Badge from "@mui/material/Badge";
 import { NavLink } from "react-router-dom";
 import navlogo from "../../images/nav/nav-logo.png";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import CartDrawer from "./CartDrawer";
+import CartDrawer from "./CartDrawer"; // Import your CartDrawer component
 
 const drawerWidth = 240;
+
 const navItems = [
   { label: "Home", path: "/" },
   { label: "Shop", path: "/shop" },
@@ -36,7 +37,7 @@ const moreDropdownItems = [
   { label: "Contact Us", path: "/ContactUs" },
   { label: "About", path: "/about" },
   { label: "Colorful Club", path: "/colorfulclub" },
-  { label: "FAQ", path: "/faqreviews" },
+  { label: "FAQ", path: "/faq" },
 ];
 
 function MainNavbar(props) {
@@ -51,6 +52,7 @@ function MainNavbar(props) {
   };
 
   const handleMoreClick = (event) => {
+    event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
 
@@ -59,25 +61,49 @@ function MainNavbar(props) {
   };
 
   const handleCartOpen = () => {
-    setCartOpen(true);
+    setCartOpen(true); // Open the CartDrawer
   };
 
   const handleCartClose = () => {
-    setCartOpen(false);
+    setCartOpen(false); // Close the CartDrawer
   };
 
-  // Function to add items to the cart (example item)
   const addItemToCart = (item) => {
     setCartItems((prevItems) => [...prevItems, item]);
   };
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
+    <Box sx={{ textAlign: "center" }}>
+      <Typography
+        variant="h6"
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          background:
+            "linear-gradient(135deg, rgb(154, 182, 231) 0%, rgb(189, 168, 225) 46%, rgb(106, 57, 162) 100%)",
+          mx: "auto",
+          p: 1,
+        }}
+      >
+        <img
+          src={navlogo}
+          alt="Navigation Logo"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "contain",
+          }}
+        />
       </Typography>
+
       <Divider />
-      <List>
+      <List
+        sx={{
+          background:
+            "linear-gradient(135deg, rgb(154, 182, 231) 0%, rgb(189, 168, 225) 46%, rgb(106, 57, 162) 100%)",
+        }}
+      >
         {navItems.map((item) => (
           <ListItem key={item.label} disablePadding>
             <ListItemButton sx={{ textAlign: "center" }}>
@@ -86,7 +112,10 @@ function MainNavbar(props) {
                   item.hasDropdown ? (
                     <Button
                       onClick={handleMoreClick}
-                      sx={{ textDecoration: "none", color: "inherit" }}
+                      sx={{
+                        textDecoration: "none",
+                        color: "inherit",
+                      }}
                     >
                       {item.label}
                     </Button>
@@ -208,11 +237,10 @@ function MainNavbar(props) {
           </Box>
 
           <Box sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
-            {/* Cart Button with Badge */}
             <IconButton
               color="inherit"
               aria-label="cart"
-              onClick={handleCartOpen}
+              onClick={handleCartOpen} // Open CartDrawer on click
             >
               <Badge badgeContent={cartItems.length} color="error">
                 <ShoppingCartIcon />
@@ -228,6 +256,11 @@ function MainNavbar(props) {
               aria-label="open drawer"
               edge="end"
               onClick={handleDrawerToggle}
+              sx={{
+                display: {
+                  lg: "none",
+                },
+              }}
             >
               <MenuIcon />
             </IconButton>
@@ -280,10 +313,11 @@ function MainNavbar(props) {
         </Drawer>
       </nav>
 
+      {/* Pass open state and onClose handler to CartDrawer */}
       <CartDrawer
-        open={cartOpen}
-        onClose={handleCartClose}
-        cartItems={cartItems}
+        open={cartOpen} // Open state for CartDrawer
+        onClose={handleCartClose} // Close handler for CartDrawer
+        cartItems={cartItems} // Items to display in the CartDrawer
       />
     </Box>
   );

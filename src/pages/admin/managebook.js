@@ -1,10 +1,10 @@
 import React from "react";
-import ManageBooksList from "../../component/Admin/ManageBook";
+import ManageProducts from "../../component/Admin/ManageProducts";
 
 function ManageBook() {
   return (
     <>
-      <ManageBooksList />
+      <ManageProducts />
     </>
   );
 }

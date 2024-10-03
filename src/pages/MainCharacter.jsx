@@ -41,7 +41,7 @@ const MainCharacter = () => {
     },
     {
       id: 3,
-      imgSrc: team2,
+      imgSrc: team3,
       name: "Person 3",
       title: "Position",
       email: "email@example.com",

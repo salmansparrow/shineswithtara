@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   CssBaseline,
@@ -10,24 +10,150 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
+  IconButton,
+  useMediaQuery,
+  AppBar,
 } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import PeopleIcon from "@mui/icons-material/People";
 import BookIcon from "@mui/icons-material/Book";
-import ColorLensIcon from "@mui/icons-material/ColorLens";
-import DescriptionIcon from "@mui/icons-material/Description";
-import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import HelpIcon from "@mui/icons-material/Help";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import logo from "../../../images/admin/logo.png";
 import { NavLink } from "react-router-dom";
+import { useTheme } from "@mui/material/styles";
+
 const drawerWidth = 240;
 
 export default function Sidebar() {
+  const [mobileOpen, setMobileOpen] = useState(false); // State to manage drawer visibility on small screens
+  const theme = useTheme(); // Access theme for media queries
+  const isMobile = useMediaQuery(theme.breakpoints.down("md")); // Detect mobile screen size
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  // Drawer content (extracted for reuse in both mobile and desktop drawers)
+  const drawerContent = (
+    <div>
+      {/* Logo Section */}
+      <Toolbar
+        sx={{
+          minHeight: { xs: 48, sm: 64 },
+          display: "flex",
+          justifyContent: "center",
+          background: "rgb(143, 82, 161)",
+        }}
+      >
+        <span style={{ width: "100%" }}>
+          <img
+            src={logo}
+            alt="admin logo"
+            style={{
+              width: "100%",
+              objectFit: "contain",
+              backgroundPosition: "center center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              display: "block",
+            }}
+          />
+        </span>
+      </Toolbar>
+      <Divider />
+
+      {/* Navigation Items */}
+      <List>
+        {/* User List */}
+        <ListItem disablePadding>
+          <ListItemButton component={NavLink} to="/admin/users">
+            <ListItemIcon>
+              <PeopleIcon />
+            </ListItemIcon>
+            <ListItemText primary="User List" />
+          </ListItemButton>
+        </ListItem>
+
+        {/* Manage Books */}
+        <ListItem disablePadding>
+          <ListItemButton component={NavLink} to="/admin/manage-product">
+            <ListItemIcon>
+              <BookIcon />
+            </ListItemIcon>
+            <ListItemText primary="Manage Books" />
+          </ListItemButton>
+        </ListItem>
+
+        {/* Orders */}
+        <ListItem disablePadding>
+          <ListItemButton component={NavLink} to="/admin/manage-order">
+            <ListItemIcon>
+              <ShoppingCartIcon />
+            </ListItemIcon>
+            <ListItemText primary="Orders" />
+          </ListItemButton>
+        </ListItem>
+
+        {/* FAQs */}
+        <ListItem disablePadding>
+          <ListItemButton component={NavLink} to="/admin/manage-faq">
+            <ListItemIcon>
+              <HelpIcon />
+            </ListItemIcon>
+            <ListItemText primary="FAQs" />
+          </ListItemButton>
+        </ListItem>
+
+        {/* Reviews */}
+        <ListItem disablePadding>
+          <ListItemButton component={NavLink} to="/admin/manage-reviews">
+            <ListItemIcon>
+              <RateReviewIcon />
+            </ListItemIcon>
+            <ListItemText primary="Reviews" />
+          </ListItemButton>
+        </ListItem>
+      </List>
+    </div>
+  );
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
+
+      {/* AppBar for the hamburger menu on mobile */}
+      {isMobile && (
+        <AppBar
+          position="fixed"
+          sx={{
+            width: "100%",
+            backgroundColor: "rgb(143, 82, 161)",
+            display: { md: "none" },
+          }}
+        >
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+      )}
+
+      {/* Drawer component */}
       <Drawer
+        variant={isMobile ? "temporary" : "permanent"} // Show temporary drawer on mobile, permanent on larger screens
+        open={mobileOpen} // Control open state for mobile drawer
+        onClose={handleDrawerToggle} // Close drawer when clicking outside
+        ModalProps={{
+          keepMounted: true, // Better open performance on mobile
+        }}
         sx={{
           width: drawerWidth,
           flexShrink: 0,
@@ -37,118 +163,11 @@ export default function Sidebar() {
             backgroundColor: "#f5f5f5",
           },
         }}
-        variant="permanent"
-        anchor="left"
       >
-        {/* Logo Section */}
-        <Toolbar
-          sx={{
-            minHeight: { xs: 48, sm: 64 }, // Responsive height for the toolbar (48px for small screens, 64px for larger)
-            display: "flex",
-            justifyContent: "center",
-            background: "rgb(143, 82, 161)",
-          }}
-        >
-          <span style={{ width: "100%" }}>
-            <img
-              src={logo}
-              alt="admin logo"
-              style={{
-                width: "100%",
-                objectFit: "contain",
-                backgroundPosition: "center center",
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "cover",
-                display: "block",
-              }}
-            />
-          </span>
-        </Toolbar>
-        <Divider />
-
-        {/* Navigation Items */}
-        <List>
-          {/* User List */}
-          <ListItem disablePadding>
-            <ListItemButton component={NavLink} to="/admin/users">
-              <ListItemIcon>
-                <PeopleIcon />
-              </ListItemIcon>
-              <ListItemText primary="User List" />
-            </ListItemButton>
-          </ListItem>
-
-          {/* Manage Books */}
-          <ListItem disablePadding>
-            <ListItemButton component={NavLink} to="/admin/managebook">
-              <ListItemIcon>
-                <BookIcon />
-              </ListItemIcon>
-              <ListItemText primary="Manage Books" />
-            </ListItemButton>
-          </ListItem>
-
-          {/* Manage Coloring Sheets */}
-          <ListItem disablePadding>
-            <ListItemButton component={NavLink} to="/admin/manage-coloring">
-              <ListItemIcon>
-                <ColorLensIcon />
-              </ListItemIcon>
-              <ListItemText primary="Manage Coloring Sheets" />
-            </ListItemButton>
-          </ListItem>
-
-          {/* Manage Activity Sheets */}
-          <ListItem disablePadding>
-            <ListItemButton component={NavLink} to="/admin/manage-activity">
-              <ListItemIcon>
-                <DescriptionIcon />
-              </ListItemIcon>
-              <ListItemText primary="Manage Activity Sheets" />
-            </ListItemButton>
-          </ListItem>
-
-          {/* Manage Extra Sheets */}
-          <ListItem disablePadding>
-            <ListItemButton component={NavLink} to="/admin/manage-extra">
-              <ListItemIcon>
-                <InsertDriveFileIcon />
-              </ListItemIcon>
-              <ListItemText primary="Manage Extra Sheets" />
-            </ListItemButton>
-          </ListItem>
-
-          {/* Orders */}
-          <ListItem disablePadding>
-            <ListItemButton component={NavLink} to="/admin/manage-order">
-              <ListItemIcon>
-                <ShoppingCartIcon />
-              </ListItemIcon>
-              <ListItemText primary="Orders" />
-            </ListItemButton>
-          </ListItem>
-
-          {/* FAQs */}
-          <ListItem disablePadding>
-            <ListItemButton component={NavLink} to="/admin/manage-faq">
-              <ListItemIcon>
-                <HelpIcon />
-              </ListItemIcon>
-              <ListItemText primary="FAQs" />
-            </ListItemButton>
-          </ListItem>
-
-          {/* Reviews */}
-          <ListItem disablePadding>
-            <ListItemButton component={NavLink} to="/admin/manage-reviews">
-              <ListItemIcon>
-                <RateReviewIcon />
-              </ListItemIcon>
-              <ListItemText primary="Reviews" />
-            </ListItemButton>
-          </ListItem>
-        </List>
+        {drawerContent}
       </Drawer>
+
+      {/* Push content right when drawer is open on large screens */}
     </Box>
   );
 }
