@@ -82,7 +82,7 @@ export default function Sidebar() {
             <ListItemIcon>
               <BookIcon />
             </ListItemIcon>
-            <ListItemText primary="Manage Books" />
+            <ListItemText primary="Manage Products" />
           </ListItemButton>
         </ListItem>
 

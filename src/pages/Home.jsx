@@ -38,7 +38,7 @@ const Home = () => {
           </Box>
         }
         learn={
-          <Box component="span" >
+          <Box component="span">
             <Typography
               variant={{ xs: "h4", sm: "h3", md: "h2" }} // Responsive variant
               sx={{
@@ -65,10 +65,7 @@ const Home = () => {
           </Box>
         }
         subtitle={
-          <Typography
-            variant="subtitle1"
-            sx={{ textAlign: "center", paddingTop: 2 }}
-          >
+          <Typography variant="h4" sx={{ textAlign: "start", padding: 2 }}>
             Click To See Latest Adventures!
           </Typography>
         }
