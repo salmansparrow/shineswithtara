@@ -402,13 +402,7 @@ const Shop = () => {
       </Box>
 
       {/* Cart Drawer */}
-      <CartDrawer
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        cartItems={cartItems} // Pass cartItems
-        onIncreaseQty={handleIncreaseQty} // Pass increase function
-        onDecreaseQty={handleDecreaseQty} // Pass decrease function
-      />
+      <CartDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
     </Layout>
   );
 };

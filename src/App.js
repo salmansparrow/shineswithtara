@@ -20,10 +20,6 @@ import FaqReviews from "./pages/FaqReviews";
 import OrderPage from "./pages/OrderPage";
 import Login from "../src/component/login/Login";
 import SignUp from "../src/component/login/SignUp";
-<<<<<<< HEAD
-import ManageProducts from "./component/Admin/ManageProducts";
-=======
->>>>>>> 7643b874c8842950e5ae94397c9fbb092cd5135f
 
 function App() {
   return (
