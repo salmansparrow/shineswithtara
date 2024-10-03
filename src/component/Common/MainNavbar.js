@@ -23,7 +23,7 @@ import MenuItem from "@mui/material/MenuItem";
 import CartDrawer from "./CartDrawer"; // Import your CartDrawer component
 
 const drawerWidth = 240;
-// Nav items and dropdown items (same as before)
+
 const navItems = [
   { label: "Home", path: "/" },
   { label: "Shop", path: "/shop" },
@@ -68,7 +68,6 @@ function MainNavbar(props) {
     setCartOpen(false); // Close the CartDrawer
   };
 
-  // Function to add items to the cart (example item)
   const addItemToCart = (item) => {
     setCartItems((prevItems) => [...prevItems, item]);
   };
@@ -238,7 +237,6 @@ function MainNavbar(props) {
           </Box>
 
           <Box sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
-            {/* Cart Button with Badge */}
             <IconButton
               color="inherit"
               aria-label="cart"
