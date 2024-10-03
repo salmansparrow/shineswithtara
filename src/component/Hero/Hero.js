@@ -32,8 +32,8 @@ function HeroPage({ follow, explore, learn, subtitle }) {
                 variant="h1"
                 sx={{ fontSize: { xs: "40px", sm: "50px", md: "70px" } }}
               >
-                <span style={{ color: "white" }}>{follow}</span>,{" "}
-                <span style={{ color: "white" }}>{learn}</span> and{" "}
+                <span style={{ color: "white" }}>{follow}</span>{" "}
+                <span style={{ color: "white" }}>{learn}</span> {" "}
                 <span style={{ color: "rgb(235, 87, 119)" }}>{explore}</span>{" "}
               </Typography>
               <Typography

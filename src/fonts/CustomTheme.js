@@ -1,6 +1,6 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import "@fontsource/poppins"; // Import Poppins font (install @fontsource/poppins via npm or use CDN in index.html)
+import "@fontsource/poppins"; 
 
 export const theme = createTheme({
     typography: {

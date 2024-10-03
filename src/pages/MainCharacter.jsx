@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../component/Layout/Layout";
 import HeroPage from "../component/Hero/Hero";
 import { Box, Typography, Grid, Card, CardMedia } from "@mui/material";
@@ -12,6 +12,9 @@ import team2 from "../images/maincharacter/team2.png";
 import team3 from "../images/maincharacter/team3.png";
 
 const MainCharacter = () => {
+  const [isMainBlue, setIsMainBlue] = useState(true);
+
+  // Data for main characters and team members
   const mainCharatersData = [
     { id: 1, imgSrc: character1 },
     { id: 2, imgSrc: character2 },
@@ -49,16 +52,36 @@ const MainCharacter = () => {
       name: "Person 4",
       title: "Position",
       email: "email@example.com",
-    }, 
+    },
   ];
+
+  // useEffect to toggle colors every 2 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsMainBlue((prev) => !prev); // Toggle the color state
+    }, 1000); // Change every 2 seconds
+
+    return () => clearInterval(interval); // Clean up the interval on component unmount
+  }, 1000); // Run once on mount
 
   return (
     <Layout>
       <HeroPage
-        follow="Unveil The Stories Behind"
-        explore="Our Main Characters"
-        subtitle="Click To See Latest Adventures!"
+        follow={<Typography variant="h2">Unveil The Stories Behind</Typography>}
+        explore={
+          <Typography variant="h2">
+            <span style={{ color: "rgb(254, 157, 4)" }}>Our</span>{" "}
+            <span style={{ color: isMainBlue ? "rgb(2, 27, 81)" : "white" }}>Main</span>
+            <span style={{ color: isMainBlue ? "white" : "rgb(235, 87, 119)" }}>
+              {" "}Characters
+            </span>
+          </Typography>
+        }
+        subtitle={
+          <Typography variant="h4">Click To See Latest Adventures!</Typography>
+        }
       />
+
       <Box
         sx={{
           backgroundColor: "rgb(171, 202, 255)",
@@ -67,7 +90,6 @@ const MainCharacter = () => {
           marginBottom: "0",
         }}
       >
-        {/* MainCharacters  */}
         <Typography
           variant="h2"
           sx={{
@@ -122,7 +144,7 @@ const MainCharacter = () => {
                 display: "flex",
                 justifyContent: "center",
                 marginBottom: "8px",
-              }} // Adjust bottom margin for rows
+              }}
             >
               <Card
                 sx={{
@@ -133,9 +155,9 @@ const MainCharacter = () => {
                   margin: "5px",
                   overflow: "hidden",
                   position: "relative",
-                  border: "8px solid rgb(106, 57, 162)", // All sides
-                  borderLeft: "16px solid rgb(106, 57, 162)", // Increased left border
-                  boxSizing: "border-box", // Ensure padding and border are included in width/height
+                  border: "8px solid rgb(106, 57, 162)",
+                  borderLeft: "16px solid rgb(106, 57, 162)",
+                  boxSizing: "border-box",
                 }}
               >
                 <CardMedia
@@ -162,7 +184,7 @@ const MainCharacter = () => {
       {/* Team */}
       <Box
         sx={{
-          backgroundColor: "rgb(189, 168, 225)", // Change this to yellow
+          backgroundColor: "rgb(189, 168, 225)",
           padding: { xs: 2, md: 4 },
           marginTop: "0",
           marginBottom: "0",
@@ -226,45 +248,24 @@ const MainCharacter = () => {
                   boxSizing: "border-box",
                   display: "flex",
                   flexDirection: "column",
+                  alignItems: "center",
                 }}
               >
                 <CardMedia
-                  className="cardImage"
                   component="img"
-                  height="360"
+                  height="300"
                   image={member.imgSrc}
-                  alt={`Team Member ${member.id}`}
+                  alt={`Team Member ${member.name}`}
                   sx={{
                     objectFit: "cover",
                     borderTopLeftRadius: 4,
                     borderTopRightRadius: 4,
                   }}
                 />
-                {/* Add member information */}
-                <Box sx={{ padding: 1, textAlign: "center" }}>
-                  <Typography variant="h6" sx={{ padding: 1, color: "white" }}>
-                    {member.name}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    sx={{ padding: 1,color: "white" }}
-                  >
-                    {member.title}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      padding: 1,
-                      color: "blue",
-                      cursor: "pointer", // Makes the cursor a pointer
-                      textDecoration: "underline", // Optional: underline for email
-                    }}
-                    onClick={() =>
-                      (window.location.href = `mailto:${member.email}`)
-                    } // Optional: mailto link
-                  >
-                    {member.email}
-                  </Typography>
+                <Box sx={{ padding: 2, textAlign: "center" }}>
+                  <Typography variant="h6">{member.name}</Typography>
+                  <Typography variant="body2">{member.title}</Typography>
+                  <Typography variant="body2">{member.email}</Typography>
                 </Box>
               </Card>
             </Grid>

@@ -3,7 +3,7 @@ import Layout from "../component/Layout/Layout";
 import Contact from "../component/ContactUs/ContactUs";
 const ContactUs = () => {
   return (
-    <>
+    
       <Layout>
         <Contact
           to="To "
@@ -14,7 +14,7 @@ const ContactUs = () => {
           sign="!"
         />
       </Layout>
-    </>
+  
   );
 };
 export default ContactUs;
