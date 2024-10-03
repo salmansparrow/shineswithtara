@@ -1,5 +1,5 @@
-import instance from "config/axios";
-import { ErrorHandler } from "config/ErrorHandler";
+import instance from "./Config/index.js";
+import { ErrorHandler } from "./ErrorHandler/ErrorHandler.js";
 
 export const get = async (endPoint, params) => {
     try {
@@ -48,6 +48,5 @@ export const deleted = async (endPoint, params) => {
         throw ErrorHandler(e);
     }
 };
-
 
 

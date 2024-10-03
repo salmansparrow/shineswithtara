@@ -1,4 +1,6 @@
 import React from "react";
+import { ThemeProvider } from "@emotion/react";
+import { theme } from "./fonts/CustomTheme";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
@@ -25,7 +27,8 @@ import SignUp from "../src/component/login/SignUp";
 
 function App() {
   return (
-    <Router>
+    <ThemeProvider theme={theme}>  
+      <Router>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -57,6 +60,8 @@ function App() {
         </Route>
       </Routes>
     </Router>
+    </ThemeProvider>
+
   );
 }
 

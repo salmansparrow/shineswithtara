@@ -2,52 +2,67 @@ import React, { useState } from "react";
 import Layout from "../Layout/Layout";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
 import { Link } from "react-router-dom";
-import LockIcon from '@mui/icons-material/Lock'; 
-
+import LockIcon from '@mui/icons-material/Lock';
+import AuthService from '../../service/Auth/auth'; // Adjust the import path as needed
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
 
-    console.log("Signing up with:", { email, password });
+    try {
+      const userData = { email, password }; // Prepare user data
+      await AuthService.register(userData); // Call the registration service
+      setSuccess("Registration successful! Please log in.");
+      console.log("Registration successful:", userData); // Log successful registration
+      setEmail(""); // Clear input fields
+      setPassword("");
+      setConfirmPassword("");
+    } catch (err) {
+      setError("Registration failed. Please try again.");
+      console.error("Registration error:", err); // Log error for debugging
+    }
   };
 
   return (
     <Layout>
       <Container maxWidth="xs" style={{ padding: 70 }}>
         <Box sx={{ mt: 8, mb: 4 }}>
-        <Box
-              sx={{
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0,
-                width: '40px',
-                height: '40px',
-                fontFamily: 'Poppins',
-                fontSize: '1.25rem',
-                lineHeight: 1,
-                borderRadius: '50%',
-                overflow: 'hidden',
-                userSelect: 'none',
-                color: 'rgb(255, 255, 255)',
-                margin: '8px auto', // Center the icon
-                backgroundColor: 'rgb(143, 82, 161)',
-              }}
-            >
-              <LockIcon fontSize="inherit" /> {/* Lock icon */}
-            </Box>
+          <Box
+            sx={{
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+              width: '40px',
+              height: '40px',
+              fontFamily: 'Poppins',
+              fontSize: '1.25rem',
+              lineHeight: 1,
+              borderRadius: '50%',
+              overflow: 'hidden',
+              userSelect: 'none',
+              color: 'rgb(255, 255, 255)',
+              margin: '8px auto', // Center the icon
+              backgroundColor: 'rgb(143, 82, 161)',
+            }}
+          >
+            <LockIcon fontSize="inherit" /> {/* Lock icon */}
+          </Box>
         </Box>
         <form onSubmit={handleSignup}>
+          {error && <Typography color="error">{error}</Typography>}
+          {success && <Typography color="success">{success}</Typography>}
           <TextField
             label="Email"
             variant="outlined"
@@ -126,7 +141,7 @@ const SignUp = () => {
             type="submit"
             variant="contained"
             fullWidth
-            sx={{ 
+            sx={{
               mt: 2,
               backgroundColor: 'rgb(106, 57, 162)', // Button background color
               '&:hover': {

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import Layout from "../Layout/Layout";
 import {
   TextField,
@@ -16,11 +17,34 @@ import LockIcon from '@mui/icons-material/Lock';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleLogin = (e) => {
+
+
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add login logic here (e.g., API call)
-    console.log('Logging in with:', { email, password });
+
+    if (!email || !password) {
+      setError('Please enter both email and password');
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://localhost:3000/User/Login', { 
+        email,
+        password,
+      });
+
+      if (response.status === 201) {
+        localStorage.setItem('token', response.data.token);
+        window.location.href = '/dashboard'; 
+      } else {
+        setError(response.data.message);
+      }
+    } catch (error) {
+      setError(error.response?.data?.message || 'Failed to login');
+    }
   };
 
   return (
@@ -51,7 +75,7 @@ const Login = () => {
             >
               <LockIcon fontSize="inherit" /> {/* Lock icon */}
             </Box>
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleSubmit}>
               <TextField
                 label="Email"
                 variant="outlined"

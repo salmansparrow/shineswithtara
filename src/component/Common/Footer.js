@@ -19,7 +19,7 @@ const navItems = [
   { label: "Watch", path: "/watch" },
   { label: "About", path: "/about" },
   { label: "Main Character", path: "/maincharacter" },
-  { label: "Contact Us", path: "/contact" },
+  { label: "Contact Us", path: "/contactus" },
   { label: "Event Show", path: "/eventshow" },
   { label: "Colorful Club", path: "/colorfulclub" },
 ];
@@ -33,7 +33,6 @@ function Footer() {
   ];
 
   return (
-    <>
       <Box className="footer">
         <div className="container">
           <Grid container spacing={3}>
@@ -116,7 +115,7 @@ function Footer() {
           </Typography>
         </div>
       </Box>
-    </>
+
   );
 }
 
