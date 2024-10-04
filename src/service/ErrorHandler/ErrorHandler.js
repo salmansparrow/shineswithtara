@@ -1,8 +1,8 @@
 export const ErrorHandler = (error) => {
     if (error.response) {
-      if (error.response.status === 401) {
+      if (error.response.status === 401 || error.response.status === 400) {
         localStorage.clear()
-        window.location.href = '/'; 
+        // window.location.href = '/'; 
        
       }
       return error.response.data.message;

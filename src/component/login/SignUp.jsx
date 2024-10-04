@@ -12,24 +12,17 @@ const SignUp = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const handleSignup = async (e) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
-
+  const handleSignUp = async (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+    const userData = { email, password, confirmPassword }; 
     try {
-      const userData = { email, password }; // Prepare user data
-      await AuthService.register(userData); // Call the registration service
-      setSuccess("Registration successful! Please log in.");
-      console.log("Registration successful:", userData); // Log successful registration
-      setEmail(""); // Clear input fields
-      setPassword("");
-      setConfirmPassword("");
-    } catch (err) {
-      setError("Registration failed. Please try again.");
-      console.error("Registration error:", err); // Log error for debugging
+      const response = await AuthService.register(userData);
+      setSuccess("Registration successful!"); // Set success message
+      console.log("Registration successful:", response);
+    } catch (error) {
+      // Log the error and set error message to state
+      console.error("Error caught in registration:", error); 
+      setError(`Error: ${error.message}`); // Set a user-friendly error message
     }
   };
 
@@ -60,9 +53,9 @@ const SignUp = () => {
             <LockIcon fontSize="inherit" /> {/* Lock icon */}
           </Box>
         </Box>
-        <form onSubmit={handleSignup}>
-          {error && <Typography color="error">{error}</Typography>}
-          {success && <Typography color="success">{success}</Typography>}
+        <form onSubmit={handleSignUp}>
+          {error && <Typography color="error">Email Already used</Typography>} {/* Display error */}
+          {success && <Typography color="success">{success}</Typography>} {/* Display success */}
           <TextField
             label="Email"
             variant="outlined"
@@ -71,21 +64,6 @@ const SignUp = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            InputProps={{
-              sx: {
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "rgba(0, 0, 0, 0.23)", // Default border color
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "rgb(106, 57, 162)", // Border color on hover
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "rgb(106, 57, 162)", // Border color on focus
-                  },
-                },
-              },
-            }}
           />
           <TextField
             label="Password"
@@ -96,21 +74,6 @@ const SignUp = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            InputProps={{
-              sx: {
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "rgba(0, 0, 0, 0.23)", // Default border color
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "rgb(106, 57, 162)", // Border color on hover
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "rgb(106, 57, 162)", // Border color on focus
-                  },
-                },
-              },
-            }}
           />
           <TextField
             label="Confirm Password"
@@ -121,21 +84,6 @@ const SignUp = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
-            InputProps={{
-              sx: {
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "rgba(0, 0, 0, 0.23)", // Default border color
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "rgb(106, 57, 162)", // Border color on hover
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "rgb(106, 57, 162)", // Border color on focus
-                  },
-                },
-              },
-            }}
           />
           <Button
             type="submit"

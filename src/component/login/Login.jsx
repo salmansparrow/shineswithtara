@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import Layout from "../Layout/Layout";
 import {
   TextField,
@@ -11,48 +10,53 @@ import {
   CardContent,
   CardActions,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LockIcon from '@mui/icons-material/Lock'; 
+import AuthService from '../../service/Auth/auth';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-
-
-
+  const navigate = useNavigate(); // Initialize useNavigate
   
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
-      setError('Please enter both email and password');
-      return;
+        setError('Please enter both email and password');
+        return;
     }
+
+    const credentials = { email, password };
 
     try {
-      const response = await axios.post('http://localhost:3000/User/Login', { 
-        email,
-        password,
-      });
-
-      if (response.status === 201) {
-        localStorage.setItem('token', response.data.token);
-        window.location.href = '/dashboard'; 
-      } else {
-        setError(response.data.message);
-      }
+        const response = await AuthService.login(credentials);
+        console.log("Login response:", response); // Debug log
+        // Handle successful login
+        if (response) {
+            localStorage.setItem('token', response.token); // Store the token
+         
+            navigate('/'); // Redirect to home page on success
+          } else {
+            // If response status is not 200 or 201, handle it as a failed login
+            setError(response.data?.message || 'Login nhi ho rha ');
+        }
     } catch (error) {
-      setError(error.response?.data?.message || 'Failed to login');
+        // Improved error handling
+        console.error("Login error:", error); // Debug log
+
+        // Ensure we safely access the message property
+        const errorMessage = error.response?.data?.message || error.message || 'Failed to login';
+        setError(errorMessage); // Set error message
     }
-  };
+};
 
   return (
     <Layout>
       <Container maxWidth="xs" sx={{ mt: 8 }} style={{ padding: 70 }}>
         <Card sx={{ boxShadow: 'none' }}>
           <CardContent>
-      
             <Box
               sx={{
                 position: 'relative',
@@ -142,6 +146,7 @@ const Login = () => {
                 </Button>
               </CardActions>
             </form>
+            {error && <Typography color="error">{error}</Typography>} {/* Show error message */}
           </CardContent>
           <Box sx={{ p: 2, textAlign: 'center' }}>
             <Typography variant="body2">

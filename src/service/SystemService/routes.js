@@ -1,6 +1,6 @@
 const routes = {
-     
-    register: "http://localhost:3000/User/Register",      // New registration route
+    login: "http://localhost:3000/User/Login", // Example login route
+    register: "http://localhost:3000/User/Register", // Registration route
     // Add other routes as needed
 };
 
