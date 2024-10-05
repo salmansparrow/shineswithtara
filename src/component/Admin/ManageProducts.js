@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   TextField,
@@ -21,6 +21,7 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PaginationComponent from "../Pagination/Pagination";
+import productService from "../../service/addproduct/addProduct";
 
 const ManageProducts = () => {
   const [name, setName] = useState(""); // Product name
@@ -31,59 +32,94 @@ const ManageProducts = () => {
   const [imageName, setImageName] = useState(""); // Image file name
   const [books, setBooks] = useState([]); // List of products
   const [editIndex, setEditIndex] = useState(null); // Track editing index
+  const [editId, setEditId] = useState(null); // Track the ID of the product being edited
   const [currentPage, setCurrentPage] = useState(1); // Pagination state
   const [itemsPerPage, setItemsPerPage] = useState(5); // Items per page
 
   const categories = ["Books", "Coloring", "Activity-Sheets", "Extra-Sheets"]; // Sample categories
 
-  // Handle adding or updating a book
-  const handleAddBook = () => {
-    const newBook = { name, price, category, image };
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
-    if (editIndex !== null) {
-      // Update existing book
-      const updatedBooks = books.map((book, index) =>
-        index === editIndex ? newBook : book
-      );
-      setBooks(updatedBooks);
-      setEditIndex(null); // Reset after editing
-    } else {
-      // Add new book
-      setBooks([...books, newBook]);
+  // Fetch products from the database
+  const fetchProducts = async () => {
+    try {
+      const products = await productService.getProducts({ page: 1, limit: 10 });
+      setBooks(products);
+    } catch (error) {
+      console.error("Error fetching products:", error);
     }
-
-    // Clear form inputs
-    setName("");
-    setPrice("");
-    setCategory("");
-    setImage(null);
-    setImagePreview(null);
-    setImageName(""); // Clear image name
   };
 
-  // Handle editing a book
-  const handleEditBook = (index) => {
-    const book = books[index];
-    setName(book.name);
-    setPrice(book.price);
-    setCategory(book.category);
-    setImage(book.image);
-    setImagePreview(book.image);
-    setEditIndex(index);
+  // Handle adding or updating a product
+  const handleAddBook = async () => {
+    try {
+      const productData = {
+        bookName: name,
+        bookPrice: price,
+        category,
+        image,
+      };
+
+      if (editId) {
+        // If editing, call updateProduct method
+        await productService.updateProduct(editId, productData);
+      } else {
+        // Otherwise, call addProduct method
+        await productService.addProducts(productData);
+      }
+
+      // Fetch updated list after adding or editing
+      fetchProducts();
+
+      // Clear form after successful addition or update
+      clearForm();
+    } catch (error) {
+      console.error("Error saving product:", error);
+    }
   };
 
-  // Handle deleting a book
-  const handleDeleteBook = (index) => {
-    const updatedBooks = books.filter((_, i) => i !== index);
-    setBooks(updatedBooks);
-  };
-
-  // Handle image upload and preview
+  // Handle image upload
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     setImage(file);
     setImagePreview(URL.createObjectURL(file));
     setImageName(file ? file.name : ""); // Set the image name
+  };
+
+  // Clear form
+  const clearForm = () => {
+    setName("");
+    setPrice("");
+    setCategory("");
+    setImage(null);
+    setImagePreview(null);
+    setImageName("");
+    setEditIndex(null);
+    setEditId(null); // Clear editId for future add operations
+  };
+
+  // Handle editing a book
+  const handleEditBook = (index) => {
+    const book = books[index];
+    setName(book.bookName);
+    setPrice(book.bookPrice);
+    setCategory(book.category);
+    setImage(null); // Image will be set only when uploaded again
+    setImagePreview(book.imageURL); // Assuming imageURL is the URL for the image in the database
+    setEditIndex(index);
+    setEditId(book._id); // Use the product ID for editing
+  };
+
+  // Handle deleting a book
+  const handleDeleteBook = async (id) => {
+    try {
+      await productService.deleteProduct(id); // Call API to delete product
+      fetchProducts(); // Refresh product list
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
   };
 
   // Handle page change
@@ -160,16 +196,8 @@ const ManageProducts = () => {
           >
             {imageName ? imageName : "Browse Image"}{" "}
             {/* Show image name if available */}
-            {/* Show image name if available */}{" "}
             <input type="file" hidden onChange={handleImageUpload} />
           </Button>
-
-          {/* Show image name if selected
-          {imageName && (
-            <Typography variant="body2" sx={{ mt: 1, color: "gray" }}>
-              {imageName}
-            </Typography>
-          )} */}
 
           {/* Image Preview */}
           {imagePreview && (
@@ -187,11 +215,10 @@ const ManageProducts = () => {
           <Button
             variant="contained"
             onClick={handleAddBook}
-            disabled={!name || !price || !category || !image}
+            disabled={!name || !price || !category || !imagePreview}
             fullWidth
             size="medium"
             sx={{
-              // mt: { xs: 2, sm: 0 },
               backgroundColor: "rgb(143, 82, 161)",
               "&:hover": { backgroundColor: "rgb(120, 70, 140)" },
             }}
@@ -218,29 +245,29 @@ const ManageProducts = () => {
             {currentBooks.map((book, index) => (
               <TableRow key={indexOfFirstItem + index}>
                 <TableCell>{indexOfFirstItem + index + 1}</TableCell>
-                <TableCell>{book.name}</TableCell>
-                <TableCell>{book.price}</TableCell>
+                <TableCell>{book.bookName}</TableCell>
+                <TableCell>{book.bookPrice}</TableCell>
                 <TableCell>{book.category}</TableCell>
                 <TableCell>
-                  {book.image && (
-                    <img
-                      src={URL.createObjectURL(book.image)}
-                      alt="Product"
-                      width={200}
-                      height={100}
-                      style={{
-                        objectFit: "contain",
-                        borderRadius: 4,
-                      }}
-                    />
-                  )}
+                  {/* {book.imageURL && ( */}
+                  <img
+                    src={"http://localhost:3000/" + book?.imageUrl} // Assuming imageURL is provided by the database
+                    alt="Product"
+                    width={200}
+                    height={100}
+                    style={{
+                      objectFit: "contain",
+                      borderRadius: 4,
+                    }}
+                  />
+                  {/* )} */}
                 </TableCell>
                 <TableCell>
                   <IconButton onClick={() => handleEditBook(index)}>
                     <EditIcon />
                   </IconButton>
                   <IconButton
-                    onClick={() => handleDeleteBook(index)}
+                    onClick={() => handleDeleteBook(book._id)}
                     color="error"
                   >
                     <DeleteIcon />
