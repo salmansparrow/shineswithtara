@@ -10,17 +10,19 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import DeleteIcon from "@mui/icons-material/Delete"; // Import Delete icon
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useDispatch, useSelector } from "react-redux";
 import {
   decreaseQty,
   increaseQty,
   removeItem,
 } from "../../pages/features/Slice";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const CartDrawer = ({ open, onClose }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items); // Get cart items from Redux store
+  const navigate = useNavigate(); // Initialize navigate for routing
 
   const handleIncreaseQty = (id) => {
     dispatch(increaseQty(id));
@@ -31,16 +33,25 @@ const CartDrawer = ({ open, onClose }) => {
   };
 
   const handleRemoveItem = (id) => {
-    console.log(id);
-
     dispatch(removeItem(id));
-    console.log(handleRemoveItem);
   };
 
   const calculateSubtotal = () => {
     return cartItems
       .reduce((total, item) => total + item.price * item.quantity, 0)
       .toFixed(2);
+  };
+
+  // Handle Checkout
+  const handleCheckout = () => {
+    const totalAmount = calculateSubtotal();
+
+    // Navigate to the OrderTable page with the cart items and total amount
+    navigate("/order", {
+      state: { cartItems, totalAmount },
+    });
+
+    onClose(); // Close the drawer after checkout
   };
 
   return (
@@ -57,12 +68,7 @@ const CartDrawer = ({ open, onClose }) => {
         },
       }}
     >
-      <Box
-        sx={{
-          width: 350,
-          padding: 2,
-        }}
-      >
+      <Box sx={{ width: 350, padding: 2 }}>
         {/* Cart Header */}
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="h6">Shopping Cart</Typography>
@@ -86,21 +92,18 @@ const CartDrawer = ({ open, onClose }) => {
                   alignItems="center"
                   sx={{ my: 2 }}
                 >
-                  {/* Image */}
                   <img
                     src={item.image}
                     alt={item.name}
                     style={{ width: 60, height: 60 }}
                   />
 
-                  {/* Item Details */}
                   <Box sx={{ flexGrow: 1, ml: 2 }}>
                     <Typography variant="body2">{item.name}</Typography>
                     <Typography variant="body2">
                       Price: ${item?.price?.toFixed(2)}
                     </Typography>
                     <Box display="flex" alignItems="center">
-                      {/* Quantity Controls */}
                       <IconButton
                         size="small"
                         onClick={() => handleDecreaseQty(item.id)}
@@ -120,12 +123,10 @@ const CartDrawer = ({ open, onClose }) => {
                     </Box>
                   </Box>
 
-                  {/* Total Price for the item */}
                   <Typography variant="body2" sx={{ ml: 2 }}>
                     ${(item.price * item.quantity).toFixed(2)}
                   </Typography>
 
-                  {/* Remove Item Button */}
                   <IconButton
                     size="small"
                     onClick={() => handleRemoveItem(item.id)}
@@ -147,7 +148,12 @@ const CartDrawer = ({ open, onClose }) => {
                 ${calculateSubtotal()}
               </Typography>
             </Box>
-            <Button variant="contained" color="primary" fullWidth>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              onClick={handleCheckout}
+            >
               Checkout
             </Button>
           </Box>
