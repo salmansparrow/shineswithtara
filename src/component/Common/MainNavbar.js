@@ -21,9 +21,11 @@ import navlogo from "../../images/nav/nav-logo.png";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import CartDrawer from "./CartDrawer"; // Import your CartDrawer component
+import FallbackAvatars from "./FallBackAvatar"; // Import the FallbackAvatars component
 
 const drawerWidth = 240;
 
+// Navigation items with dropdown support
 const navItems = [
   { label: "Home", path: "/" },
   { label: "Shop", path: "/shop" },
@@ -33,6 +35,7 @@ const navItems = [
   { label: "More", path: "/colorfulclub", hasDropdown: true },
 ];
 
+// Dropdown items for the "More" menu
 const moreDropdownItems = [
   { label: "Contact Us", path: "/ContactUs" },
   { label: "About", path: "/about" },
@@ -46,6 +49,7 @@ function MainNavbar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [cartOpen, setCartOpen] = React.useState(false);
   const [cartItems, setCartItems] = React.useState([]); // State for cart items
+
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
@@ -147,6 +151,9 @@ function MainNavbar(props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
+  // Check if the token is available in local storage
+  const token = localStorage.getItem("token");
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -174,13 +181,13 @@ function MainNavbar(props) {
             <img src={navlogo} height={35} width={180} alt="Navigation Logo" />
           </Typography>
 
+          {/* Hide navigation links below 1200px */}
           <Box
             sx={{
               position: "absolute",
               left: "50%",
               transform: "translateX(-50%)",
-              display: { xs: "none", sm: "flex" },
-              "@media (max-width:1200px)": { display: "none" },
+              display: { xs: "none", lg: "flex" }, // Hide on small screens and show on large screens
               whiteSpace: "nowrap",
             }}
           >
@@ -246,77 +253,82 @@ function MainNavbar(props) {
               </Badge>
             </IconButton>
 
-            <Button variant="outlined" color="inherit" sx={{ px: 1 }}>
-              Login
-            </Button>
+            {/* Conditionally render FallbackAvatars or Login Button */}
+            {token ? (
+              <FallbackAvatars />
+            ) : (
+              <Button
+                component={NavLink}
+                to="/login" // Adjust the path to your login page
+                sx={{
+                  color: "#fff",
+                  ":hover": {
+                    backgroundColor: "rgba(143, 82, 161, 0.04)",
+                  },
+                  ":active": {
+                    backgroundColor: "rgb(143, 82, 161) !important",
+                  },
+                  padding: "6px 16px",
+                  marginLeft: 2, // Add margin for spacing
+                }}
+              >
+                Login
+              </Button>
+            )}
 
+            {/* Menu Icon - Only visible below 1200px */}
             <IconButton
               color="inherit"
               aria-label="open drawer"
-              edge="end"
               onClick={handleDrawerToggle}
-              sx={{
-                display: {
-                  lg: "none",
-                },
-              }}
+              sx={{ display: { xs: "block", sm: "block", md: "block", lg: "none" } }} // Show on small and medium, hide on large
             >
               <MenuIcon />
             </IconButton>
           </Box>
         </Toolbar>
       </AppBar>
+      {/* Drawer component */}
+      <Drawer
+        container={container}
+        variant="temporary"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
+        sx={{
+          display: { xs: "block", sm: "block", md: "block", lg: "none" }, // Ensure it's block on small and medium screens
+          "& .MuiDrawer-paper": {
+            boxSizing: "border-box",
+            width: drawerWidth,
+          },
+        }}
+      >
+        {drawer}
+      </Drawer>
 
+      {/* More dropdown menu */}
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
       >
         {moreDropdownItems.map((item) => (
-          <MenuItem key={item.label} onClick={handleMenuClose}>
-            <NavLink
-              to={item.path}
-              style={{
-                textDecoration: "none",
-                color: "inherit",
-                width: "100%",
-              }}
-            >
-              {item.label}
-            </NavLink>
+          <MenuItem
+            key={item.label}
+            onClick={() => handleMenuClose()}
+            component={NavLink}
+            to={item.path}
+          >
+            {item.label}
           </MenuItem>
         ))}
       </Menu>
 
-      <nav>
-        <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true,
-          }}
-          sx={{
-            display: { xs: "block", sm: "block" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
-        >
-          {drawer}
-        </Drawer>
-      </nav>
-
-      {/* Pass open state and onClose handler to CartDrawer */}
+      {/* Cart Drawer component */}
       <CartDrawer
-        open={cartOpen} // Open state for CartDrawer
-        onClose={handleCartClose} // Close handler for CartDrawer
-        cartItems={cartItems} // Items to display in the CartDrawer
+        open={cartOpen}
+        onClose={handleCartClose}
+        cartItems={cartItems}
+        addItemToCart={addItemToCart}
       />
     </Box>
   );

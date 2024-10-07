@@ -36,7 +36,6 @@ const Login = () => {
         // Handle successful login
         if (response) {
             localStorage.setItem('token', response.token); // Store the token
-         
             navigate('/'); // Redirect to home page on success
           } else {
             // If response status is not 200 or 201, handle it as a failed login

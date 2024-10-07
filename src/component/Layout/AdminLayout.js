@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
-
+import { useNavigate } from 'react-router-dom';
 import {
   AppBar,
   Toolbar,
@@ -13,6 +13,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Sidebar from "../Admin/SideBar/SideBar";
 
 export default function AdminLayout() {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
 
   // Handle profile menu open
@@ -22,6 +23,8 @@ export default function AdminLayout() {
 
   // Handle profile menu close
   const handleMenuClose = () => {
+    localStorage.removeItem('token');
+    navigate('/admin');
     setAnchorEl(null);
   };
 
