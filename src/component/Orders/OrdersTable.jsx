@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -13,6 +13,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import { useLocation } from "react-router-dom";
 
 // Sample product data
 const productData = [
@@ -37,6 +38,11 @@ const productData = [
 const OrderTable = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm")); // Check if the screen is small
+  const location = useLocation();
+  const { cartItems, totalAmount } = location.state || {
+    cartItems: [],
+    totalAmount: 0,
+  };
 
   return (
     <Box p={4}>
@@ -64,35 +70,37 @@ const OrderTable = () => {
             <TableRow sx={{ backgroundColor: "rgb(189, 168, 225)" }}>
               <TableCell sx={{ fontWeight: "bold" }}>No of Items</TableCell>
               <TableCell sx={{ fontWeight: "bold" }}>Product Image</TableCell>
-              <TableCell sx={{ fontWeight: "bold" }}>Product Name & Price</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>
+                Product Name & Price
+              </TableCell>
               <TableCell sx={{ fontWeight: "bold" }}>Quantity</TableCell>
               <TableCell sx={{ fontWeight: "bold" }}>Total</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {productData.map((product, index) => (
-              <TableRow key={product.id} sx={{ backgroundColor: "rgb(189, 168, 225)" }}>
-                {/* No of Items */}
+            {cartItems.map((product, index) => (
+              <TableRow
+                key={product.id}
+                sx={{ backgroundColor: "rgb(189, 168, 225)" }}
+              >
                 <TableCell>{index + 1}</TableCell>
-
-                {/* Product Image */}
                 <TableCell>
-                  <Avatar src={product.image} alt={product.name} sx={{ width: 50, height: 50 }} />
+                  <Avatar
+                    src={product.image}
+                    alt={product.name}
+                    sx={{ width: 50, height: 50 }}
+                  />
                 </TableCell>
-
-                {/* Product Name & Price */}
                 <TableCell>
                   <Typography variant="body1">{product.name}</Typography>
                   <Typography variant="body2" color="textSecondary">
                     Price: ${product.price}
                   </Typography>
                 </TableCell>
-
-                {/* Quantity */}
                 <TableCell>{product.quantity}</TableCell>
-
-                {/* Total */}
-                <TableCell>${product.total}</TableCell>
+                <TableCell>
+                  ${(product.price * product.quantity).toFixed(2)}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -51,6 +51,16 @@ const CartDrawer = ({ open, onClose }) => {
     } else {
       navigate("/order"); 
     }
+  // Handle Checkout
+  const handleCheckout = () => {
+    
+
+    // Navigate to the OrderTable page with the cart items and total amount
+    navigate("/order", {
+      state: { cartItems, totalAmount },
+    });
+
+    onClose(); // Close the drawer after checkout
   };
 
   return (
@@ -126,4 +136,4 @@ const CartDrawer = ({ open, onClose }) => {
   );
 };
 
-export default CartDrawer;
+export default CartDrawer
