@@ -10,23 +10,25 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
+import manageOrder from "../features/manageOrder";
 
-// Configure persist settings
+// Persist configuration
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["cart"], // Add slices of state you want to persist
+  whitelist: ["cart"], // Specify slices of state you want to persist
 };
 
 // Combine reducers
 const rootReducer = combineReducers({
   cart: cartReducer,
+  order: manageOrder,
 });
 
 // Create a persisted reducer using persistConfig
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-// Configure the store with middleware adjustments
+// Configure the store
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
@@ -35,7 +37,8 @@ export const store = configureStore({
         // Ignore Redux Persist actions from serializability checks
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }), // No need to add thunk explicitly, it's already included in default middleware
 });
 
+// Persistor
 export const persistor = persistStore(store);

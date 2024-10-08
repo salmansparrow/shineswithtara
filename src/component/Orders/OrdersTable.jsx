@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+// src/components/OrderTable.js
 import {
   Box,
   Typography,
@@ -15,34 +15,18 @@ import {
 } from "@mui/material";
 import { useLocation } from "react-router-dom";
 
-// Sample product data
-const productData = [
-  {
-    id: 1,
-    name: "Sample Product 1",
-    price: 50,
-    image: "https://via.placeholder.com/100",
-    quantity: 2,
-    total: 100,
-  },
-  {
-    id: 2,
-    name: "Sample Product 2",
-    price: 75,
-    image: "https://via.placeholder.com/100",
-    quantity: 1,
-    total: 75,
-  },
-];
-
-const OrderTable = () => {
+const OrderTable = ({
+  cartItems: propsCartItems,
+  totalAmount: propsTotalAmount,
+}) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm")); // Check if the screen is small
   const location = useLocation();
-  const { cartItems, totalAmount } = location.state || {
-    cartItems: [],
-    totalAmount: 0,
-  };
+
+  // Use location.state as fallback if no props are passed from OrderPage
+  const { cartItems, totalAmount } = propsCartItems
+    ? { cartItems: propsCartItems, totalAmount: propsTotalAmount }
+    : location.state || { cartItems: [], totalAmount: 0 };
 
   return (
     <Box p={4}>
