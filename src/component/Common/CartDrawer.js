@@ -44,7 +44,6 @@ const CartDrawer = ({ open, onClose }) => {
   };
 
   const handleCheckout = () => {
-<<<<<<< HEAD
     const token = localStorage.getItem("token");
     if (!token) {
       navigate("/login"); 
@@ -54,7 +53,6 @@ const CartDrawer = ({ open, onClose }) => {
         state: { cartItems, totalAmount: calculateSubtotal() }, // Include total amount
       });
     }
-=======
     const totalAmount = calculateSubtotal(); // Calculate the total amount
 
     localStorage.setItem("cartItems", JSON.stringify(cartItems)); // Store cart items in localStorage
@@ -66,7 +64,6 @@ const CartDrawer = ({ open, onClose }) => {
     });
 
     // Clear the cart in Redux and localStorage after checkout
->>>>>>> f8daa1c54242f366b71ed47182ffb1e7f01c52b5
     onClose(); // Close the drawer after checkout
   };
 
