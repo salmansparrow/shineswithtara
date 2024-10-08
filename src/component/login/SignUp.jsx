@@ -14,14 +14,14 @@ const SignUp = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
-    const userData = { email, password, confirmPassword }; 
+    const userData = { email, password, confirmPassword };
     try {
       const response = await AuthService.register(userData);
       setSuccess("Registration successful!"); // Set success message
       console.log("Registration successful:", response);
     } catch (error) {
       // Log the error and set error message to state
-      console.error("Error caught in registration:", error); 
+      console.error("Error caught in registration:", error);
       setError(`Error: ${error.message}`); // Set a user-friendly error message
     }
   };
@@ -54,8 +54,10 @@ const SignUp = () => {
           </Box>
         </Box>
         <form onSubmit={handleSignUp}>
-          {error && <Typography color="error">Email Already used</Typography>} {/* Display error */}
-          {success && <Typography color="success">{success}</Typography>} {/* Display success */}
+          {error && <Typography color="error">Email Already used</Typography>}{" "}
+          {/* Display error */}
+          {success && <Typography color="success">{success}</Typography>}{" "}
+          {/* Display success */}
           <TextField
             label="Email"
             variant="outlined"

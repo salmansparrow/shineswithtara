@@ -1,8 +1,17 @@
-import React from "react";
-import { Box, Typography, TextField, Button, Grid } from "@mui/material"; 
+import React, { useState } from "react";
+import { Box, Typography, TextField, Button, Grid } from "@mui/material";
 import star from "../../images/watch/star.png";
+import { useLocation } from "react-router-dom";
 
 const OrderForm = () => {
+  const location = useLocation();
+  const { cartItems, totalAmount } = location.state || {
+    cartItems: [],
+    totalAmount: 0,
+  }; // Fallback if no cart data
+
+  const [formData, setFormData] = {};
+
   return (
     <Grid container justifyContent="center">
       <Grid item xs={12} md={8}>
@@ -79,44 +88,44 @@ const OrderForm = () => {
             <TextField
               label="First Name"
               variant="outlined"
-              sx={{ 
-                backgroundColor: "white", 
-                boxSizing: 'border-box', // Apply border-box sizing
-                '& .MuiOutlinedInput-root': {
-                  boxSizing: 'border-box', // Ensures border-box applies to the outer element as well
+              sx={{
+                backgroundColor: "white",
+                boxSizing: "border-box", // Apply border-box sizing
+                "& .MuiOutlinedInput-root": {
+                  boxSizing: "border-box", // Ensures border-box applies to the outer element as well
                 },
               }}
             />
             <TextField
               label="Last Name"
               variant="outlined"
-              sx={{ 
-                backgroundColor: "white", 
-                boxSizing: 'border-box',
-                '& .MuiOutlinedInput-root': {
-                  boxSizing: 'border-box',
+              sx={{
+                backgroundColor: "white",
+                boxSizing: "border-box",
+                "& .MuiOutlinedInput-root": {
+                  boxSizing: "border-box",
                 },
               }}
             />
             <TextField
               label="Email"
               variant="outlined"
-              sx={{ 
-                backgroundColor: "white", 
-                boxSizing: 'border-box',
-                '& .MuiOutlinedInput-root': {
-                  boxSizing: 'border-box',
+              sx={{
+                backgroundColor: "white",
+                boxSizing: "border-box",
+                "& .MuiOutlinedInput-root": {
+                  boxSizing: "border-box",
                 },
               }}
             />
             <TextField
               label="Phone"
               variant="outlined"
-              sx={{ 
-                backgroundColor: "white", 
-                boxSizing: 'border-box',
-                '& .MuiOutlinedInput-root': {
-                  boxSizing: 'border-box',
+              sx={{
+                backgroundColor: "white",
+                boxSizing: "border-box",
+                "& .MuiOutlinedInput-root": {
+                  boxSizing: "border-box",
                 },
               }}
             />
@@ -128,9 +137,9 @@ const OrderForm = () => {
               sx={{
                 gridColumn: { xs: "span 1", sm: "span 2" },
                 backgroundColor: "white",
-                boxSizing: 'border-box',
-                '& .MuiOutlinedInput-root': {
-                  boxSizing: 'border-box',
+                boxSizing: "border-box",
+                "& .MuiOutlinedInput-root": {
+                  boxSizing: "border-box",
                 },
               }} // Span 2 columns on sm screens and up
             />
@@ -141,9 +150,9 @@ const OrderForm = () => {
                 marginTop: "20px",
                 backgroundColor: "rgb(249, 191, 41)",
                 color: "white",
-                padding: "10px 10px", 
+                padding: "10px 10px",
                 "&:hover": {
-                  backgroundColor: "rgba(136, 71, 155, 0.95)", 
+                  backgroundColor: "rgba(136, 71, 155, 0.95)",
                 },
               }}
             >

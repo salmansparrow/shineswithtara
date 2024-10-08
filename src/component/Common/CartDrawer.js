@@ -18,8 +18,7 @@ import {
   removeItem,
 } from "../../pages/features/Slice";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify"; 
-
+import { ToastContainer } from "react-toastify"; 
 
 const CartDrawer = ({ open, onClose }) => {
   const dispatch = useDispatch();
@@ -49,17 +48,11 @@ const CartDrawer = ({ open, onClose }) => {
     if (!token) {
       navigate("/login"); 
     } else {
-      navigate("/order"); 
+      // Navigate to the OrderTable page with the cart items and total amount
+      navigate("/order", {
+        state: { cartItems, totalAmount: calculateSubtotal() }, // Include total amount
+      });
     }
-  // Handle Checkout
-  const handleCheckout = () => {
-    
-
-    // Navigate to the OrderTable page with the cart items and total amount
-    navigate("/order", {
-      state: { cartItems, totalAmount },
-    });
-
     onClose(); // Close the drawer after checkout
   };
 
@@ -136,4 +129,4 @@ const CartDrawer = ({ open, onClose }) => {
   );
 };
 
-export default CartDrawer
+export default CartDrawer;
