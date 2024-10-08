@@ -1,16 +1,77 @@
 import React, { useState } from "react";
 import { Box, Typography, TextField, Button, Grid } from "@mui/material";
 import star from "../../images/watch/star.png";
-import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { placeOrder } from "../../pages/features/manageOrder";
 
-const OrderForm = () => {
-  const location = useLocation();
-  const { cartItems, totalAmount } = location.state || {
-    cartItems: [],
-    totalAmount: 0,
-  }; // Fallback if no cart data
+const OrderForm = ({ cartItems, totalAmount, clearCart }) => {
+  const dispatch = useDispatch();
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    address: "",
+  });
+  // Handle form field change
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
-  const [formData, setFormData] = {};
+  // Handle form submission (simulated order placement)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Ensure all fields are filled in
+    if (
+      !formData.firstName ||
+      !formData.lastName ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.address
+    ) {
+      alert("Please fill in all the fields.");
+      return;
+    }
+
+    // Prepare the order data
+    const orderData = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      phone: formData.phone,
+      address: formData.address,
+      items: cartItems, // Cart items passed via props
+      totalAmount: totalAmount,
+    };
+
+    console.log(orderData.items);
+
+    try {
+      // Send the order to the backend
+      // await orderService.addOrder(orderData);
+      await dispatch(placeOrder(orderData)).unwrap();
+      alert("Order placed successfully!");
+      // Clear form fields
+      // dispatch(clearCart());
+      clearCart();
+
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        address: "",
+      });
+    } catch (error) {
+      console.error("Error placing order:", error);
+      alert("There was a problem placing your order.");
+    }
+  };
 
   return (
     <Grid container justifyContent="center">
@@ -75,6 +136,7 @@ const OrderForm = () => {
           {/* Form Fields */}
           <Box
             component="form"
+            onSubmit={handleSubmit} // Form submission handler
             sx={{
               display: "grid",
               gridTemplateColumns: {
@@ -87,17 +149,23 @@ const OrderForm = () => {
           >
             <TextField
               label="First Name"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
               variant="outlined"
               sx={{
                 backgroundColor: "white",
-                boxSizing: "border-box", // Apply border-box sizing
+                boxSizing: "border-box",
                 "& .MuiOutlinedInput-root": {
-                  boxSizing: "border-box", // Ensures border-box applies to the outer element as well
+                  boxSizing: "border-box",
                 },
               }}
             />
             <TextField
               label="Last Name"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
               variant="outlined"
               sx={{
                 backgroundColor: "white",
@@ -109,6 +177,9 @@ const OrderForm = () => {
             />
             <TextField
               label="Email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               variant="outlined"
               sx={{
                 backgroundColor: "white",
@@ -120,6 +191,9 @@ const OrderForm = () => {
             />
             <TextField
               label="Phone"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
               variant="outlined"
               sx={{
                 backgroundColor: "white",
@@ -131,6 +205,9 @@ const OrderForm = () => {
             />
             <TextField
               label="Address"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
               variant="outlined"
               multiline
               rows={4}
@@ -144,6 +221,7 @@ const OrderForm = () => {
               }} // Span 2 columns on sm screens and up
             />
             <Button
+              type="submit"
               variant="contained"
               sx={{
                 gridColumn: "1 / -1", // Take full width

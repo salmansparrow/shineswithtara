@@ -44,13 +44,17 @@ const CartDrawer = ({ open, onClose }) => {
 
   // Handle Checkout
   const handleCheckout = () => {
-    const totalAmount = calculateSubtotal();
+    const totalAmount = calculateSubtotal(); // Calculate the total amount
 
-    // Navigate to the OrderTable page with the cart items and total amount
+    localStorage.setItem("cartItems", JSON.stringify(cartItems)); // Store cart items in localStorage
+    localStorage.setItem("totalAmount", totalAmount); // Store total amount in localStorage
+
+    // Navigate to the order page
     navigate("/order", {
-      state: { cartItems, totalAmount },
+      state: { cartItems, totalAmount }, // Passing cart items and total amount via state
     });
 
+    // Clear the cart in Redux and localStorage after checkout
     onClose(); // Close the drawer after checkout
   };
 

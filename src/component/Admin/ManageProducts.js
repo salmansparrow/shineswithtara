@@ -252,6 +252,7 @@ const ManageProducts = () => {
                   {/* {book.imageURL && ( */}
                   <img
                     src={"http://localhost:3000/" + book?.imageUrl} // Assuming imageURL is provided by the database
+                    // src={book?.imageURL}
                     alt="Product"
                     width={200}
                     height={100}

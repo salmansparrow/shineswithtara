@@ -6,6 +6,12 @@ const routes = {
   updateProduct: "http://localhost:3000/Product/ProductUpdate", // Update product route (id will be appended)
   deleteProduct: "http://localhost:3000/Product/ProductDelete", // Delete product route (id will be appended)
 
+  // Order routes
+  addOrder: "http://localhost:3000/Order/AddOrder", // Route to add an order
+  getOrders: "http://localhost:3000/Order/GetOrders", // Route to fetch all orders
+  getOrderById: "http://localhost:3000/Order/GetOrder", // Fetch single order by ID
+  updateOrder: "http://localhost:3000/Order/Update", // Update order by ID (append /:id)
+
   // Add other routes as needed
 };
 
