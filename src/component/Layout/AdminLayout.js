@@ -24,7 +24,7 @@ export default function AdminLayout() {
   // Handle profile menu close
   const handleMenuClose = () => {
     localStorage.removeItem('token');
-    navigate('/admin');
+    navigate('/adminlogin');
     setAnchorEl(null);
   };
 

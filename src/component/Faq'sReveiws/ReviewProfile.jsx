@@ -1,51 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, Avatar, Typography, Box, IconButton, Grid } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material"; // Import Material-UI icons
-
-// Sample data for reviews
-const reviewsData = [
-  {
-    name: "John Doe",
-    image: "path/to/profile-pic1.jpg", // Replace with your profile image path
-    stars: "★★★★☆",
-    review: "This is an amazing product! Highly recommend to everyone.",
-  },
-  {
-    name: "Jane Smith",
-    image: "path/to/profile-pic2.jpg", // Replace with your profile image path
-    stars: "★★★★★",
-    review: "Absolutely loved it! Will buy again.",
-  },
-  {
-    name: "Alice Johnson",
-    image: "path/to/profile-pic3.jpg", // Replace with your profile image path
-    stars: "★★★☆☆",
-    review: "Good, but there’s room for improvement.",
-  },
-  {
-    name: "Michael Brown",
-    image: "path/to/profile-pic4.jpg", // Replace with your profile image path
-    stars: "★★☆☆☆",
-    review: "Not what I expected.",
-  },
-  {
-    name: "Emily Davis",
-    image: "path/to/profile-pic5.jpg", // Replace with your profile image path
-    stars: "★★★★★",
-    review: "Excellent service, very satisfied!",
-  },
-  {
-    name: "David Wilson",
-    image: "path/to/profile-pic6.jpg", // Replace with your profile image path
-    stars: "★★★★☆",
-    review: "Great quality, will purchase again.",
-  },
-  // Add more reviews as needed
-];
+import { getReviews } from "../../service/Reviews/index"; // Adjust the import path as necessary
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder'; // Importing the empty star icon
 
 const ReviewsProfile = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [reviewsData, setReviewsData] = useState([]); // State for reviews
   const itemsToShow = 3; // Default number of reviews to show
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const reviews = await getReviews(); // Fetch reviews from the backend
+        setReviewsData(reviews); // Update state with fetched reviews
+      } catch (error) {
+        console.error("Failed to fetch reviews:", error);
+      }
+    };
+
+    fetchReviews(); // Call the fetch function
+  }, []); // Empty dependency array means this runs once when the component mounts
+
+  // Function to render stars based on the rating
+  const renderStars = (rating) => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      if (i <= rating) {
+        stars.push(<StarIcon key={i} style={{ color: "yellow" }} />); // Filled star with yellow color
+      } else {
+        stars.push(<StarBorderIcon key={i} style={{ color: "yellow" }} />); // Empty star with yellow color
+      }
+    }
+    return stars;
+  };
 
   // Navigate to the next set of reviews
   const nextReviews = () => {
@@ -102,15 +91,13 @@ const ReviewsProfile = () => {
 
                         {/* Rating Stars */}
                         <Box display="flex" alignItems="center">
-                          <Typography variant="body1" color="yellow">
-                            {review.stars}
-                          </Typography>
+                          {renderStars(review.rating)} {/* Render stars based on rating */}
                         </Box>
                       </Box>
                     </Box>
                     {/* Review Message */}
                     <Typography variant="body2" mt={1}>
-                      "{review.review}"
+                      "{review.comment}"
                     </Typography>
                   </CardContent>
                 </Card>

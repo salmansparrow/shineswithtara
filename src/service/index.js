@@ -4,7 +4,7 @@ import { ErrorHandler } from "./ErrorHandler/ErrorHandler.js";
 export const get = async (endPoint, params) => {
   try {
     const result = await instance.get(endPoint, { params: params });
-    if (result.status === 200 || result.status === 206 || result.status === 202)
+    if (result.status === 200 || result.status === 206 || result.status === 202 )
       return result.data;
     else throw result;
   } catch (e) {

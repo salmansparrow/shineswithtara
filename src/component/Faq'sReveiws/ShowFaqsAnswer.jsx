@@ -1,33 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
+import { getFaqs } from '../../service/faq/index'; // Adjust this import based on your file structure
 
 const ShowFaqsAnswer = () => {
   // State to manage which FAQ is open
   const [openIndices, setOpenIndices] = useState([]);
+  const [faqs, setFaqs] = useState([]); // State to store fetched FAQs
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null); 
 
-  // Hardcoded questions and answers
-  const faqs = [
-    {
-      question: "What is your return policy?",
-      answer: "You can return any item within 30 days of purchase for a full refund."
-    },
-    {
-      question: "How long does shipping take?",
-      answer: "Shipping usually takes between 3-5 business days."
-    },
-    {
-      question: "Do you ship internationally?",
-      answer: "Yes, we ship to most countries around the world."
-    },
-    {
-      question: "How can I track my order?",
-      answer: "You will receive a tracking number via email once your order has shipped."
-    },
-    {
-      question: "What payment methods do you accept?",
-      answer: "We accept credit cards, PayPal, and bank transfers."
-    },
-  ];
+
+  useEffect(() => {
+    
+
+    fetchFaqs();
+  }, []); 
+
+  // Fetch FAQs on component mount
+  const fetchFaqs = async () => {
+    try {
+      const faqData = await getFaqs(); // Call the getFaqs function
+      setFaqs(faqData); // Set fetched FAQs in state
+    } catch (err) {
+      setError("Failed to fetch FAQs. Please try again later.");
+      console.error("Error fetching FAQs: ", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  
 
   // Function to handle click on question
   const handleToggle = (index) => {
@@ -40,6 +42,15 @@ const ShowFaqsAnswer = () => {
     }
   };
 
+  // Show loading or error message
+  if (loading) {
+    return <Typography variant="body1">Loading FAQs...</Typography>;
+  }
+
+  if (error) {
+    return <Typography variant="body1" color="error">{error}</Typography>;
+  }
+
   return (
     <Box
       sx={{
@@ -50,11 +61,11 @@ const ShowFaqsAnswer = () => {
     >
       <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
         {faqs.map((faq, index) => (
-          <Box key={index} sx={{ flex: "0 0 45%", margin: "5px" }}>
+          <Box key={faq._id} sx={{ flex: "0 0 45%", margin: "5px" }}> {/* Use faq._id as key */}
             <Box
               onClick={() => handleToggle(index)}
               sx={{
-                backgroundColor: "rgb(171, 202, 255)", // Keeping original background color
+                backgroundColor: "rgb(171, 202, 255)",
                 color: "black",
                 padding: "15px",
                 marginBottom: "5px",
@@ -63,9 +74,9 @@ const ShowFaqsAnswer = () => {
                 position: "relative",
                 display: "flex",
                 flexDirection: "column",
-                border: "1px solid black", // Border for the card
-                transition: "0.2s", // Smooth transition effect
-                boxShadow: openIndices.includes(index) ? "0 2px 10px rgba(0, 0, 0, 0.2)" : "none", // Shadow effect when expanded
+                border: "1px solid black",
+                transition: "0.2s",
+                boxShadow: openIndices.includes(index) ? "0 2px 10px rgba(0, 0, 0, 0.2)" : "none",
               }}
             >
               <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -77,13 +88,12 @@ const ShowFaqsAnswer = () => {
                 </span>
               </Box>
 
-              {/* Display answer inside the card when expanded */}
               {openIndices.includes(index) && (
                 <Typography variant="body2" sx={{
                   fontSize: "0.9rem",
-                  marginTop: "10px", // Space between question and answer
-                  padding: "10px 0", // Padding for the answer
-                  color: "black", // Maintain text color
+                  marginTop: "10px",
+                  padding: "10px 0",
+                  color: "black",
                 }}>
                   {faq.answer}
                 </Typography>

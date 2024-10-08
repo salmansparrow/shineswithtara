@@ -31,7 +31,7 @@ const AdminLogin = () => {
       if (response?.token) {
         localStorage.setItem('token', response.token); // Save the token
         setError(''); // Clear any previous error messages
-        navigate("/admin/dashboard"); // Redirect to the admin dashboard
+        navigate("/admin"); // Redirect to the admin dashboard
       } else {
         setError('Invalid credentials. Please try again.'); // Show error if login fails
       }
