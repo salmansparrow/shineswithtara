@@ -16,16 +16,12 @@ import img2 from "../images/watch/img2.png";
 import Layout from "../component/Layout/Layout";
 import star from "../images/watch/star.png";
 
+// Sample images array
 const images = [
   { src: img1, title: "Story Of Miraj" },
   { src: img1, title: "Jungle Adventure" },
   { src: img1, title: "Bugs Adventure" },
   { src: img1, title: "Amazing Journey" },
-  { src: img1, title: "Fun Time" },
-  { src: img1, title: "Fun Time" },
-  { src: img1, title: "Fun Time" },
-  { src: img1, title: "Fun Time" },
-  { src: img1, title: "Fun Time" },
   { src: img1, title: "Fun Time" },
 ];
 
@@ -33,23 +29,21 @@ const Watch = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const cardsToShow = 3; // Number of cards to show at a time
 
-  // Function to go to the next set of cards
   const nextImage = () => {
     setCurrentIndex((prevIndex) => {
-      if (prevIndex >= images.length - cardsToShow) {
+      if (prevIndex + cardsToShow >= images.length) {
         return 0; // If at the last index, go to the first index
       }
-      return prevIndex + 1;
+      return prevIndex + cardsToShow;
     });
   };
 
-  // Function to go to the previous set of cards
   const prevImage = () => {
     setCurrentIndex((prevIndex) => {
       if (prevIndex === 0) {
         return images.length - cardsToShow; // If at the first index, go to the last index
       }
-      return prevIndex - 1;
+      return prevIndex - cardsToShow;
     });
   };
 
@@ -67,6 +61,7 @@ const Watch = () => {
           padding: 2,
         }}
       >
+        {/* Title Section */}
         <Typography
           variant="h2"
           sx={{
@@ -90,6 +85,7 @@ const Watch = () => {
           With One Click
         </Typography>
 
+        {/* YouTube Link Section */}
         <Link
           href="https://www.youtube.com/channel/UCDPkatnNvtWdiITSvzneBEw"
           target="_blank"
@@ -107,6 +103,7 @@ const Watch = () => {
           </Typography>
         </Link>
 
+        {/* Divider Line */}
         <Box sx={{ width: "100%", borderTop: "2px solid white", mt: 8 }} />
 
         {/* Carousel Section */}
@@ -118,6 +115,8 @@ const Watch = () => {
             mt: 8,
             mb: 8,
             mx: "auto", // Center the carousel container
+            display: "flex",
+            justifyContent: "center",
           }}
         >
           {/* Previous Button */}
@@ -125,7 +124,7 @@ const Watch = () => {
             onClick={prevImage}
             sx={{
               position: "absolute",
-              left: "10px", // Keep this close to the left edge
+              left: "10px",
               top: "50%",
               transform: "translateY(-50%)",
               zIndex: 1,
@@ -145,22 +144,20 @@ const Watch = () => {
             <Box
               sx={{
                 display: "flex",
-                transform: `translateX(-${
-                  (currentIndex * 100) / cardsToShow
-                }%)`,
+                transform: `translateX(-${(currentIndex * 100) / cardsToShow}%)`,
                 transition: "transform 0.5s ease-in-out",
-                width: "100%", // Full width for the card container
+                width: `${(images.length / cardsToShow) * 100}%`, // Adjust width for all cards
               }}
             >
               {images.map((image, index) => (
                 <Card
                   key={index}
                   sx={{
-                    minWidth: { xs: 150, sm: 200, md: 250 }, // Adjust card width based on screen size
+                    flex: "0 0 auto", // Prevent cards from growing
+                    width: { xs: 150, sm: 200, md: 250, lg: 300 }, // Adjust card width based on screen size
                     marginX: { xs: "5px", sm: "10px", md: "15px", lg: "20px" }, // Control margin between cards
                     backgroundColor: "orange",
                     borderRadius: 6,
-                    flex: "0 0 auto",
                     boxShadow: 3,
                   }}
                 >
@@ -185,7 +182,7 @@ const Watch = () => {
             onClick={nextImage}
             sx={{
               position: "absolute",
-              right: "10px", // Keep this close to the right edge
+              right: "10px",
               top: "50%",
               transform: "translateY(-50%)",
               zIndex: 1,
