@@ -23,7 +23,12 @@ import { useForm } from "react-hook-form"; // Importing useForm
 import { addFaq, getFaqs, deleteFaq } from "../../service/faq/index"; // Import functions
 
 const ManageFaqsList = () => {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm(); // Using useForm
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm(); // Using useForm
   const [faqs, setFaqs] = useState([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedFaqIndex, setSelectedFaqIndex] = useState(null);
@@ -33,8 +38,7 @@ const ManageFaqsList = () => {
   useEffect(() => {
     fetchFaqs(); // Trigger fetching FAQs
   }, []); // Empty dependency array to run the effect only on mount
- 
- 
+
   const fetchFaqs = async () => {
     setLoading(true);
     setError(null);
@@ -102,7 +106,9 @@ const ManageFaqsList = () => {
       // Change id to _id
       if (faqToDelete && faqToDelete._id) {
         await deleteFaq(faqToDelete._id); // Call the delete function with the FAQ _id
-        const updatedFaqs = faqs.filter((_, index) => index !== selectedFaqIndex); // Update state
+        const updatedFaqs = faqs.filter(
+          (_, index) => index !== selectedFaqIndex
+        ); // Update state
         setFaqs(updatedFaqs); // Update local state
       } else {
         throw new Error("FAQ does not have a valid ID."); // This will trigger if the _id is missing
@@ -127,7 +133,9 @@ const ManageFaqsList = () => {
 
       {/* Input Fields for Question and Answer */}
       <Box display="flex" gap={2} flexWrap="wrap">
-        <form onSubmit={handleSubmit(handleAddFaq)}> {/* Use handleSubmit from react-hook-form */}
+        <form onSubmit={handleSubmit(handleAddFaq)}>
+          {" "}
+          {/* Use handleSubmit from react-hook-form */}
           <TextField
             label="Question"
             variant="outlined"
@@ -137,7 +145,7 @@ const ManageFaqsList = () => {
             helperText={errors.question ? errors.question.message : ""} // Show error message
           />
           <TextField
-          style={{margin:"10px 0"}}
+            style={{ margin: "10px 0" }}
             label="Answer"
             variant="outlined"
             fullWidth
@@ -187,7 +195,9 @@ const ManageFaqsList = () => {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={4} align="center">No FAQs available</TableCell>
+                <TableCell colSpan={4} align="center">
+                  No FAQs available
+                </TableCell>
               </TableRow>
             )}
           </TableBody>
