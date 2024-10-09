@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   TextField,
@@ -17,6 +17,10 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -28,13 +32,15 @@ const ManageProducts = () => {
   const [price, setPrice] = useState(""); // Product price
   const [category, setCategory] = useState(""); // Product category
   const [image, setImage] = useState(null); // Product image file
-  const [imagePreview, setImagePreview] = useState(null); // Image preview
+  const [imagePreview, setImagePreview] = useState(null); // Image preview (for new upload and existing images)
   const [imageName, setImageName] = useState(""); // Image file name
   const [books, setBooks] = useState([]); // List of products
   const [editIndex, setEditIndex] = useState(null); // Track editing index
   const [editId, setEditId] = useState(null); // Track the ID of the product being edited
   const [currentPage, setCurrentPage] = useState(1); // Pagination state
   const [itemsPerPage, setItemsPerPage] = useState(5); // Items per page
+  const [openDialog, setOpenDialog] = useState(false); // State to control Dialog open/close
+  const [dragOver, setDragOver] = useState(false); // State to track drag-and-drop
 
   const categories = ["Books", "Coloring", "Activity-Sheets", "Extra-Sheets"]; // Sample categories
 
@@ -80,12 +86,38 @@ const ManageProducts = () => {
     }
   };
 
-  // Handle image upload
+  // Open the file dialog
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  // Close the file dialog
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  // Handle image upload via input
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
-    setImage(file);
-    setImagePreview(URL.createObjectURL(file));
-    setImageName(file ? file.name : ""); // Set the image name
+    if (file) {
+      setImage(file);
+      setImagePreview(URL.createObjectURL(file)); // Show image preview
+      setImageName(file.name);
+      setOpenDialog(false); // Close dialog after selection
+    }
+  };
+
+  // Handle image drop via drag-and-drop
+  const handleImageDrop = (e) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      setImage(file);
+      setImagePreview(URL.createObjectURL(file)); // Show image preview
+      setImageName(file.name);
+      setDragOver(false); // Reset drag state
+      setOpenDialog(false); // Close dialog after selection
+    }
   };
 
   // Clear form
@@ -106,8 +138,10 @@ const ManageProducts = () => {
     setName(book.bookName);
     setPrice(book.bookPrice);
     setCategory(book.category);
-    setImage(null); // Image will be set only when uploaded again
-    setImagePreview(book.imageURL); // Assuming imageURL is the URL for the image in the database
+    setImage(null); // Reset image file
+    setImagePreview(
+      book.imageUrl ? `http://localhost:3000/${book.imageUrl}` : null
+    ); // Show the current image URL if available
     setEditIndex(index);
     setEditId(book._id); // Use the product ID for editing
   };
@@ -137,6 +171,16 @@ const ManageProducts = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentBooks = books.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Handle drag events
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setDragOver(true);
+  };
+
+  const handleDragLeave = () => {
+    setDragOver(false);
+  };
 
   return (
     <Box sx={{ p: 3 }}>
@@ -184,8 +228,8 @@ const ManageProducts = () => {
         {/* Image Upload and Add Product Button on the Same Line */}
         <Grid item xs={12} sm={6} lg={4}>
           <Button
-            variant="contained"
-            component="label"
+            variant="outlined"
+            onClick={handleOpenDialog}
             fullWidth
             size="medium"
             sx={{
@@ -196,7 +240,6 @@ const ManageProducts = () => {
           >
             {imageName ? imageName : "Browse Image"}{" "}
             {/* Show image name if available */}
-            <input type="file" hidden onChange={handleImageUpload} />
           </Button>
 
           {/* Image Preview */}
@@ -249,10 +292,8 @@ const ManageProducts = () => {
                 <TableCell>{book.bookPrice}</TableCell>
                 <TableCell>{book.category}</TableCell>
                 <TableCell>
-                  {/* {book.imageURL && ( */}
                   <img
                     src={"http://localhost:3000/" + book?.imageUrl} // Assuming imageURL is provided by the database
-                    // src={book?.imageURL}
                     alt="Product"
                     width={200}
                     height={100}
@@ -261,7 +302,6 @@ const ManageProducts = () => {
                       borderRadius: 4,
                     }}
                   />
-                  {/* )} */}
                 </TableCell>
                 <TableCell>
                   <IconButton onClick={() => handleEditBook(index)}>
@@ -288,6 +328,49 @@ const ManageProducts = () => {
         handlePageChange={handlePageChange}
         handleItemsPerPageChange={handleItemsPerPageChange}
       />
+
+      {/* Image Upload Dialog */}
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Select an Image</DialogTitle>
+        <DialogContent>
+          <Box
+            onDrop={handleImageDrop}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            sx={{
+              border: "2px dashed #ccc",
+              p: 3,
+              textAlign: "center",
+              cursor: "pointer",
+              borderRadius: "8px",
+              backgroundColor: dragOver ? "#f0f0f0" : "transparent",
+            }}
+          >
+            <Typography>
+              {dragOver
+                ? "Drop the image here..."
+                : "Drag & drop an image here, or click to select one"}
+            </Typography>
+            <input
+              type="file"
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={handleImageUpload}
+              id="file-input"
+            />
+            <label htmlFor="file-input">
+              <Button variant="contained" component="span">
+                Browse Image
+              </Button>
+            </label>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary">
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

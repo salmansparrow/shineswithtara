@@ -65,7 +65,7 @@ function ManageUserList() {
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>
-                  {new Date(user.lastLogin).toLocaleString()}
+                  {new Date(user.lastLogin).toLocaleString().slice(0, 9)}
                 </TableCell>{" "}
                 {/* Format the date */}
               </TableRow>
