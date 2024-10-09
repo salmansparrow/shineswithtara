@@ -17,16 +17,15 @@ const routes = {
   deleteFaq: "http://localhost:3000/Faqs/FaqsDelete",
 
   // Reviews
-  addReview: "http://localhost:3000/Reviews/AddReviews", // New route for adding reviews
+  addReview: "http://localhost:3000/Reviews/AddReviews", 
   getReview: "http://localhost:3000/Reviews/GetReviews",
   deleteReview: "http://localhost:3000/Reviews/ReviewsDelete/:id",
   // Order routes
-  addOrder: "http://localhost:3000/Order/AddOrder", // Route to add an order
-  getOrders: "http://localhost:3000/Order/GetOrders", // Route to fetch all orders
-  getOrderById: "http://localhost:3000/Order/GetOrder", // Fetch single order by ID
-  updateOrder: "http://localhost:3000/Order/Update", // Update order by ID (append /:id)
+  addOrder: "http://localhost:3000/Order/AddOrder", 
+  getOrders: "http://localhost:3000/Order/GetOrders", 
+  getOrderById: "http://localhost:3000/Order/GetOrder", 
+  updateOrder: "http://localhost:3000/Order/Update", 
 
-  // Add other routes as needed
 };
 
 export default routes;
