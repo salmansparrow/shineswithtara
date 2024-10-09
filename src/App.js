@@ -21,6 +21,9 @@ import OrderPage from "./pages/OrderPage";
 import Login from "../src/component/login/Login";
 import SignUp from "../src/component/login/SignUp";
 import ManageProducts from "./component/Admin/ManageProducts";
+import MyOrder from "./pages/MyOrder";
+import AdminLogin from "./pages/admin/AdminLogin";
+import ProtectedRoute from "./component/ProtectedRoute/ProtectedRoute"; // Import ProtectedRoute
 
 function App() {
   return (
@@ -39,9 +42,20 @@ function App() {
           <Route path="/colorfulclub" element={<ColorFulClub />} />
           <Route path="/faq" element={<FaqReviews />} />
           <Route path="/order" element={<OrderPage />} />
+          <Route path="/myorder" element={<MyOrder />} />
 
           {/* Admin Layout will wrap around admin routes */}
-          <Route path="/admin" element={<AdminLayout />}>
+
+          <Route path="/adminLogin" element={<AdminLogin />} />
+          {/* Protecting Admin Routes */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<ManageUsers />} />{" "}
             {/* Default to User List */}
             <Route path="users" element={<ManageUsers />} />
@@ -51,6 +65,8 @@ function App() {
             <Route path="manage-reviews" element={<ManageReviews />} />
             {/* Add more admin-specific routes here */}
           </Route>
+
+          {/* Add more admin-specific routes here */}
         </Routes>
       </Router>
     </ThemeProvider>

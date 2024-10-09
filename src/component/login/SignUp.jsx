@@ -6,21 +6,84 @@ import LockIcon from "@mui/icons-material/Lock";
 import AuthService from "../../service/Auth/auth"; // Adjust the import path as needed
 
 const SignUp = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  
+  // State for field errors
+  const [nameError, setNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
+  const validateFields = () => {
+    let isValid = true;
+    
+    // Reset error messages
+    setNameError("");
+    setEmailError("");
+    setPasswordError("");
+    setConfirmPasswordError("");
+
+    // Name validation
+    if (!name) {
+      setNameError("Name is required");
+      isValid = false;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) {
+      setEmailError("Email is required");
+      isValid = false;
+    } else if (!emailRegex.test(email)) {
+      setEmailError("Invalid email format");
+      isValid = false;
+    }
+
+    // Password validation
+    if (!password) {
+      setPasswordError("Password is required");
+      isValid = false;
+    } else if (password.length < 6) {
+      setPasswordError("Password must be at least 6 characters");
+      isValid = false;
+    }
+
+    // Confirm password validation
+    if (!confirmPassword) {
+      setConfirmPasswordError("Confirm Password is required");
+      isValid = false;
+    } else if (password !== confirmPassword) {
+      setConfirmPasswordError("Passwords do not match");
+      isValid = false;
+    }
+
+    return isValid;
+  };
 
   const handleSignUp = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
-    const userData = { email, password, confirmPassword };
+    
+    if (!validateFields()) {
+      return; // If validation fails, do not proceed
+    }
+
+    const userData = { name, email, password, confirmPassword }; // Include name in user data
     try {
       const response = await AuthService.register(userData);
       setSuccess("Registration successful!"); // Set success message
       console.log("Registration successful:", response);
+
+      // Reset fields after successful registration
+      setName("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
     } catch (error) {
-      // Log the error and set error message to state
       console.error("Error caught in registration:", error);
       setError(`Error: ${error.message}`); // Set a user-friendly error message
     }
@@ -54,10 +117,20 @@ const SignUp = () => {
           </Box>
         </Box>
         <form onSubmit={handleSignUp}>
-          {error && <Typography color="error">Email Already used</Typography>}{" "}
-          {/* Display error */}
-          {success && <Typography color="success">{success}</Typography>}{" "}
-          {/* Display success */}
+          {error && <Typography color="error">{error}</Typography>} {/* Display error */}
+          {success && <Typography color="success">{success}</Typography>} {/* Display success */}
+          
+          <TextField
+            label="Name"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={name}
+            onChange={(e) => setName(e.target.value)} // Handle name input
+            required
+            error={Boolean(nameError)} // Show error state
+            helperText={nameError} // Display error message
+          />
           <TextField
             label="Email"
             variant="outlined"
@@ -66,6 +139,8 @@ const SignUp = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            error={Boolean(emailError)} // Show error state
+            helperText={emailError} // Display error message
           />
           <TextField
             label="Password"
@@ -76,6 +151,8 @@ const SignUp = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            error={Boolean(passwordError)} // Show error state
+            helperText={passwordError} // Display error message
           />
           <TextField
             label="Confirm Password"
@@ -86,6 +163,8 @@ const SignUp = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
+            error={Boolean(confirmPasswordError)} // Show error state
+            helperText={confirmPasswordError} // Display error message
           />
           <Button
             type="submit"
