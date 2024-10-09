@@ -4,28 +4,23 @@ import Layout from "../component/Layout/Layout";
 import { Box, Typography } from "@mui/material";
 import OrderTable from "../component/Orders/OrdersTable";
 import OrderForm from "../component/Orders/OrderForm";
+import { useSelector } from "react-redux";
 
 const OrderPage = () => {
-  const [cartItems, setCartItems] = useState([]);
+  // const [cartItems, setCartItems] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
+  const cartItems = useSelector((state) => state.cart.items);
 
   // Fetch cart data from localStorage
   useEffect(() => {
-    const storedCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    // const storedCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
     const storedTotalAmount =
       JSON.parse(localStorage.getItem("totalAmount")) || 0;
 
-    setCartItems(storedCartItems);
     setTotalAmount(storedTotalAmount);
   }, []);
 
   // Function to clear cart items after order is placed
-  const clearCart = () => {
-    localStorage.removeItem("cartItems");
-    localStorage.removeItem("totalAmount");
-    setCartItems([]);
-    setTotalAmount(0);
-  };
 
   return (
     <Layout>
@@ -83,7 +78,7 @@ const OrderPage = () => {
         <OrderForm
           cartItems={cartItems}
           totalAmount={totalAmount}
-          clearCart={clearCart}
+          // clearCart={clearCart}
         />
       </Box>
     </Layout>

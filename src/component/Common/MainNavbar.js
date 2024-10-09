@@ -281,7 +281,9 @@ function MainNavbar(props) {
               color="inherit"
               aria-label="open drawer"
               onClick={handleDrawerToggle}
-              sx={{ display: { xs: "block", sm: "block", md: "block", lg: "none" } }} // Show on small and medium, hide on large
+              sx={{
+                display: { xs: "block", sm: "block", md: "block", lg: "none" },
+              }} // Show on small and medium, hide on large
             >
               <MenuIcon />
             </IconButton>

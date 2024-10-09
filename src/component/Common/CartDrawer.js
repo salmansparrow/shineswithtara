@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   Box,
   Button,
@@ -25,46 +25,52 @@ const CartDrawer = ({ open, onClose }) => {
   const cartItems = useSelector((state) => state.cart.items);
   const navigate = useNavigate();
 
+  // Function to calculate subtotal
+  const calculateSubtotal = useCallback(() => {
+    return cartItems
+      .reduce((total, item) => total + item.price * item.quantity, 0)
+      .toFixed(2);
+  }, [cartItems]);
+
+  // useEffect to update localStorage whenever cartItems changes
+  useEffect(() => {
+    const totalAmount = calculateSubtotal(); // Calculate new total amount
+    localStorage.setItem("cartItems", JSON.stringify(cartItems)); // Update cart items
+    localStorage.setItem("totalAmount", totalAmount); // Update total amount
+  }, [cartItems, calculateSubtotal]); // Run this effect whenever cartItems changes
+
+  // Handle increasing item quantity
   const handleIncreaseQty = (id) => {
     dispatch(increaseQty(id));
   };
 
+  // Handle decreasing item quantity
   const handleDecreaseQty = (id) => {
     dispatch(decreaseQty(id));
   };
 
+  // Handle removing item from cart
   const handleRemoveItem = (id) => {
     dispatch(removeItem(id));
   };
 
-  const calculateSubtotal = () => {
-    return cartItems
-      .reduce((total, item) => total + item.price * item.quantity, 0)
-      .toFixed(2);
-  };
-
+  // Handle checkout
   const handleCheckout = () => {
     const token = localStorage.getItem("token");
     if (!token) {
       navigate("/login");
     } else {
-      // Navigate to the OrderTable page with the cart items and total amount
+      const totalAmount = calculateSubtotal(); // Calculate total amount before navigating
+      console.log(totalAmount);
+
+      // Navigate to the order page
       navigate("/order", {
-        state: { cartItems, totalAmount: calculateSubtotal() }, // Include total amount
+        state: { cartItems, totalAmount }, // Pass cart items and total amount via state
       });
+
+      // Clear the cart in Redux and localStorage after checkout
+      onClose(); // Close the drawer after checkout
     }
-    const totalAmount = calculateSubtotal(); // Calculate the total amount
-
-    localStorage.setItem("cartItems", JSON.stringify(cartItems)); // Store cart items in localStorage
-    localStorage.setItem("totalAmount", totalAmount); // Store total amount in localStorage
-
-    // Navigate to the order page
-    navigate("/order", {
-      state: { cartItems, totalAmount }, // Passing cart items and total amount via state
-    });
-
-    // Clear the cart in Redux and localStorage after checkout
-    onClose(); // Close the drawer after checkout
   };
 
   return (
@@ -89,6 +95,7 @@ const CartDrawer = ({ open, onClose }) => {
       >
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="h6">Shopping Cart</Typography>
+          {/* Ensure the IconButton is not nested within another button */}
           <IconButton onClick={onClose}>
             <CloseIcon />
           </IconButton>
@@ -159,6 +166,7 @@ const CartDrawer = ({ open, onClose }) => {
                 ${calculateSubtotal()}
               </Typography>
             </Box>
+            {/* Ensure the checkout button is not wrapping any other buttons */}
             <Button
               variant="contained"
               color="primary"

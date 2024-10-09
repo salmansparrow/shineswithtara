@@ -3,8 +3,9 @@ import { Box, Typography, TextField, Button, Grid } from "@mui/material";
 import star from "../../images/watch/star.png";
 import { useDispatch } from "react-redux";
 import { placeOrder } from "../../pages/features/manageOrder";
+import { clearCart } from "../../pages/features/Slice";
 
-const OrderForm = ({ cartItems, totalAmount, clearCart }) => {
+const OrderForm = ({ cartItems, totalAmount }) => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     firstName: "",
@@ -58,7 +59,9 @@ const OrderForm = ({ cartItems, totalAmount, clearCart }) => {
       alert("Order placed successfully!");
       // Clear form fields
       // dispatch(clearCart());
-      clearCart();
+      // clearCart();
+
+      dispatch(clearCart([]));
 
       setFormData({
         firstName: "",
