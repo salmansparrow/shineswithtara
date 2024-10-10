@@ -14,6 +14,7 @@ import LockIcon from "@mui/icons-material/Lock";
 import AuthService from "../../service/Auth/auth";
 import Layout from "../Layout/Layout";
 import { useForm } from "react-hook-form"; // Import useForm
+import {jwtDecode} from "jwt-decode"; // Correct function name
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm(); // Destructure from useForm
@@ -28,10 +29,24 @@ const Login = () => {
     try {
       const response = await AuthService.login(credentials);
       console.log("Login response:", response);
+
       // Handle successful login
-      if (response) {
+      if (response && response.token) {
+        // Store the token
         localStorage.setItem("token", response.token);
-        navigate("/"); // Redirect to home page on success
+
+        // Decode the token to check the role (assuming the backend encodes role in token)
+        const decodedToken = jwtDecode(response.token);
+        console.log(decodedToken)
+
+        // Check if the role is 'user'
+        if (decodedToken.role === "user") {
+          navigate("/"); 
+          console.log(decodedToken.role);
+          
+        } else {
+          setError("You do not have permission to access this page.");
+        }
       } else {
         setError(response.data?.message || "Login failed");
       }

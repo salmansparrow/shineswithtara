@@ -11,21 +11,24 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import LockIcon from "@mui/icons-material/Lock";
-import AdminLoginService from "../../service/AdminLogin"; // Import the service
+import AdminLoginService from "../../service/AdminLogin";
+import {jwtDecode} from "jwt-decode"; // Import jwtDecode
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // Used for redirecting
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-
     if (token) {
-      navigate("/admin");
+      const decodedToken = jwtDecode(token);
+      if (decodedToken?.role === "admin") {
+        navigate("/admin"); // Redirect if already logged in as admin
+      }
     }
-  });
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,16 +39,24 @@ const AdminLogin = () => {
       const response = await AdminLoginService.login(credentials);
 
       if (response?.token) {
-        localStorage.setItem("token", response.token); // Save the token
-        setError(""); // Clear any previous error messages
-        navigate("/admin"); // Redirect to the admin dashboard
+        const decodedToken = jwtDecode(response.token);
+        
+
+        // Check if the user has the 'admin' role
+        if (decodedToken?.role === "admin") {
+          localStorage.setItem("token", response.token); // Save the token
+          setError(""); // Clear any previous error messages
+          navigate("/admin"); // Redirect to the admin dashboard
+        } else {
+          setError("You are not authorized to access this page."); // Show error if not admin
+        }
       } else {
-        setError("Invalid credentials. Please try again."); // Show error if login fails
+        setError("Invalid credentials. Please try again.");
       }
     } catch (error) {
       console.error("Login error:", error);
       const errorMessage = error?.response?.data?.message || "Failed to login";
-      setError(errorMessage); // Set error message
+      setError(errorMessage);
     }
   };
 
