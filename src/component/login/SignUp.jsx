@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import { Link, useNavigate } from "react-router-dom"; 
 import LockIcon from "@mui/icons-material/Lock";
-import AuthService from "../../service/Auth/auth"; // Adjust the import path as needed
+import AuthService from "../../service/Auth/auth"; 
 import Layout from "../Layout/Layout";
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -131,10 +131,10 @@ const SignUp = () => {
           fullWidth
           margin="normal"
           value={name}
-          onChange={(e) => setName(e.target.value)} // Handle name input
+          onChange={(e) => setName(e.target.value)}
           required
-          error={Boolean(nameError)} // Show error state
-          helperText={nameError} // Display error message
+          error={Boolean(nameError)} 
+          helperText={nameError} 
         />
         <TextField
           label="Email"
@@ -144,8 +144,8 @@ const SignUp = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          error={Boolean(emailError)} // Show error state
-          helperText={emailError} // Display error message
+          error={Boolean(emailError)} 
+          helperText={emailError} 
         />
         <TextField
           label="Password"
@@ -156,8 +156,8 @@ const SignUp = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          error={Boolean(passwordError)} // Show error state
-          helperText={passwordError} // Display error message
+          error={Boolean(passwordError)} 
+          helperText={passwordError} 
         />
         <TextField
           label="Confirm Password"
@@ -168,8 +168,8 @@ const SignUp = () => {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
-          error={Boolean(confirmPasswordError)} // Show error state
-          helperText={confirmPasswordError} // Display error message
+          error={Boolean(confirmPasswordError)} 
+          helperText={confirmPasswordError} 
         />
         <Button
           type="submit"
