@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../component/Layout/Layout";
 import img1 from "../images/colorful/img1.png";
-import { Box, Typography, Card, CardMedia, CardContent } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Card,
+  CardMedia,
+  CardContent,
+  Grid2,
+  Grid,
+} from "@mui/material";
 import cardImg1 from "../images/colorful/imgcard1.png";
 import cardImg2 from "../images/colorful/imgcard2.png";
 import { useNavigate } from "react-router-dom";
@@ -271,66 +279,162 @@ const ColorFulClub = () => {
 
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "space-between", // Space between text and image
-          alignItems: "flex-start", // Align items at the start
-          backgroundColor: "rgb(171, 202, 255)", // Optional background color
-          padding: "20px",
-          borderRadius: "12px", // Optional rounded corners
+          backgroundColor: "rgb(171, 202, 255)",
+          color: "white",
+          pl: { xs: 0, lg: 6 }, // Add padding on the left for large screens
         }}
       >
-        {/* Left Side Text */}
-        <Box sx={{ flex: 1 }}>
-          <Typography
-            variant="h6"
-            sx={{
-              color: "#fff",
-              fontWeight: "bold",
-              marginBottom: "20px",
-            }}
-          >
-            We Offer The Following Worksheets!
-          </Typography>
-          <Box
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            flexDirection: { xs: "column", lg: "row" }, // Column direction on small screens, row on large
+          }}
+        >
+          {/* Text on the left (or centered on small screens) */}
+          <Grid
+            item
+            xs={12}
+            lg={6}
             sx={{
               display: "flex",
+              flexDirection: "column",
+              justifyContent: { xs: "center", lg: "flex-start" },
+              alignItems: { xs: "center", lg: "flex-start" },
+              textAlign: { xs: "center", lg: "left" },
+              mt: 15,
             }}
           >
-            <img
-              src={flower}
-              alt="flower"
-              style={{ width: "20px", marginRight: "8px" }}
-            />
-            <Typography
-              variant="h6"
-              sx={{
-                display: "inline-block",
-                color: "#fff",
-                fontWeight: "bold",
-              }}
-            >
-              Activity Sheets
-            </Typography>
-            <img
-              src={flower}
-              alt="flower"
-              style={{ width: "20px", marginLeft: "8px" }}
-            />
-          </Box>
-        </Box>
+            <Box>
+              <Typography variant="h6" component="span">
+                We Offer The Following Worksheets!
+              </Typography>
+            </Box>
+            {/* First line of text with icons */}
+            <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
+              <img
+                src={flower}
+                alt="flower"
+                style={{
+                  width: "30px",
+                  objectFit: "contain",
+                  marginRight: "8px",
+                }}
+              />
+              <Typography variant="body1" component="span">
+                <a
+                  href="/"
+                  style={{
+                    textDecoration: "none",
+                    textUnderlineOffset: "none",
+                    color: "white",
+                  }}
+                >
+                  Coloring Sheets{" "}
+                </a>
+              </Typography>
+              <img
+                src={flower}
+                alt="flower"
+                style={{
+                  width: "30px",
+                  objectFit: "contain",
+                  marginLeft: "8px",
+                }}
+              />
+            </Box>
 
-        {/* Right Side Image */}
-        <Box sx={{ flex: 1 }}>
-          <img
-            src={img2}
-            alt="fun"
-            style={{
-              maxWidth: "100%",
-              height: "auto",
-              borderRadius: "8px", // Rounded corners for the image
+            {/* Repeat the same for the other rows */}
+            <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
+              <img
+                src={flower}
+                alt="flower"
+                style={{
+                  width: "30px",
+                  objectFit: "contain",
+                  marginRight: "8px",
+                }}
+              />
+              <Typography variant="body1" component="span">
+                <a
+                  href="/"
+                  style={{
+                    textDecoration: "none",
+                    textUnderlineOffset: "none",
+                    color: "white",
+                  }}
+                >
+                  Activity Sheets{" "}
+                </a>
+              </Typography>
+              <img
+                src={flower}
+                alt="flower"
+                style={{
+                  width: "30px",
+                  objectFit: "contain",
+                  marginLeft: "8px",
+                }}
+              />
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
+              <img
+                src={flower}
+                alt="flower"
+                style={{
+                  width: "30px",
+                  objectFit: "contain",
+                  marginRight: "8px",
+                }}
+              />
+              <Typography variant="body1" component="span">
+                <a
+                  href="/"
+                  style={{
+                    textDecoration: "none",
+                    textUnderlineOffset: "none",
+                    color: "white",
+                  }}
+                >
+                  Learning Sheets{" "}
+                </a>
+              </Typography>
+              <img
+                src={flower}
+                alt="flower"
+                style={{
+                  width: "30px",
+                  objectFit: "contain",
+                  marginLeft: "8px",
+                }}
+              />
+            </Box>
+          </Grid>
+
+          {/* Image on the right (or bottom on small screens) */}
+          <Grid
+            item
+            xs={12}
+            lg={6}
+            sx={{
+              display: "flex",
+              justifyContent: { xs: "center", lg: "flex-end" },
+              alignItems: "center",
+              mt: { xs: 2, lg: 0 }, // Add margin-top for small screens
             }}
-          />
-        </Box>
+          >
+            <Box
+              sx={{
+                backgroundImage: `url(${img2})`,
+                width: "100%",
+                height: { xs: "250px", lg: "300px" }, // Adjust height for small screens
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center center",
+                backgroundSize: "contain",
+              }}
+            />
+          </Grid>
+        </Grid>
       </Box>
     </Layout>
   );

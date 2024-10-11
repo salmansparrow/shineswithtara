@@ -28,10 +28,13 @@ const ManageOrders = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [status, setStatus] = useState("");
 
+  const token = localStorage.getItem("token"); // Get token from localStorage
+  console.log(token); // Log the token for debugging
+
   // Fetch orders from API
   const fetchOrders = async () => {
     try {
-      const response = await orderService.getOrders();
+      const response = await orderService.getOrders(token);
       console.log("Fetched Orders:", response); // Log the fetched data
 
       // Access the orders from the response
@@ -176,7 +179,7 @@ const ManageOrders = () => {
   );
 
   // Reverse the orders array to show the most recent ones first
-  const reversedOrders = [...orders].reverse();
+  // const reversedOrders = [...orders].reverse();
 
   return (
     <Box sx={{ p: 3 }}>
@@ -195,8 +198,8 @@ const ManageOrders = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {reversedOrders.length > 0 ? (
-              reversedOrders.map((order, index) => (
+            {orders.length > 0 ? (
+              orders.map((order, index) => (
                 <TableRow key={order._id}>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>

@@ -131,8 +131,8 @@ const Watch = () => {
               color: "white",
               backgroundColor: "orange",
               borderRadius: "50%",
-              width: "50px",
-              height: "50px",
+              width: "60px",
+              height: "60px",
               "&:hover": { backgroundColor: "#ff8c00" },
             }}
           >
@@ -144,7 +144,9 @@ const Watch = () => {
             <Box
               sx={{
                 display: "flex",
-                transform: `translateX(-${(currentIndex * 100) / cardsToShow}%)`,
+                transform: `translateX(-${
+                  (currentIndex * 100) / cardsToShow
+                }%)`,
                 transition: "transform 0.5s ease-in-out",
                 width: `${(images.length / cardsToShow) * 100}%`, // Adjust width for all cards
               }}
@@ -189,8 +191,8 @@ const Watch = () => {
               color: "white",
               backgroundColor: "orange",
               borderRadius: "50%",
-              width: "50px",
-              height: "50px",
+              width: "60px",
+              height: "60px",
               "&:hover": { backgroundColor: "#ff8c00" },
             }}
           >

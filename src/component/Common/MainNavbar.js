@@ -76,7 +76,11 @@ function MainNavbar(props) {
   };
 
   const drawer = (
-    <Box sx={{ textAlign: "center" }}>
+    <Box
+      sx={{
+        textAlign: "center",
+      }}
+    >
       <Typography
         variant="h6"
         sx={{
@@ -101,12 +105,7 @@ function MainNavbar(props) {
       </Typography>
 
       <Divider />
-      <List
-        sx={{
-          background:
-            "linear-gradient(135deg, rgb(154, 182, 231) 0%, rgb(189, 168, 225) 46%, rgb(106, 57, 162) 100%)",
-        }}
-      >
+      <List>
         {navItems.map((item) => (
           <ListItem key={item.label} disablePadding>
             <ListItemButton sx={{ textAlign: "center" }}>
@@ -301,6 +300,8 @@ function MainNavbar(props) {
           "& .MuiDrawer-paper": {
             boxSizing: "border-box",
             width: drawerWidth,
+            background:
+              "linear-gradient(135deg, rgb(154, 182, 231) 0%, rgb(189, 168, 225) 46%, rgb(106, 57, 162) 100%)",
           },
         }}
       >

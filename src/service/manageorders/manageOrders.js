@@ -18,13 +18,18 @@ const orderService = {
   },
 
   // Function to get all orders
-  getOrders: async () => {
+  getOrders: async (token) => {
     try {
-      const response = await axios.get(routes.getOrders);
+      const response = await axios.get(routes.getOrders, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Pass the token in Authorization header
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("Error fetching orders:", error);
-      throw error;
+      // throw error;
+      return []; // Return empty array or handle error as needed
     }
   },
 

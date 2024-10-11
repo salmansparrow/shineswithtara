@@ -17,10 +17,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -39,8 +35,8 @@ const ManageProducts = () => {
   const [editId, setEditId] = useState(null); // Track the ID of the product being edited
   const [currentPage, setCurrentPage] = useState(1); // Pagination state
   const [itemsPerPage, setItemsPerPage] = useState(5); // Items per page
-  const [openDialog, setOpenDialog] = useState(false); // State to control Dialog open/close
   const [dragOver, setDragOver] = useState(false); // State to track drag-and-drop
+  const [imageError, setImageError] = useState(null);
 
   const categories = ["Books", "Coloring", "Activity-Sheets", "Extra-Sheets"]; // Sample categories
 
@@ -86,24 +82,24 @@ const ManageProducts = () => {
     }
   };
 
-  // Open the file dialog
-  const handleOpenDialog = () => {
-    setOpenDialog(true);
-  };
-
-  // Close the file dialog
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
-
   // Handle image upload via input
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
+    console.log(file);
+
     if (file) {
+      const fileSize = 3;
+      const maxSizeInBytes = fileSize * 1024 * 1024; // 3MB in bytes
+      if (file.size > maxSizeInBytes) {
+        setImageError(
+          `File size exceeds ${fileSize}MB. Please upload a smaller file.`
+        );
+        return;
+      }
+      setImageError(null);
       setImage(file);
       setImagePreview(URL.createObjectURL(file)); // Show image preview
-      setImageName(file.name);
-      setOpenDialog(false); // Close dialog after selection
+      setImageName(file.name); // Show file name
     }
   };
 
@@ -112,11 +108,19 @@ const ManageProducts = () => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
     if (file) {
+      const fileSize = 3;
+      const maxSizeInBytes = fileSize * 1024 * 1024; // 3MB in bytes
+      if (file.size > maxSizeInBytes) {
+        setImageError(
+          `File size exceeds ${fileSize}MB. Please upload a smaller file.`
+        );
+        return;
+      }
+      setImageError(null);
       setImage(file);
       setImagePreview(URL.createObjectURL(file)); // Show image preview
-      setImageName(file.name);
+      setImageName(file.name); // Show file name
       setDragOver(false); // Reset drag state
-      setOpenDialog(false); // Close dialog after selection
     }
   };
 
@@ -144,6 +148,7 @@ const ManageProducts = () => {
     ); // Show the current image URL if available
     setEditIndex(index);
     setEditId(book._id); // Use the product ID for editing
+    setImageName(book.imageUrl); // Show image file name in the drag and drop box
   };
 
   // Handle deleting a book
@@ -167,11 +172,6 @@ const ManageProducts = () => {
     setCurrentPage(1); // Reset to first page when items per page changes
   };
 
-  // Calculate the items for the current page
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentBooks = books.slice(indexOfFirstItem, indexOfLastItem);
-
   // Handle drag events
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -182,6 +182,11 @@ const ManageProducts = () => {
     setDragOver(false);
   };
 
+  // Calculate the items for the current page
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentBooks = books.slice(indexOfFirstItem, indexOfLastItem);
+
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h6" gutterBottom>
@@ -190,7 +195,7 @@ const ManageProducts = () => {
 
       {/* Input Form */}
       <Grid container spacing={2} sx={{ mb: 3 }}>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={6} md={4}>
           <TextField
             label="Product Name"
             value={name}
@@ -199,7 +204,7 @@ const ManageProducts = () => {
             size="small"
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={6} md={4}>
           <TextField
             label="Product Price"
             type="number"
@@ -209,7 +214,7 @@ const ManageProducts = () => {
             size="small"
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={6} md={4}>
           <FormControl fullWidth size="small">
             <InputLabel>Category</InputLabel>
             <Select
@@ -225,50 +230,100 @@ const ManageProducts = () => {
           </FormControl>
         </Grid>
 
-        {/* Image Upload and Add Product Button on the Same Line */}
+        {/* Drag and Drop Image Upload */}
         <Grid item xs={12} sm={6} lg={4}>
-          <Button
-            variant="outlined"
-            onClick={handleOpenDialog}
-            fullWidth
-            size="medium"
+          <Box
+            onDrop={handleImageDrop}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
             sx={{
-              textTransform: "none",
+              border: "2px dashed #ccc",
+              p: { xs: 2, sm: 3 }, // Padding adjusts on small screens
+              textAlign: "center",
+              cursor: "pointer",
+              borderRadius: "8px",
+              backgroundColor: dragOver ? "#f0f0f0" : "transparent",
               mb: 2,
-              borderColor: "rgba(0, 0, 0, 0.23)",
+              height: { xs: "150px", sm: "200px" }, // Adjust height for small screens
+              display: "flex",
+              flexDirection: "column", // Stack content vertically
+              justifyContent: "center", // Center vertically
+              alignItems: "center", // Center horizontally
             }}
           >
-            {imageName ? imageName : "Browse Image"}{" "}
-            {/* Show image name if available */}
-          </Button>
+            <Typography variant="body2" sx={{ mb: 2 }}>
+              {" "}
+              {/* Added margin-bottom for spacing */}
+              {imageName ||
+                (dragOver
+                  ? "Drop the image here..."
+                  : "Drag & drop an image here, or click to select one")}
+            </Typography>
+            <input
+              type="file"
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={handleImageUpload}
+              id="file-input"
+            />
+            <label htmlFor="file-input">
+              <Button
+                variant="contained"
+                component="span"
+                size="small"
+                sx={{ mt: 2 }} // Adds margin-top to create space between text and button
+              >
+                Browse Image
+              </Button>
+            </label>
+          </Box>
+          {imageError && (
+            <Typography color="error" variant="body2" sx={{ mt: 1 }}>
+              {imageError}
+            </Typography>
+          )}
+        </Grid>
 
-          {/* Image Preview */}
+        {/* Image Preview */}
+        <Grid item xs={12} sm={6}>
           {imagePreview && (
-            <Box mt={2}>
+            <Box
+              sx={{
+                height: { xs: "150px", sm: "200px" }, // Match the drag and drop height
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <img
                 src={imagePreview}
                 alt="Product Preview"
-                width="100%"
-                style={{ maxHeight: 200, objectFit: "cover", borderRadius: 8 }}
+                style={{
+                  maxHeight: "100%",
+                  maxWidth: "100%",
+                  objectFit: "contain",
+                  borderRadius: "8px",
+                }}
               />
             </Box>
           )}
         </Grid>
-        <Grid item xs={12} sm={6} lg={4}>
-          <Button
-            variant="contained"
-            onClick={handleAddBook}
-            disabled={!name || !price || !category || !imagePreview}
-            fullWidth
-            size="medium"
-            sx={{
-              backgroundColor: "rgb(143, 82, 161)",
-              "&:hover": { backgroundColor: "rgb(120, 70, 140)" },
-            }}
-          >
-            {editIndex !== null ? "Edit Product" : "Add Product"}
-          </Button>
-        </Grid>
+      </Grid>
+
+      {/* Add Product Button at the Bottom Left */}
+      <Grid container justifyContent="flex-start" sx={{ mb: 3 }}>
+        <Button
+          variant="contained"
+          onClick={handleAddBook}
+          disabled={!name || !price || !category || !imagePreview}
+          size="medium"
+          sx={{
+            backgroundColor: "rgb(143, 82, 161)",
+            "&:hover": { backgroundColor: "rgb(120, 70, 140)" },
+          }}
+        >
+          {editIndex !== null ? "Edit Product" : "Add Product"}
+        </Button>
       </Grid>
 
       {/* Products Table */}
@@ -328,49 +383,6 @@ const ManageProducts = () => {
         handlePageChange={handlePageChange}
         handleItemsPerPageChange={handleItemsPerPageChange}
       />
-
-      {/* Image Upload Dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>Select an Image</DialogTitle>
-        <DialogContent>
-          <Box
-            onDrop={handleImageDrop}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            sx={{
-              border: "2px dashed #ccc",
-              p: 3,
-              textAlign: "center",
-              cursor: "pointer",
-              borderRadius: "8px",
-              backgroundColor: dragOver ? "#f0f0f0" : "transparent",
-            }}
-          >
-            <Typography>
-              {dragOver
-                ? "Drop the image here..."
-                : "Drag & drop an image here, or click to select one"}
-            </Typography>
-            <input
-              type="file"
-              accept="image/*"
-              style={{ display: "none" }}
-              onChange={handleImageUpload}
-              id="file-input"
-            />
-            <label htmlFor="file-input">
-              <Button variant="contained" component="span">
-                Browse Image
-              </Button>
-            </label>
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary">
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Box>
   );
 };

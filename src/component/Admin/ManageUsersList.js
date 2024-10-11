@@ -17,16 +17,32 @@ function ManageUserList() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [userData, setUserData] = useState([]);
 
+  const token = localStorage.getItem("token"); // Get token from localStorage
+  console.log(token); // Log the token for debugging
+
   // Fetch user data from the API when the component mounts
+  const fetchUser = async () => {
+    try {
+      const data = await UserServices.getUser(token); // Pass the token here
+      setUserData(data); // Assuming the response has the data in response.data
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchUsers = async () => {
-      const data = await UserServices.getUser(); // Fetch user data from API
-
-      setUserData(data); // Store the fetched data in the state
-    };
-
-    fetchUsers(); // Call the fetch function
+    fetchUser();
   }, []);
+
+  // useEffect(() => {
+  //   const fetchUsers = async () => {
+  //     const data = await UserServices.getUser(); // Fetch user data from API
+
+  //     setUserData(data); // Store the fetched data in the state
+  //   };
+
+  //   fetchUsers(); // Call the fetch function
+  // }, []);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
