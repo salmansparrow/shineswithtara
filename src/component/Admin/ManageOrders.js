@@ -32,11 +32,9 @@ const ManageOrders = () => {
   const fetchOrders = async () => {
     try {
       const response = await orderService.getOrders();
-      console.log("Fetched Orders:", response); // Log the fetched data
-
-      // Access the orders from the response
-      const fetchedOrders = response.getOrderData; // Adjust this line based on the actual response
-      setOrders(Array.isArray(fetchedOrders) ? fetchedOrders : []); // Ensure it's an array
+      // Assuming response.orders contains the array of orders
+      const fetchedOrders = response.getOrderData || []; // Adjust based on your API response structure
+      setOrders(fetchedOrders); // Update the state with the fetched orders
     } catch (error) {
       console.error("Error fetching orders:", error);
     }
@@ -68,11 +66,9 @@ const ManageOrders = () => {
   // Handle updating the order status
   const handleUpdateStatus = async () => {
     if (selectedOrder) {
-      // Create the updated data object
       const updatedData = { orderStatus: status };
 
       try {
-        // Call the updateOrder function from the orderService
         await orderService.updateOrder(selectedOrder._id, updatedData);
 
         // Update local orders state
@@ -88,92 +84,6 @@ const ManageOrders = () => {
       }
     }
   };
-
-  // Dialog content for showing order details and status update
-  const renderOrderDetailsDialog = () => (
-    <Dialog
-      open={openDialog}
-      onClose={handleCloseDialog}
-      maxWidth="md"
-      fullWidth
-    >
-      <DialogTitle>Order Details</DialogTitle>
-      <DialogContent>
-        <Box display="flex" flexDirection="column" gap={2}>
-          <Box display="flex" alignItems="center" gap={3}>
-            <Typography variant="h6">Status:</Typography>
-            <RadioGroup row value={status} onChange={handleStatusChange}>
-              <FormControlLabel
-                value="Pending"
-                control={<Radio />}
-                label="Pending"
-              />
-              <FormControlLabel
-                value="Processing"
-                control={<Radio />}
-                label="Processing"
-              />
-              <FormControlLabel
-                value="Confirmed"
-                control={<Radio />}
-                label="Confirmed"
-              />
-              <FormControlLabel
-                value="Delivered"
-                control={<Radio />}
-                label="Delivered"
-              />
-              <FormControlLabel
-                value="Rejected"
-                control={<Radio />}
-                label="Rejected"
-              />
-            </RadioGroup>
-          </Box>
-
-          {selectedOrder && (
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-              mt={2}
-            >
-              <img
-                src={selectedOrder.items[0].image}
-                alt="Order"
-                style={{
-                  width: 100,
-                  height: 100,
-                  objectFit: "cover",
-                  marginRight: 16,
-                }}
-              />
-              <Box>
-                <Typography variant="body1">
-                  <strong>Item Name:</strong>{" "}
-                  {selectedOrder.items[0].productName}
-                </Typography>
-                <Typography variant="body1">
-                  <strong>Price:</strong> ${selectedOrder.items[0].price}
-                </Typography>
-                <Typography variant="body1">
-                  <strong>Quantity:</strong> {selectedOrder.items[0].quantity}
-                </Typography>
-              </Box>
-            </Box>
-          )}
-        </Box>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleCloseDialog} color="error">
-          Cancel
-        </Button>
-        <Button onClick={handleUpdateStatus} color="primary">
-          Update
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
 
   // Reverse the orders array to show the most recent ones first
   const reversedOrders = [...orders].reverse();
@@ -223,7 +133,86 @@ const ManageOrders = () => {
       </TableContainer>
 
       {/* Render Order Details Dialog */}
-      {renderOrderDetailsDialog()}
+      {selectedOrder && (
+        <Dialog
+          open={openDialog}
+          onClose={handleCloseDialog}
+          maxWidth="md"
+          fullWidth
+        >
+          <DialogTitle>Order Details</DialogTitle>
+          <DialogContent>
+            <Box display="flex" flexDirection="column" gap={2}>
+              <Box display="flex" alignItems="center" gap={3}>
+                <Typography variant="h6">Status:</Typography>
+                <RadioGroup row value={status} onChange={handleStatusChange}>
+                  <FormControlLabel
+                    value="Pending"
+                    control={<Radio />}
+                    label="Pending"
+                  />
+                  <FormControlLabel
+                    value="Processing"
+                    control={<Radio />}
+                    label="Processing"
+                  />
+                  <FormControlLabel
+                    value="Confirmed"
+                    control={<Radio />}
+                    label="Confirmed"
+                  />
+                  <FormControlLabel
+                    value="Delivered"
+                    control={<Radio />}
+                    label="Delivered"
+                  />
+                  <FormControlLabel
+                    value="Rejected"
+                    control={<Radio />}
+                    label="Rejected"
+                  />
+                </RadioGroup>
+              </Box>
+
+              {selectedOrder && (
+                <Box display="flex" alignItems="center" mt={2}>
+                  <img
+                    src={selectedOrder.items[0]?.image}
+                    alt="Order"
+                    style={{
+                      width: 100,
+                      height: 100,
+                      objectFit: "cover",
+                      marginRight: 16,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="body1">
+                      <strong>Item Name:</strong>{" "}
+                      {selectedOrder.items[0]?.productName}
+                    </Typography>
+                    <Typography variant="body1">
+                      <strong>Price:</strong> ${selectedOrder.items[0]?.price}
+                    </Typography>
+                    <Typography variant="body1">
+                      <strong>Quantity:</strong>{" "}
+                      {selectedOrder.items[0]?.quantity}
+                    </Typography>
+                  </Box>
+                </Box>
+              )}
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog} color="error">
+              Cancel
+            </Button>
+            <Button onClick={handleUpdateStatus} color="primary">
+              Update
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
     </Box>
   );
 };

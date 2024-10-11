@@ -20,8 +20,15 @@ const orderService = {
   // Function to get all orders
   getOrders: async () => {
     try {
-      const response = await axios.get(routes.getOrders);
-      return response.data;
+      // Retrieve token from localStorage
+      const token = localStorage.getItem('token');
+      const response = await axios.get(routes.getOrders, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Attach token to the request header
+        },
+      });
+
+      return response.data; // Return the data from the response
     } catch (error) {
       console.error("Error fetching orders:", error);
       throw error;
