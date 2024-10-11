@@ -4,7 +4,7 @@ import {jwtDecode} from "jwt-decode"; // Import jwtDecode to decode the token
 
 
 const ProtectedRoute = ({ children }) => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("adminToken");
 
   if (token) {
     const decodedToken = jwtDecode(token);

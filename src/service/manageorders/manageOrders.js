@@ -21,7 +21,7 @@ const orderService = {
   getOrders: async () => {
     try {
       // Retrieve token from localStorage
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('adminToken');
       const response = await axios.get(routes.getOrders, {
         headers: {
           Authorization: `Bearer ${token}`, // Attach token to the request header

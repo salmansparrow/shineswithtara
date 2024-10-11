@@ -21,7 +21,7 @@ const AdminLogin = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("adminToken ");
     if (token) {
       const decodedToken = jwtDecode(token);
       if (decodedToken?.role === "admin") {
@@ -44,7 +44,7 @@ const AdminLogin = () => {
 
         // Check if the user has the 'admin' role
         if (decodedToken?.role === "admin") {
-          localStorage.setItem("token", response.token); // Save the token
+          localStorage.setItem("adminToken", response.token); // Save the token
           setError(""); // Clear any previous error messages
           navigate("/admin"); // Redirect to the admin dashboard
         } else {
