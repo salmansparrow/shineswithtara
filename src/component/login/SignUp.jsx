@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; 
 import LockIcon from "@mui/icons-material/Lock";
-import AuthService from "../../service/Auth/auth"; // Adjust the import path as needed
-
+import AuthService from "../../service/Auth/auth"; 
+import Layout from "../Layout/Layout";
 const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -17,6 +17,8 @@ const SignUp = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const validateFields = () => {
     let isValid = true;
@@ -82,6 +84,9 @@ const SignUp = () => {
       setEmail("");
       setPassword("");
       setConfirmPassword("");
+
+      // Navigate to the login page after successful registration
+      navigate("/login");
     } catch (error) {
       console.error("Error caught in registration:", error);
       setError(`Error: ${error.message}`); // Set a user-friendly error message
@@ -89,6 +94,7 @@ const SignUp = () => {
   };
 
   return (
+    <Layout>
     <Container maxWidth="xs" style={{ padding: 70 }}>
       <Box sx={{ mt: 8, mb: 4 }}>
         <Box
@@ -120,15 +126,15 @@ const SignUp = () => {
         {success && <Typography color="success">{success}</Typography>}{" "}
         {/* Display success */}
         <TextField
-          label="Name"
+          label="Full Name"
           variant="outlined"
           fullWidth
           margin="normal"
           value={name}
-          onChange={(e) => setName(e.target.value)} // Handle name input
+          onChange={(e) => setName(e.target.value)}
           required
-          error={Boolean(nameError)} // Show error state
-          helperText={nameError} // Display error message
+          error={Boolean(nameError)} 
+          helperText={nameError} 
         />
         <TextField
           label="Email"
@@ -138,8 +144,8 @@ const SignUp = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          error={Boolean(emailError)} // Show error state
-          helperText={emailError} // Display error message
+          error={Boolean(emailError)} 
+          helperText={emailError} 
         />
         <TextField
           label="Password"
@@ -150,8 +156,8 @@ const SignUp = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          error={Boolean(passwordError)} // Show error state
-          helperText={passwordError} // Display error message
+          error={Boolean(passwordError)} 
+          helperText={passwordError} 
         />
         <TextField
           label="Confirm Password"
@@ -162,8 +168,8 @@ const SignUp = () => {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
-          error={Boolean(confirmPasswordError)} // Show error state
-          helperText={confirmPasswordError} // Display error message
+          error={Boolean(confirmPasswordError)} 
+          helperText={confirmPasswordError} 
         />
         <Button
           type="submit"
@@ -184,6 +190,7 @@ const SignUp = () => {
         Already have an account? <Link to="/login">Login</Link>
       </Typography>
     </Container>
+    </Layout>
   );
 };
 

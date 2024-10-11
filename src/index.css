@@ -1,7 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Righteous&display=swap"); /* Import Righteous font */
+
+/* Global styles */
 body {
   margin: 0;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif; /* Global font */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -9,4 +12,52 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+/* Apply Righteous font and handle color changes */
+.css-1n2fui7-MuiTypography-root {
+  font-family: "Righteous", sans-serif !important; /* Force Righteous for all conditions */
+  font-weight: 300;
+  line-height: 1.2;
+  color: inherit; /* Inherit dynamic color changes */
+}
+
+.css-15ez9e5-MuiTypography-root {
+  font-family: "Righteous", sans-serif !important;
+}
+
+/* Adjustments for screens larger than 600px */
+@media (max-width: 600px) {
+  .css-1n2fui7-MuiTypography-root {
+    font-size: 3rem;
+    font-family: "Righteous", sans-serif !important; /* Ensure Righteous stays applied */
+    font-weight: 400;
+    line-height: 1.167;
+  }
+  .css-15ez9e5-MuiTypography-root {
+    font-family: "Righteous", sans-serif !important;
+  }
+  .css-1ii76ry-MuiTypography-root {
+    font-family: "Righteous", sans-serif !important; /* Ensure Righteous stays applied */
+  }
+  .css-1szsdd5-MuiTypography-root{
+    font-family: "Righteous", sans-serif !important;
+  }
+}
+
+/* Adjustments for screens larger than 900px */
+@media (max-width: 900px) {
+  .css-1n2fui7-MuiTypography-root {
+    font-size: 3.75rem;
+    font-family: "Righteous", sans-serif !important; /* Again, ensure Righteous stays applied */
+  }
+  .css-15ez9e5-MuiTypography-root {
+    font-family: "Righteous", sans-serif !important;
+  }
+  .css-1ii76ry-MuiTypography-root {
+    font-family: "Righteous", sans-serif !important; /* Ensure Righteous stays applied */
+  }
+  .css-1szsdd5-MuiTypography-root{
+    font-family: "Righteous", sans-serif !important;
+  }
 }
