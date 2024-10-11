@@ -1,7 +1,6 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
-import {jwtDecode} from "jwt-decode"; // Import jwtDecode to decode the token
-
+import { Navigate, useLocation } from "react-router-dom";
+import { jwtDecode } from "jwt-decode"; // Import jwtDecode to decode the token
 
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem("adminToken");
@@ -11,7 +10,7 @@ const ProtectedRoute = ({ children }) => {
 
     // Check if the role is 'admin'
     if (decodedToken?.role === "admin") {
-      return children; 
+      return children;
     }
   }
 

@@ -17,7 +17,7 @@ function ManageUserList() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [userData, setUserData] = useState([]);
 
-  const token = localStorage.getItem("token"); // Get token from localStorage
+  const token = localStorage.getItem("adminToken"); // Get token from localStorage
   console.log(token); // Log the token for debugging
 
   // Fetch user data from the API when the component mounts

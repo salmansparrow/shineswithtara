@@ -28,7 +28,7 @@ const ManageOrders = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [status, setStatus] = useState("");
 
-  const token = localStorage.getItem("token"); // Get token from localStorage
+  const token = localStorage.getItem("admintoken"); // Get token from localStorage
   console.log(token); // Log the token for debugging
 
   // Fetch orders from API

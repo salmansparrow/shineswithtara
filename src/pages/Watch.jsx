@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   Typography,
@@ -9,12 +9,13 @@ import {
   Button,
 } from "@mui/material";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import img1 from "../images/watch/img1.png";
 import img2 from "../images/watch/img2.png";
 import Layout from "../component/Layout/Layout";
 import star from "../images/watch/star.png";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 // Sample images array
 const images = [
@@ -25,26 +26,91 @@ const images = [
   { src: img1, title: "Fun Time" },
 ];
 
+// Custom Prev Arrow using Material-UI Button
+const PrevArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <Button
+      onClick={onClick}
+      sx={{
+        position: "absolute",
+        left: "0px",
+        top: "50%",
+        zIndex: 1,
+        backgroundColor: "yellow",
+        borderRadius: "50%",
+        height: "60px",
+        width: "60px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        "&:hover": {
+          backgroundColor: "orange",
+        },
+      }}
+    >
+      <span style={{ fontSize: "30px", color: "black" }}>←</span>
+    </Button>
+  );
+};
+
+// Custom Next Arrow using Material-UI Button
+const NextArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <Button
+      onClick={onClick}
+      sx={{
+        position: "absolute",
+        right: "0px",
+        zIndex: 1,
+        backgroundColor: "yellow",
+        borderRadius: "50%",
+        height: "60px",
+        width: "60px",
+        bottom: "70px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        "&:hover": {
+          backgroundColor: "orange",
+        },
+      }}
+    >
+      <span style={{ fontSize: "30px", color: "black" }}>→</span>
+    </Button>
+  );
+};
+
 const Watch = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const cardsToShow = 3; // Number of cards to show at a time
-
-  const nextImage = () => {
-    setCurrentIndex((prevIndex) => {
-      if (prevIndex + cardsToShow >= images.length) {
-        return 0; // If at the last index, go to the first index
-      }
-      return prevIndex + cardsToShow;
-    });
-  };
-
-  const prevImage = () => {
-    setCurrentIndex((prevIndex) => {
-      if (prevIndex === 0) {
-        return images.length - cardsToShow; // If at the first index, go to the last index
-      }
-      return prevIndex - cardsToShow;
-    });
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    centerMode: true,
+    centerPadding: "20px",
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          centerPadding: "20px",
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          centerPadding: "10px",
+        },
+      },
+    ],
   };
 
   return (
@@ -109,95 +175,38 @@ const Watch = () => {
         {/* Carousel Section */}
         <Box
           sx={{
-            position: "relative",
             width: "100%",
             maxWidth: "100%", // Ensure it takes the full width
             mt: 8,
             mb: 8,
-            mx: "auto", // Center the carousel container
-            display: "flex",
-            justifyContent: "center",
           }}
         >
-          {/* Previous Button */}
-          <Button
-            onClick={prevImage}
-            sx={{
-              position: "absolute",
-              left: "10px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              zIndex: 1,
-              color: "white",
-              backgroundColor: "orange",
-              borderRadius: "50%",
-              width: "60px",
-              height: "60px",
-              "&:hover": { backgroundColor: "#ff8c00" },
-            }}
-          >
-            <ArrowBackIcon />
-          </Button>
-
-          {/* Display the images in a responsive manner */}
-          <Box sx={{ display: "flex", overflow: "hidden", width: "100%" }}>
-            <Box
-              sx={{
-                display: "flex",
-                transform: `translateX(-${
-                  (currentIndex * 100) / cardsToShow
-                }%)`,
-                transition: "transform 0.5s ease-in-out",
-                width: `${(images.length / cardsToShow) * 100}%`, // Adjust width for all cards
-              }}
-            >
-              {images.map((image, index) => (
-                <Card
-                  key={index}
-                  sx={{
-                    flex: "0 0 auto", // Prevent cards from growing
-                    width: { xs: 150, sm: 200, md: 250, lg: 300 }, // Adjust card width based on screen size
-                    marginX: { xs: "5px", sm: "10px", md: "15px", lg: "20px" }, // Control margin between cards
-                    backgroundColor: "orange",
-                    borderRadius: 6,
-                    boxShadow: 3,
-                  }}
-                >
-                  <CardMedia
-                    component="img"
-                    height="150"
-                    image={image.src}
-                    alt={image.title}
-                  />
-                  <CardContent>
-                    <Typography variant="h6" align="center" color="#fff">
-                      {image.title}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              ))}
-            </Box>
-          </Box>
-
-          {/* Next Button */}
-          <Button
-            onClick={nextImage}
-            sx={{
-              position: "absolute",
-              right: "10px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              zIndex: 1,
-              color: "white",
-              backgroundColor: "orange",
-              borderRadius: "50%",
-              width: "60px",
-              height: "60px",
-              "&:hover": { backgroundColor: "#ff8c00" },
-            }}
-          >
-            <ArrowForwardIcon />
-          </Button>
+          <Slider {...settings}>
+            {images.map((image, index) => (
+              <Card
+                key={index}
+                sx={{
+                  backgroundColor: "orange",
+                  borderRadius: 6,
+                  boxShadow: 3,
+                  padding: 2,
+                  mx: 2, // Add more spacing between cards
+                }}
+              >
+                <CardMedia
+                  component="img"
+                  height="150"
+                  image={image.src}
+                  alt={image.title}
+                />
+                <CardContent>
+                  <Typography variant="h6" align="center" color="#fff">
+                    {image.title}
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))}
+          </Slider>
         </Box>
 
         {/* Horizontal Line below the carousel */}

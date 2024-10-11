@@ -12,7 +12,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import LockIcon from "@mui/icons-material/Lock";
 import AdminLoginService from "../../service/AdminLogin";
-import {jwtDecode} from "jwt-decode"; // Import jwtDecode
+import { jwtDecode } from "jwt-decode"; // Import jwtDecode
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -40,7 +40,6 @@ const AdminLogin = () => {
 
       if (response?.token) {
         const decodedToken = jwtDecode(response.token);
-        
 
         // Check if the user has the 'admin' role
         if (decodedToken?.role === "admin") {
