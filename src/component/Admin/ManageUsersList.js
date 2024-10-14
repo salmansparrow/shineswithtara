@@ -10,54 +10,53 @@ import {
   TablePagination,
   Typography,
 } from "@mui/material";
-import UserServices from "../../service/user/manageUser";
+import UserServices from "../../service/user/manageUser"; // Ensure correct path to UserServices
 
 function ManageUserList() {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [userData, setUserData] = useState([]);
+  const [page, setPage] = useState(0); // Current page index (0-based)
+  const [rowsPerPage, setRowsPerPage] = useState(5); // Default rows per page
+  const [userData, setUserData] = useState([]); // Stores user data
+  const [totalCount, setTotalCount] = useState(0); // Total records count
 
-  const token = localStorage.getItem("adminToken"); // Get token from localStorage
-  console.log(token); // Log the token for debugging
-
-  // Fetch user data from the API when the component mounts
-  const fetchUser = async () => {
+  // Fetch user data from the backend
+  const fetchUser = async (page, limit) => {
     try {
-      const data = await UserServices.getUser(token); // Pass the token here
-      setUserData(data); // Assuming the response has the data in response.data
+      const data = await UserServices.getUser(page + 1, limit); // 1-based page for backend
+
+      // Check if data is returned correctly
+      console.log("API Response:", data); // Debug log
+
+      if (data && data.getUserData) {
+        setUserData(data.getUserData); // Set fetched user data
+        setTotalCount(data.totalUsers || 0); // Corrected total count to match backend response
+      } else {
+        console.warn("Unexpected API response:", data);
+        setUserData([]); // Fallback to empty array
+        setTotalCount(0); // Fallback to 0
+      }
     } catch (error) {
       console.error("Error fetching users:", error);
+      setUserData([]); // Handle error with empty data
+      setTotalCount(0); // Handle error with 0 total count
     }
   };
 
+  // Fetch data whenever `page` or `rowsPerPage` changes
   useEffect(() => {
-    fetchUser();
-  }, []);
+    fetchUser(page, rowsPerPage);
+  }, [page, rowsPerPage]);
 
-  // useEffect(() => {
-  //   const fetchUsers = async () => {
-  //     const data = await UserServices.getUser(); // Fetch user data from API
-
-  //     setUserData(data); // Store the fetched data in the state
-  //   };
-
-  //   fetchUsers(); // Call the fetch function
-  // }, []);
-
+  // Handle page change
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    setPage(newPage); // Update to new page
   };
 
+  // Handle rows per page change
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    const newRowsPerPage = parseInt(event.target.value, 10);
+    setRowsPerPage(newRowsPerPage); // Update rows per page
+    setPage(0); // Reset to first page when rows per page changes
   };
-
-  // Paginate the user data
-  const paginatedData = userData.slice(
-    page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage
-  );
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -75,30 +74,37 @@ function ManageUserList() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedData.map((user, index) => (
-              <TableRow key={user._id}>
-                <TableCell>{page * rowsPerPage + index + 1}</TableCell>
-                <TableCell>{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>
-                  {new Date(user.lastLogin).toLocaleString().slice(0, 9)}
-                </TableCell>{" "}
-                {/* Format the date */}
+            {userData.length > 0 ? (
+              userData.map((user, index) => (
+                <TableRow key={user._id}>
+                  <TableCell>{page * rowsPerPage + index + 1}</TableCell>
+                  <TableCell>{user.name}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>
+                    {new Date(user.lastLogin).toLocaleString().slice(0, 10)}
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={4} align="center">
+                  No users found
+                </TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </TableContainer>
 
       {/* Pagination */}
       <TablePagination
-        rowsPerPageOptions={[5, 10, 25]} // Rows per page options
+        rowsPerPageOptions={[5, 10, 25]} // Available rows per page
         component="div"
-        count={userData.length} // Total number of rows
-        rowsPerPage={rowsPerPage} // Rows per page
-        page={page} // Current page number
-        onPageChange={handleChangePage} // Change page handler
-        onRowsPerPageChange={handleChangeRowsPerPage} // Change rows per page handler
+        count={totalCount} // Total number of records from backend
+        rowsPerPage={rowsPerPage} // Current rows per page
+        page={page} // Current page index (0-based)
+        onPageChange={handleChangePage} // Handle page change
+        onRowsPerPageChange={handleChangeRowsPerPage} // Handle rows per page change
       />
     </Paper>
   );

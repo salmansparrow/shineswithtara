@@ -15,6 +15,7 @@ const PaginationComponent = ({
   handlePageChange,
   handleItemsPerPageChange,
 }) => {
+  // Calculate total pages
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   return (
@@ -45,6 +46,8 @@ const PaginationComponent = ({
         page={currentPage}
         onChange={handlePageChange}
         color="primary"
+        showFirstButton // Optional: Adds a button for the first page
+        showLastButton // Optional: Adds a button for the last page
       />
     </Box>
   );
